@@ -1,0 +1,51 @@
+.fieldWithErrors {
+/*	float:left;*/
+	min-height: 40px;
+	line-height:40px !important;
+/*	margin:0 0 10px -5px;*/
+	background: #FFcccc;
+	padding: 0 0 0 5px;
+}
+
+.fieldWithErrors input { line-height: 40px; margin: 5px 5px 5px 0;}
+
+#errorExplanation {
+  width: auto;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+  -moz-border-top-right-radius: 8px; /* FF1+ */
+  -moz-border-top-left-radius: 8px; /* FF1+ */
+  -webkit-border-top-right-radius: 8px; /* Saf3+, Chrome */
+  -webkit-border-top-left-radius: 8px; /* Saf3+, Chrome */
+  border-top-right-radius: 8px; /* Opera 10.5, IE 9 */
+  border-top-left-radius: 8px; /* Opera 10.5, IE 9 */
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul {clear: both;padding-left: 15px; margin: 0px;}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+

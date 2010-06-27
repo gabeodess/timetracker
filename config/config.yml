@@ -1,0 +1,14 @@
+development:
+  perform_authentication: false
+  username: admin
+  password: password
+  shared_secret: 54044f74e079260c1df19ef174f4247f
+
+test:
+  perform_authentication: false
+
+production:
+  perform_authentication: true
+  username: admin
+  password: password
+  shared_secret: 54044f74e079260c1df19ef174f4247f

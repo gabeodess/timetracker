@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="EN" />
+		
+	<title><%= yield(:title) || "#{cname}:#{aname}" %></title>
+	<link rel="shortcut icon" href="/favicon.ico" >
+	
+	<%= javascript_include_tag 'jquery', 'jquery-ui', 'application', :cache => false %>
+	<%= stylesheet_link_tag 'reset', 'application', 'validation', :cache => false %>
+	
+	<%= yield(:head) %>
+	
+</head>	
+<body>
+	<div id='content_for_overlay'>
+		<%= yield :overlay %>
+	</div>
+
+	<div id='flash_wrapper'>
+		<%- if flash[:notice] -%>
+		<div id='content_for_flash'>
+			<%= flash[:notice] %>
+		</div>
+		<%- end -%>
+	</div>
+	
+	
+	<div id="wrapper">
+		<ul id='sidebar'>
+			<li>This is your sidebar</li>
+			<li>This is item 2.</li>
+		</ul>
+		<ul id='admin_nav'>
+			<li><%= link_to_active 'home', :root %></li>
+		</ul>
+		<div id="content">
+			<div id="content_inner">		
+				<%= yield %>
+			</div>
+		</div>
+	</div>
+	
+	
+</body>
+</html>

@@ -1,0 +1,37 @@
+#overlay > *{
+  display:none;
+  	background-color:#fff;
+  	display:none;
+  	width:350px;
+  	padding:15px;
+  	text-align:left;
+  	border:2px solid #333;
+  	z-index: 9999999999;
+
+  /*	opacity:0.8;*/
+  	-moz-border-radius:6px;
+  	-webkit-border-radius:6px;
+  	-moz-box-shadow: 0 0 50px #ccc;
+  	-webkit-box-shadow: 0 0 50px #ccc;
+}
+
+#overlay > * h2 {
+	background:url(/images/info.png) 0 50% no-repeat;
+	margin:0px;
+	padding:10px 0 10px 45px;
+	border-bottom:1px solid #333;
+	font-size:20px;
+}
+
+div.close {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:transparent url(/images/close.png) no-repeat scroll 0 0;
+	cursor:pointer;
+	height:35px;
+	position:absolute;
+	right:-15px;
+	top:-15px;
+	width:35px;
+}
