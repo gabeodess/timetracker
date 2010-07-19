@@ -1,0 +1,16 @@
+<% form_for @project do |f| %>
+  <%= f.error_messages %>
+	<p>
+		<%= f.label :client_id, "Client Id" %>
+		<%= f.collection_select :client_id, @clients, :id, :name, :prompt => "Select A Client" %>
+	</p>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :allotted_hours %><br />
+    <%= f.text_field :allotted_hours %>
+  </p>
+  <p><%= f.submit "Submit" %></p>
+<% end %>

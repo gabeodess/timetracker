@@ -1,0 +1,23 @@
+<h1>Company Based Roles</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Company</th>
+    <th>User</th>
+  </tr>
+  <% for company_based_role in @company_based_roles %>
+    <tr>
+			<td><%=h company_based_role.name %></td>
+			<td><%=h company_based_role.company_id %></td>
+			<td><%=h company_based_role.user_id %></td>
+	    <td><%= link_to_crud company_based_role %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate %>
+
+<p><%= link_to_new :company_based_role, :text => "New Company Based Role" %></p>

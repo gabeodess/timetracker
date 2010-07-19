@@ -1,0 +1,19 @@
+<h1>Companies</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for company in @companies %>
+    <tr>
+			<td><%=h company.name %></td>
+	    <td><%= link_to_crud company %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate %>
+
+<p><%= link_to_new :company, :text => "New Company" %></p>

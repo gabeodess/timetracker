@@ -2,6 +2,13 @@ class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   include AuthenticatedSystem
   
+  skip_before_filter :login_required, :only => [:new, :create]
+  skip_before_filter :company_login_required
+  filter_resource_access
+  
+  def show
+    @user = User.find_by_login(params[:id])
+  end
 
   # render new.rhtml
   def new
@@ -25,4 +32,10 @@ class UsersController < ApplicationController
       render :action => 'new'
     end
   end
+  
+  protected
+    def load_user
+      @user = User.find_by_login(params[:id])
+    end
+  
 end

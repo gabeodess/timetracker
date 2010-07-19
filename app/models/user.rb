@@ -4,7 +4,13 @@ class User < ActiveRecord::Base
   include Authentication
   include Authentication::ByPassword
   include Authentication::ByCookieToken
-
+  
+  has_many :company_based_roles
+  has_many :companies, :through => :company_based_roles
+  has_many :assignements
+  has_many :assigned_projects
+  has_many :projects, :through => :assigned_projects
+  
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
   validates_uniqueness_of   :login
@@ -23,7 +29,8 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation
+  attr_accessor :current_company
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :current_company
 
 
 
@@ -33,12 +40,30 @@ class User < ActiveRecord::Base
   # We really need a Dispatch Chain here or something.
   # This will also let us return a human error message.
   #
+  
+  # ====================
+  # = Instance Methods =
+  # ====================  
+  def to_param
+    login
+  end
+  
+  def role_symbols
+    [:guest]
+  end
+  
+  # =================
+  # = Class Methods =
+  # =================
   def self.authenticate(login, password)
     return nil if login.blank? || password.blank?
     u = find_by_login(login.downcase) # need to get the salt
     u && u.authenticated?(password) ? u : nil
   end
 
+  # ======================
+  # = Virtual Attributes =
+  # ======================
   def login=(value)
     write_attribute :login, (value ? value.downcase : nil)
   end

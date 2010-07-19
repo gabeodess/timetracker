@@ -1,4 +1,5 @@
 class PaperclipController < ApplicationController
+  filter_resource_access
   
   def destroy
     params[:class_name].constantize.find(params[:id]).update_attributes!(params[:attachment] => nil)

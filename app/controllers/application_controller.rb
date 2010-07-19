@@ -3,15 +3,35 @@
 
 class ApplicationController < ActionController::Base
   
+  include AuthenticatedSystem
+  
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
   
+  before_filter :login_required, :company_login_required
   before_filter :my_basic_auth, :redirect_no_www
+  
+  helper_method :current_company
     
   protected
+    def company_login_required
+      
+      unless current_company and current_company.user_ids.include?(current_user.id)
+        flash[:notice] = "Please login through a company."
+        redirect_to :root
+        return
+      end
+      
+      current_user.current_company = current_company
+    end
+  
+    def current_company
+      Company.find_by_url_id(session[:company_id])
+    end
+  
     def set_iphone_format
       if is_iphone_request?
         request.format = :iphone

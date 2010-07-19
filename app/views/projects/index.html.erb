@@ -1,0 +1,23 @@
+<h1>Projects</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Allotted Hours</th>
+    <th>Client</th>
+  </tr>
+  <% for project in @projects %>
+    <tr>
+			<td><%=h project.name %></td>
+			<td><%=h project.allotted_hours %></td>
+			<td><%=h project.client_id %></td>
+	    <td><%= link_to_crud project %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate %>
+
+<p><%= link_to_new :project, :text => "New Project" %></p>

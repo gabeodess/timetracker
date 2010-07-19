@@ -1,0 +1,10 @@
+<% form_for @company_based_role do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <%= f.hidden_field :company_id %>
+  <%= f.hidden_field :user_id %>
+  <p><%= f.submit "Submit" %></p>
+<% end %>

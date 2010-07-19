@@ -1,0 +1,2 @@
+module CompanySessionsHelper
+end

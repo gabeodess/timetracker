@@ -1,0 +1,21 @@
+<h1>Clients</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Company</th>
+  </tr>
+  <% for client in @clients %>
+    <tr>
+			<td><%=h client.name %></td>
+			<td><%=h client.company_id %></td>
+	    <td><%= link_to_crud client %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate %>
+
+<p><%= link_to_new :client, :text => "New Client" %></p>

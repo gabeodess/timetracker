@@ -1,0 +1,24 @@
+<h1>Company</h1>
+
+<p>
+  <strong>Name:</strong>
+	<%=h @company.name %>
+</p>
+
+<ul>
+	<% if !@company.clients.blank? %>
+	  <% for client in @company.clients %>
+	    <li><%= link_to client.name, client %></li>
+	  <% end %>
+	<% else %>
+	  
+	<% end %>
+	
+</ul>
+<%= link_to "new client", :new_client %>
+
+<p>
+  <%= link_to_edit @company, :text => 'Edit' %> |
+  <%= link_to_destroy @company, :text => 'Destroy' %> |
+  <%= link_to "View All", companies_path %>
+</p>

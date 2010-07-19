@@ -1,0 +1,21 @@
+<h1>Tasks</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Project</th>
+  </tr>
+  <% for task in @tasks %>
+    <tr>
+			<td><%=h task.name %></td>
+			<td><%=h task.project_id %></td>
+	    <td><%= link_to_crud task %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate %>
+
+<p><%= link_to_new :task, :text => "New Task" %></p>

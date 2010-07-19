@@ -1,0 +1,11 @@
+<h1><%= @user.login %></h1>
+
+<h2>Companies</h2>
+<ul>
+	<% if !@user.companies.blank? %>
+	  <% for company in @user.companies %>
+	    <li><%= link_to company.name, company_login_path(company), :method => :post %></li>
+	  <% end %>
+	<% end %>
+</ul>
+<%= link_to "new company", :new_company %>

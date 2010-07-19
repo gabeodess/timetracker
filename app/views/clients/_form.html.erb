@@ -1,0 +1,9 @@
+<% form_for @client do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <%= f.hidden_field :company_id %>
+  <p><%= f.submit "Submit" %></p>
+<% end %>

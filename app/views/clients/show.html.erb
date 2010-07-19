@@ -1,0 +1,31 @@
+<h1>Client</h1>
+
+<p>
+  <strong>Name:</strong>
+	<%=h @client.name %>
+</p>
+<p>
+  <strong>Company:</strong>
+	<%=h @client.company_id %>
+</p>
+
+<p>
+  <%= link_to_edit @client, :text => 'Edit' %> |
+  <%= link_to_destroy @client, :text => 'Destroy' %> |
+  <%= link_to "View All", clients_path %>
+</p>
+
+<div class='bordertop'>
+	<h2>Projects</h2>
+	<ul>
+		<% if !@client.projects.blank? %>
+		  <% for project in @client.projects %>
+				<li><%= link_to project.name, project %></li>
+		  <% end %>
+		<% else %>
+
+		<% end %>
+		<li><%= link_to "new project", new_project_path(:"project[client_id]" => @client.id) %></li>
+	</ul>
+	
+</div>

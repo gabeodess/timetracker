@@ -1,0 +1,23 @@
+<h1>Project</h1>
+
+<p>
+  <strong>Name:</strong>
+	<%=h @project.name %>
+</p>
+<p>
+  <strong>Allotted Hours:</strong>
+	<%=h @project.allotted_hours %>
+</p>
+<p>
+  <strong>Client:</strong>
+	<%=h @project.client_id %>
+</p>
+
+  
+
+
+<p>
+  <%= link_to_edit @project, :text => 'Edit' %> |
+  <%= link_to_destroy @project, :text => 'Destroy' %> |
+  <%= link_to "View All", projects_path %>
+</p>

@@ -1,0 +1,23 @@
+<h1>Company Based Role</h1>
+
+<p>
+  <strong>Name:</strong>
+	<%=h @company_based_role.name %>
+</p>
+<p>
+  <strong>Company:</strong>
+	<%=h @company_based_role.company_id %>
+</p>
+<p>
+  <strong>User:</strong>
+	<%=h @company_based_role.user_id %>
+</p>
+
+  
+
+
+<p>
+  <%= link_to_edit @company_based_role, :text => 'Edit' %> |
+  <%= link_to_destroy @company_based_role, :text => 'Destroy' %> |
+  <%= link_to "View All", company_based_roles_path %>
+</p>

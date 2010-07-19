@@ -1,0 +1,27 @@
+<h1>Contacts</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Client</th>
+    <th>Email</th>
+    <th>Phone</th>
+  </tr>
+  <% for contact in @contacts %>
+    <tr>
+			<td><%=h contact.first_name %></td>
+			<td><%=h contact.last_name %></td>
+			<td><%=h contact.client_id %></td>
+			<td><%=h contact.email %></td>
+			<td><%=h contact.phone %></td>
+	    <td><%= link_to_crud contact %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate %>
+
+<p><%= link_to_new :contact, :text => "New Contact" %></p>

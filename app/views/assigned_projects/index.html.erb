@@ -1,0 +1,21 @@
+<h1>Assigned Projects</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Project</th>
+  </tr>
+  <% for assigned_project in @assigned_projects %>
+    <tr>
+			<td><%=h assigned_project.user_id %></td>
+			<td><%=h assigned_project.project_id %></td>
+	    <td><%= link_to_crud assigned_project %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate %>
+
+<p><%= link_to_new :assigned_project, :text => "New Assigned Project" %></p>
