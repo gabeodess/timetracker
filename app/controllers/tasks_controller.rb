@@ -1,7 +1,9 @@
 class TasksController < ApplicationController
-  filter_resource_access
+  # filter_resource_access
+  before_filter :get_collections, :only => [:new, :create, :edit, :update]
   def index
-    @tasks = Task.paginate(:page => params[:page])
+    @search = Task.search(params[:search])
+    @tasks = @search.paginate(:page => params[:page])
   end
   
   def show
@@ -9,7 +11,7 @@ class TasksController < ApplicationController
   end
   
   def new
-    @task = Task.new
+    @task = Task.new(params[:task])
   end
   
   def create
@@ -41,5 +43,10 @@ class TasksController < ApplicationController
     @task.destroy
     flash[:notice] = "Successfully destroyed task."
     redirect_to tasks_url
+  end
+  
+  protected
+  def get_collections
+    @projects = current_company.projects
   end
 end

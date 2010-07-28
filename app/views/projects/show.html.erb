@@ -10,14 +10,23 @@
 </p>
 <p>
   <strong>Client:</strong>
-	<%=h @project.client_id %>
+	<%=h @project.client.name %>
 </p>
-
-  
-
 
 <p>
   <%= link_to_edit @project, :text => 'Edit' %> |
   <%= link_to_destroy @project, :text => 'Destroy' %> |
   <%= link_to "View All", projects_path %>
 </p>
+
+<div>
+	<h2>Tasks</h2>
+	<ul>
+		<% if !@project.tasks.blank? %>
+		  <% for task in @project.tasks %>
+		    <li><%= task.name %></li>
+		  <% end %>
+		<% end %>
+	</ul>
+	<p><%= link_to "New Task", :new_task %></p>
+</div>

@@ -4,6 +4,9 @@
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </p>
-  <%= f.hidden_field :project_id %>
+	<p>
+		<%= f.label :project_id, "Project" %>
+		<%= f.collection_select :project_id, @projects, :id, :name %>
+	</p>
   <p><%= f.submit "Submit" %></p>
 <% end %>

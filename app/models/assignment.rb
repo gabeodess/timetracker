@@ -1,4 +1,4 @@
-class Assigment < ActiveRecord::Base
+class Assignment < ActiveRecord::Base
   
   def after_initialize
   end

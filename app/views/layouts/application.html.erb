@@ -36,7 +36,10 @@
 		<ul id='admin_nav'>
 			<li><%= link_to_active 'home', :root %></li>
 			<li><%= link_to_active 'my account', current_user if current_user %></li>
-			<li><%= link_to_active 'dashboard', :dashboard if current_company %></li>
+			<%- if current_company -%>
+			<li><%= link_to_active 'dashboard', :dashboard %></li>
+			<li><%= link_to_controller :assignments, :text => 'timesheets' %></li>
+			<%- end -%>
 		</ul>
 		<div id="content">
 			<div id="content_inner">		

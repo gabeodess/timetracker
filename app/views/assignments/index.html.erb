@@ -1,0 +1,27 @@
+<h1>Assignments</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>Notes</th>
+    <th>Total Time</th>
+    <th>Timer Started At</th>
+    <th>Task</th>
+    <th>User</th>
+  </tr>
+  <% for assignment in @assignments %>
+    <tr>
+			<td><%=h assignment.notes %></td>
+			<td><%=h assignment.total_time %></td>
+			<td><%=h assignment.timer_started_at %></td>
+			<td><%=h assignment.task_id %></td>
+			<td><%=h assignment.user_id %></td>
+	    <td><%= link_to_crud assignment %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate %>
+
+<p><%= link_to_new :assignment, :text => "New Assignment" %></p>

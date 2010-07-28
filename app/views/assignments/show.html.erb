@@ -1,0 +1,31 @@
+<h1>Assignment</h1>
+
+<p>
+  <strong>Notes:</strong>
+	<%=h @assignment.notes %>
+</p>
+<p>
+  <strong>Total Time:</strong>
+	<%=h @assignment.total_time %>
+</p>
+<p>
+  <strong>Timer Started At:</strong>
+	<%=h @assignment.timer_started_at %>
+</p>
+<p>
+  <strong>Task:</strong>
+	<%=h @assignment.task_id %>
+</p>
+<p>
+  <strong>User:</strong>
+	<%=h @assignment.user_id %>
+</p>
+
+  
+
+
+<p>
+  <%= link_to_edit @assignment, :text => 'Edit' %> |
+  <%= link_to_destroy @assignment, :text => 'Destroy' %> |
+  <%= link_to "View All", assignments_path %>
+</p>

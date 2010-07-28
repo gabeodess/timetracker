@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :assignments
   
   map.company_login '/company_login/:id', :controller => "company_sessions", :action => 'create', :conditions => {:method => :post}
   
@@ -13,8 +14,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :clients
 
   map.resources :assigned_projects
-
-  map.resources :assigments
 
   map.resources :company_based_roles
 
