@@ -14,6 +14,7 @@ class AssignmentsController < ApplicationController
   
   def create
     @assignment = Assignment.new(params[:assignment])
+    @assignment.user_id = current_user.id
     if @assignment.save
       flash[:notice] = "Successfully created assignment."
       redirect_to @assignment
@@ -30,7 +31,7 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.find(params[:id])
     if @assignment.update_attributes(params[:assignment])
       flash[:notice] = "Successfully updated assignment."
-      redirect_to @assignment
+      redirect_to :assignments
     else
       render :action => 'edit'
     end

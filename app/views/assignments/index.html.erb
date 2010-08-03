@@ -6,15 +6,20 @@
   <tr>
     <th>Notes</th>
     <th>Total Time</th>
-    <th>Timer Started At</th>
+    <th>Status</th>
     <th>Task</th>
     <th>User</th>
   </tr>
   <% for assignment in @assignments %>
     <tr>
 			<td><%=h assignment.notes %></td>
-			<td><%=h assignment.total_time %></td>
-			<td><%=h assignment.timer_started_at %></td>
+			<td><%=h assignment.hours %></td>
+			<td>
+				<%- form_for assignment do |f| -%>
+					<%= hidden_field_tag :"assignment[toggle_timer]", true %>
+					<%= f.submit assignment.timer_action %>
+				<%- end -%>
+			</td>
 			<td><%=h assignment.task_id %></td>
 			<td><%=h assignment.user_id %></td>
 	    <td><%= link_to_crud assignment %></td>
