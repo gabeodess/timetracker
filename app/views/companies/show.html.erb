@@ -1,21 +1,45 @@
 <h1>Company</h1>
 
+<h2>Company Name</h2>
 <p>
   <strong>Name:</strong>
 	<%=h @company.name %>
 </p>
 
+<h2>Clients</h2>
 <ul>
 	<% if !@company.clients.blank? %>
 	  <% for client in @company.clients %>
-	    <li><%= link_to client.name, client %></li>
+	    <li>
+				<%= link_to client.name, client %>
+				<% if !client.projects.blank? %>
+					<ul>
+				  <% for project in client.projects %>
+				    <li><%= link_to project.name, project %></li>
+				  <% end %>
+					</ul>
+				<% end %>				
+			</li>
 	  <% end %>
-	<% else %>
-	  
 	<% end %>
 	
 </ul>
 <%= link_to "new client", :new_client %>
+
+<div id="tasks">
+	<h2>Tasks</h2>
+	<% if !current_company.tasks.blank? %>
+		<ul>
+	  <% for task in current_company.tasks %>
+	    <li><%= link_to task.name, task %></li>
+	  <% end %>
+		</ul>
+		<%= render '/tasks/form' %>
+	<% else %>
+	  
+	<% end %>
+	
+</div>
 
 <p>
   <%= link_to_edit @company, :text => 'Edit' %> |

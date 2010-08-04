@@ -15,7 +15,11 @@ class Project < ActiveRecord::Base
   # ==============
   # = Attributes =
   # ==============
-  # attr_protected :client_id
+  attr_protected :client_id
+  
+  # =========
+  # = Hooks =
+  # =========
   
   # ===============
   # = Validations =

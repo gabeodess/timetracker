@@ -19,6 +19,9 @@ class Task < ActiveRecord::Base
   # ===============
   # = Validations =
   # ===============
+  validates_presence_of :company_id
+  validates_presence_of :name
+  validates_uniqueness_of :name, :on => :create, :if => lambda{ |task| Task.company_id_is(task.company_id).name_is(task.name).count > 0 }
   
   
 end

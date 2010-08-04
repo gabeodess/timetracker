@@ -1,12 +1,10 @@
-<% form_for @task do |f| %>
+<% form_for @task || Task.new do |f| %>
   <%= f.error_messages %>
   <p>
-    <%= f.label :name %><br />
+    <%= f.label :name %>
     <%= f.text_field :name %>
-  </p>
-	<p>
-		<%= f.label :project_id, "Project" %>
-		<%= f.collection_select :project_id, @projects, :id, :name %>
+		<%= f.label :default, "Default" %>
+		<%= f.check_box :default %>
+		<%= f.submit "Submit" %>
 	</p>
-  <p><%= f.submit "Submit" %></p>
 <% end %>

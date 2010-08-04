@@ -20,9 +20,10 @@ class TasksController < ApplicationController
   
   def create
     @task = Task.new(params[:task])
+    @task.company = current_company
     if @task.save
       flash[:notice] = "Successfully created task."
-      redirect_to @task
+      redirect_to :tasks
     else
       render :action => 'new'
     end
@@ -36,7 +37,7 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
     if @task.update_attributes(params[:task])
       flash[:notice] = "Successfully updated task."
-      redirect_to @task
+      redirect_to :tasks
     else
       render :action => 'edit'
     end
