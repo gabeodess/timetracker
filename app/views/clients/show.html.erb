@@ -25,7 +25,6 @@
 		<% else %>
 
 		<% end %>
-		<li><%= link_to "new project", new_project_path(:"project[client_id]" => @client.id) %></li>
 	</ul>
-	
+	<%= link_to "new project", new_project_path(:"project[client_id]" => @client.id) %>
 </div>

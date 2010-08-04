@@ -1,5 +1,7 @@
 authorization do
   role :guest do
+    has_permission_on :associated_tasks, :to => :index
+    has_permission_on :tasks, :to => :index
     has_permission_on :home, :to => :manage
     has_permission_on :users, :to => :create
     has_permission_on :users, :to => :show do

@@ -31,6 +31,7 @@ class ProjectsController < ApplicationController
   
   def update
     @project = Project.find(params[:id])
+    params[:project][:task_ids] ||= []
     if @project.update_attributes(params[:project])
       flash[:notice] = "Successfully updated project."
       redirect_to @project
@@ -49,5 +50,6 @@ class ProjectsController < ApplicationController
   protected
   def get_collections
     @clients = current_company.clients
+    @tasks = current_company.tasks
   end
 end

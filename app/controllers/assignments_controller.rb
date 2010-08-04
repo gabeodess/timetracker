@@ -6,6 +6,10 @@ class AssignmentsController < ApplicationController
   
   def show
     @assignment = Assignment.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.xml{ render :xml => @assignment.to_xml(:methods => [:calculate_total_time_in_hours]) }
+    end
   end
   
   def new
@@ -17,7 +21,7 @@ class AssignmentsController < ApplicationController
     @assignment.user_id = current_user.id
     if @assignment.save
       flash[:notice] = "Successfully created assignment."
-      redirect_to @assignment
+      redirect_to :assignments
     else
       render :action => 'new'
     end
@@ -46,6 +50,6 @@ class AssignmentsController < ApplicationController
   
   protected
   def get_collections
-    @projects = current_company.projects
+    @projects = current_company.projects.all(:include => [:client])
   end
 end

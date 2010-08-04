@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :associated_tasks
+
   map.resources :assignments
   
   map.company_login '/company_login/:id', :controller => "company_sessions", :action => 'create', :conditions => {:method => :post}

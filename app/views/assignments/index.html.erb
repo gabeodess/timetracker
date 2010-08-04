@@ -11,17 +11,37 @@
     <th>User</th>
   </tr>
   <% for assignment in @assignments %>
+		<%- if assignment.timer_running? -%>
+			<%- content_for :document_ready do -%>
+				<script type="text/javascript" charset="utf-8">
+					function update_time(){
+						$.ajax({
+							url:"<%= url_for(assignment) %>",
+							dataType:'xml',
+							success:function(xml){
+								$("#update_hours").html($(xml).find("calculate-total-time-in-hours").text());
+								console.log($(xml).find('calculate-total-time-in-hours').text());
+							}
+						});
+					}
+					$(function(){
+						update_time();
+						setInterval(function(){update_time()}, 30000)
+					});
+				</script>
+			<%- end -%>
+		<%- end -%>
     <tr>
 			<td><%=h assignment.notes %></td>
-			<td><%=h assignment.hours %></td>
+			<td id="<%= "update_hours" if assignment.timer_running? %>"><%=h assignment.hours %></td>
 			<td>
 				<%- form_for assignment do |f| -%>
 					<%= hidden_field_tag :"assignment[toggle_timer]", true %>
 					<%= f.submit assignment.timer_action %>
 				<%- end -%>
 			</td>
-			<td><%=h assignment.task_id %></td>
-			<td><%=h assignment.user_id %></td>
+			<td><%=h assignment.associated_task.task.name %></td>
+			<td><%=h assignment.user.login %></td>
 	    <td><%= link_to_crud assignment %></td>
     </tr>
   <% end %>

@@ -2,16 +2,16 @@
 	<script type="text/javascript" charset="utf-8">
 		$(function(){
 			$("select#project").change(function(){
-				var url = '<%= tasks_path(:"search[project_id]" => "JTAG") %>';
+				var url = '<%= associated_tasks_path(:"search[project_id]" => "JTAG") %>';
 				$.ajax({
 					url:url.replace("JTAG", $(this).val()),
 					dataType:'xml',
 					success:function(xml){
-						$('select#assignment_task_id').html('');
-						$(xml).find('task').each(function(){
-							$('select#assignment_task_id').append(
+						$('select#assignment_associated_task_id').html('');
+						$(xml).find('associated-task').each(function(){
+							$('select#assignment_associated_task_id').append(
 								"<option value=" + $(this).find('id').text() + ">" + 
-									$(this).find('name').text() + 
+									$(this).find('task name').text() + 
 								"</option>"
 							);
 						});
@@ -26,11 +26,11 @@
   <%= f.error_messages %>
 	<p>
 		<%= label_tag :project %>:
-		<%= select_tag :project, options_for_select(["Select A Project"] + @projects.map{ |item| [item.name, item.id] }) %>
+		<%= select_tag :project, options_for_select(["Select A Project"] + @projects.sort_by{ |item| item.client_id }.map{ |item| ["#{item.name} (#{item.client.name})", item.id] }) %>
 	</p>
 	<p>
-		<%= f.label :task_id, "Task" %>: 
-	  <%= f.collection_select :task_id, [], :id, :name, {:disabled => true} %>
+		<%= f.label :associated_task_id, "Task" %>: 
+	  <%= f.collection_select :associated_task_id, [], :id, :name, {:disabled => true} %>
 	</p>
   <p>
     <%= f.label :notes %><br />

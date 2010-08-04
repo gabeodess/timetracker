@@ -7,8 +7,9 @@ class Project < ActiveRecord::Base
   # = Associations =
   # ================
   belongs_to :client
-  has_many :tasks
-  has_many :assigned_projects
+  has_many :associated_tasks, :dependent => :destroy
+  has_many :tasks, :through => :associated_tasks
+  has_many :assigned_projects, :dependent => :destroy
   has_many :users, :through => :assigned_projects
   
   # ==============

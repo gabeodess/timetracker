@@ -1,0 +1,21 @@
+<h1>Associated Tasks</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>Project</th>
+    <th>Task</th>
+  </tr>
+  <% for associated_task in @associated_tasks %>
+    <tr>
+			<td><%=h associated_task.project_id %></td>
+			<td><%=h associated_task.task_id %></td>
+	    <td><%= link_to_crud associated_task %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate %>
+
+<p><%= link_to_new :associated_task, :text => "New Associated Task" %></p>

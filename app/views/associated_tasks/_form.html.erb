@@ -1,0 +1,6 @@
+<% form_for @associated_task do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :project_id %>
+  <%= f.hidden_field :task_id %>
+  <p><%= f.submit "Submit" %></p>
+<% end %>

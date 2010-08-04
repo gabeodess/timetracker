@@ -10,6 +10,8 @@ class Company < ActiveRecord::Base
   has_many :users, :through => :company_based_roles
   has_many :clients, :dependent => :destroy
   has_many :projects, :through => :clients
+  has_many :tasks, :dependent => :destroy
+  has_many :associated_tasks, :through => :tasks, :dependent => :destroy
   belongs_to :owner, :class_name => "User"
   
   # ==============

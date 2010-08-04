@@ -1,4 +1,4 @@
-class Task < ActiveRecord::Base
+class AssociatedTask < ActiveRecord::Base
   
   def after_initialize
   end
@@ -6,9 +6,9 @@ class Task < ActiveRecord::Base
   # ================
   # = Associations =
   # ================
-  belongs_to :company
-  has_many :associated_tasks
-  has_many :assignments, :through => :associated_tasks
+  belongs_to :project
+  belongs_to :task
+  has_many :assignments
 
   
   

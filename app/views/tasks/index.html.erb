@@ -5,12 +5,12 @@
 <table>
   <tr>
     <th>Name</th>
-    <th>Project</th>
+    <th>Default</th>
   </tr>
   <% for task in @tasks %>
     <tr>
 			<td><%=h task.name %></td>
-			<td><%=h task.project_id %></td>
+			<td><%=h task.default %></td>
 	    <td><%= link_to_crud task %></td>
     </tr>
   <% end %>

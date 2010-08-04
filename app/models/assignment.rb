@@ -11,7 +11,7 @@ class Assignment < ActiveRecord::Base
   # ================
   # = Associations =
   # ================
-  belongs_to :task
+  belongs_to :associated_task
   belongs_to :user  
   
   # ==============
@@ -30,11 +30,22 @@ class Assignment < ActiveRecord::Base
   # ===============
   # = Validations =
   # ===============
+  validates_presence_of :associated_task_id
   validates_format_of :hours, :with => /^\d+$|^\d+\.\d+$|^\d+:\d{2}$/
   
   # ====================
   # = Instance Methods =
   # ====================
+  def calculate_total_time
+    return timer_running? ? 
+       total_time.to_i + (Time.now - timer_started_at) :
+       total_time
+  end
+  
+  def calculate_total_time_in_hours
+    (calculate_total_time.to_f/3600).round_with_precision(2)
+  end
+  
   def start_timer
     Assignment.user_id_is(user_id).all(:conditions => "timer_started_at is not null").each do |assignment|
       assignment.stop_timer

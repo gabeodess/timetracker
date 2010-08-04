@@ -1,8 +1,8 @@
 class TasksController < ApplicationController
-  # filter_resource_access
+  filter_resource_access
   before_filter :get_collections, :only => [:new, :create, :edit, :update]
   def index
-    @search = Task.search(params[:search])
+    @search = current_company.tasks.search(params[:search])
     @tasks = @search.paginate(:page => params[:page])
     respond_to do |format|
       format.html
