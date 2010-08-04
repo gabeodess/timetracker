@@ -1,3 +1,27 @@
+<%- content_for :document_ready do -%>
+	<script type="text/javascript" charset="utf-8">
+		$(function(){
+			$("select#project").change(function(){
+				var url = '<%= tasks_path(:"search[project_id]" => "JTAG") %>';
+				$.ajax({
+					url:url.replace("JTAG", $(this).val()),
+					dataType:'xml',
+					success:function(xml){
+						$('select#assignment_task_id').html('');
+						$(xml).find('task').each(function(){
+							$('select#assignment_task_id').append(
+								"<option value=" + $(this).find('id').text() + ">" + 
+									$(this).find('name').text() + 
+								"</option>"
+							);
+						});
+					}
+				});
+			});
+		});
+	</script>
+<%- end -%>
+
 <% form_for @assignment do |f| %>
   <%= f.error_messages %>
 	<p>

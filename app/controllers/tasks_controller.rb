@@ -4,6 +4,10 @@ class TasksController < ApplicationController
   def index
     @search = Task.search(params[:search])
     @tasks = @search.paginate(:page => params[:page])
+    respond_to do |format|
+      format.html
+      format.xml{ render :xml => @search.all.to_xml }
+    end
   end
   
   def show

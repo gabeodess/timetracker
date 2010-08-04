@@ -3,13 +3,16 @@ class Assignment < ActiveRecord::Base
   def after_initialize
   end
   
+  # ==========
+  # = Scopes =
+  # ==========
+  default_scope :order => "created_at ASC"
+  
   # ================
   # = Associations =
   # ================
   belongs_to :task
-  belongs_to :user
-
-  
+  belongs_to :user  
   
   # ==============
   # = Attributes =
