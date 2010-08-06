@@ -10,7 +10,7 @@
 						$('select#assignment_associated_task_id').html('');
 						$(xml).find('associated-task').each(function(){
 							$('select#assignment_associated_task_id').append(
-								"<option value=" + $(this).find('id').text() + ">" + 
+								"<option value=" + $(this).children('id').text() + ">" + 
 									$(this).find('task name').text() + 
 								"</option>"
 							);
@@ -26,11 +26,11 @@
   <%= f.error_messages %>
 	<p>
 		<%= label_tag :project %>:
-		<%= select_tag :project, options_for_select(["Select A Project"] + @projects.sort_by{ |item| item.client_id }.map{ |item| ["#{item.name} (#{item.client.name})", item.id] }) %>
+		<%= select_tag :project, options_for_select(["Select A Project"] + @projects.sort_by{ |item| item.client_id }.map{ |item| ["#{item.name} (#{item.client.name})", item.id] }, :selected => @assignment.associated_task.try(:project_id)) %>
 	</p>
 	<p>
 		<%= f.label :associated_task_id, "Task" %>: 
-	  <%= f.collection_select :associated_task_id, [], :id, :name, {:disabled => true} %>
+	  <%= f.collection_select :associated_task_id, @assignment.associated_task.try(:project).try(:associated_tasks) || [], :id, :name, {:disabled => true} %>
 	</p>
   <p>
     <%= f.label :notes %><br />

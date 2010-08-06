@@ -6,6 +6,12 @@
 	<%=h @company.name %>
 </p>
 
+<p>
+  <%= link_to_edit @company, :text => 'Edit' %> |
+  <%= link_to_destroy @company, :text => 'Destroy' %> |
+  <%= link_to "View All", companies_path %>
+</p>
+
 <h2>Clients</h2>
 <ul>
 	<% if !@company.clients.blank? %>
@@ -35,14 +41,8 @@
 	  <% end %>
 		</ul>
 		<%= render '/tasks/form' %>
-	<% else %>
-	  
 	<% end %>
+	<p><%= link_to "View All", :tasks %></p>
 	
 </div>
 
-<p>
-  <%= link_to_edit @company, :text => 'Edit' %> |
-  <%= link_to_destroy @company, :text => 'Destroy' %> |
-  <%= link_to "View All", companies_path %>
-</p>

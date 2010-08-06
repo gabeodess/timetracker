@@ -1,9 +1,11 @@
 <% form_for @project do |f| %>
   <%= f.error_messages %>
+	<%- if @project.new_record? -%>
 	<p>
 		<%= f.label :client_id, "Client Id" %>
 		<%= f.collection_select :client_id, @clients, :id, :name, :prompt => "Select A Client" %>
 	</p>
+	<%- end -%>
   <p>
     <%= f.label :name %><br />
     <%= f.text_field :name %>

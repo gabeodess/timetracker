@@ -15,6 +15,7 @@ class Task < ActiveRecord::Base
   # ==============
   # = Attributes =
   # ==============
+  attr_protected :company_id
   
   # ===============
   # = Validations =

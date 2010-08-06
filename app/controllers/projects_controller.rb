@@ -12,11 +12,11 @@ class ProjectsController < ApplicationController
   end
   
   def new
-    @project = Project.new(params[:project])
+    # @project = Project.new(params[:project])
   end
   
   def create
-    @project = Project.new(params[:project])
+    # @project = Project.new(params[:project])
     if @project.save
       flash[:notice] = "Successfully created project."
       redirect_to @project
@@ -46,10 +46,16 @@ class ProjectsController < ApplicationController
     flash[:notice] = "Successfully destroyed project."
     redirect_to projects_url
   end
-  
+    
   protected
   def get_collections
     @clients = current_company.clients
     @tasks = current_company.tasks
   end
+  
+  def new_controller_object_from_params(*args)
+    @project = Project.new(params[:project])
+    @project.client_id = params[:project].try(:[], :client_id)
+  end
+  
 end

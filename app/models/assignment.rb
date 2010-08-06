@@ -12,7 +12,14 @@ class Assignment < ActiveRecord::Base
   # = Associations =
   # ================
   belongs_to :associated_task
-  belongs_to :user  
+  belongs_to :user
+  
+  def company_id
+    associated_task.project.client.company_id
+  end
+  def company
+    Company.id_is(company_id).first
+  end
   
   # ==============
   # = Attributes =
@@ -30,12 +37,20 @@ class Assignment < ActiveRecord::Base
   # ===============
   # = Validations =
   # ===============
-  validates_presence_of :associated_task_id
+  validates_presence_of :associated_task
   validates_format_of :hours, :with => /^\d+$|^\d+\.\d+$|^\d+:\d{2}$/
   
   # ====================
   # = Instance Methods =
   # ====================
+  def client_name
+    associated_task.project.client.name
+  end
+  
+  def project_name
+    associated_task.project.name
+  end
+  
   def calculate_total_time
     return timer_running? ? 
        total_time.to_i + (Time.now - timer_started_at) :
@@ -46,11 +61,25 @@ class Assignment < ActiveRecord::Base
     (calculate_total_time.to_f/3600).round_with_precision(2)
   end
   
+  def sibling_timers
+    company.assignments.user_id_is(user_id)
+  end
+  
+  def runaway_timers
+    sibling_timers.timer_started_at_lt(Time.now.beginning_of_day).all(:conditions => "timer_started_at is not null")
+  end
+  
+  def todays_running_siblings
+    # => returns all running assignments from this user and this company and this day.
+    sibling_timers.timer_started_at_gt(Time.now.beginning_of_day).all(:conditions => "timer_started_at is not null")
+  end
+  
   def start_timer
-    Assignment.user_id_is(user_id).all(:conditions => "timer_started_at is not null").each do |assignment|
+    # => Stop all timers for this user from this company for today.
+    todays_running_siblings.each do |assignment|
       assignment.stop_timer
     end
-    self.timer_started_at = Time.now
+    self.timer_started_at = Time.now #unless created_at < Time.now.beginning_of_day
   end
   
   def stop_timer

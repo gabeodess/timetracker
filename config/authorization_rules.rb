@@ -18,7 +18,10 @@ authorization do
     has_permission_on :clients, :to => :manage do
       if_permitted_to :manage, :company
     end
-    has_permission_on :projects, :to => :new
+    # has_permission_on :projects, :to => :new
+    has_permission_on :projects, :to => :create do
+      if_attribute :client_id => is{nil}
+    end
     has_permission_on :projects, :to => :manage do
       if_permitted_to :manage, :client
     end

@@ -30,8 +30,7 @@
 	
 	<div id="wrapper">
 		<ul id='sidebar'>
-			<li>This is your sidebar</li>
-			<li>This is item 2.</li>
+			<li><%= current_company.try(:name) %></li>
 		</ul>
 		<ul id='admin_nav'>
 			<li><%= link_to_active 'home', :root %></li>

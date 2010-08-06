@@ -5,9 +5,12 @@ class User < ActiveRecord::Base
   include Authentication::ByPassword
   include Authentication::ByCookieToken
   
+  # ================
+  # = Associations =
+  # ================
   has_many :company_based_roles
   has_many :companies, :through => :company_based_roles
-  has_many :assignements
+  has_many :assignments
   has_many :assigned_projects
   has_many :projects, :through => :assigned_projects
   

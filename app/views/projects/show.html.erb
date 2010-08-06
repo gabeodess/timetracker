@@ -9,6 +9,14 @@
 	<%=h @project.allotted_hours %>
 </p>
 <p>
+	<strong>Hours Worked:</strong>
+	<%= @project.hours_worked.round_with_precision(2) %>
+</p>
+<p>
+	<strong>Percent Used:</strong>
+	<%= @project.percent_of_allotted_hours_used.round_with_precision(2) %>%
+</p>
+<p>
   <strong>Client:</strong>
 	<%=h @project.client.name %>
 </p>

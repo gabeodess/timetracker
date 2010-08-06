@@ -7,8 +7,9 @@
     <th>Notes</th>
     <th>Total Time</th>
     <th>Status</th>
+		<th>Project</th>
     <th>Task</th>
-    <th>User</th>
+    <th>Client</th>
   </tr>
   <% for assignment in @assignments %>
 		<%- if assignment.timer_running? -%>
@@ -19,8 +20,7 @@
 							url:"<%= url_for(assignment) %>",
 							dataType:'xml',
 							success:function(xml){
-								$("#update_hours").html($(xml).find("calculate-total-time-in-hours").text());
-								console.log($(xml).find('calculate-total-time-in-hours').text());
+								$("#hours_for_<%= assignment.id %>").html($(xml).find("calculate-total-time-in-hours").text());
 							}
 						});
 					}
@@ -33,15 +33,16 @@
 		<%- end -%>
     <tr>
 			<td><%=h assignment.notes %></td>
-			<td id="<%= "update_hours" if assignment.timer_running? %>"><%=h assignment.hours %></td>
+			<td id="hours_for_<%= assignment.id %>"><%=h assignment.hours %></td>
 			<td>
 				<%- form_for assignment do |f| -%>
 					<%= hidden_field_tag :"assignment[toggle_timer]", true %>
 					<%= f.submit assignment.timer_action %>
 				<%- end -%>
 			</td>
+			<td><%=h assignment.project_name %></td>
 			<td><%=h assignment.associated_task.task.name %></td>
-			<td><%=h assignment.user.login %></td>
+			<td><%=h assignment.client_name %></td>
 	    <td><%= link_to_crud assignment %></td>
     </tr>
   <% end %>

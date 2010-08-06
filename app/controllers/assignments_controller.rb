@@ -1,7 +1,7 @@
 class AssignmentsController < ApplicationController
   before_filter :get_collections
   def index
-    @assignments = Assignment.paginate(:page => params[:page])
+    @assignments = current_company.assignments.user_id_is(current_user.id).paginate(:page => params[:page])
   end
   
   def show

@@ -19,6 +19,14 @@ class AssociatedTask < ActiveRecord::Base
   # ===============
   # = Validations =
   # ===============
+  validates_presence_of :project
+  validates_presence_of :task
   
+  # ====================
+  # = Instance Methods =
+  # ====================
+  def name
+    task.name
+  end
   
 end
