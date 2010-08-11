@@ -10,18 +10,18 @@ class Company < ActiveRecord::Base
   has_many :users, :through => :company_based_roles
   has_many :clients, :dependent => :destroy
   has_many :projects, :through => :clients
-  # has_many :assignments, :through => :projects
+  # has_many :timers, :through => :projects
   has_many :tasks, :dependent => :destroy
   has_many :associated_tasks, :through => :tasks, :dependent => :destroy
   belongs_to :owner, :class_name => "User"
   
-  def assignment_ids
-    @assignment_ids ||= projects.all(:include => [:assignments]).map{|item| item.assignments.map{|a| a.id}}.flatten
+  def timer_ids
+    @timer_ids ||= projects.all(:include => [:timers]).map{|item| item.timers.map{|a| a.id}}.flatten
   end
   
-  def assignments
-    ids = assignment_ids.empty? ? 0 : assignment_ids
-    Assignment.id_is_any(ids)
+  def timers
+    ids = timer_ids.empty? ? 0 : timer_ids
+    Timer.id_is_any(ids)
   end
   
   # ==============

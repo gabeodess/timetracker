@@ -1,0 +1,53 @@
+<h1>Timers</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>Notes</th>
+    <th>Total Time</th>
+    <th>Status</th>
+		<th>Project</th>
+    <th>Task</th>
+    <th>Client</th>
+  </tr>
+  <% for timer in @timers %>
+		<%- if timer.timer_running? -%>
+			<%- content_for :document_ready do -%>
+				<script type="text/javascript" charset="utf-8">
+					function update_time(){
+						$.ajax({
+							url:"<%= url_for(timer) %>",
+							dataType:'xml',
+							success:function(xml){
+								$("#hours_for_<%= timer.id %>").html($(xml).find("calculate-total-time-in-hours").text());
+							}
+						});
+					}
+					$(function(){
+						update_time();
+						setInterval(function(){update_time()}, 30000)
+					});
+				</script>
+			<%- end -%>
+		<%- end -%>
+    <tr>
+			<td><%=h timer.notes %></td>
+			<td id="hours_for_<%= timer.id %>"><%=h timer.hours %></td>
+			<td>
+				<%- form_for timer do |f| -%>
+					<%= hidden_field_tag :"timer[toggle_timer]", true %>
+					<%= f.submit timer.timer_action %>
+				<%- end -%>
+			</td>
+			<td><%=h timer.project_name %></td>
+			<td><%=h timer.associated_task.task.name %></td>
+			<td><%=h timer.client_name %></td>
+	    <td><%= link_to_crud timer %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate %>
+
+<p><%= link_to_new :timer, :text => "New Timer" %></p>

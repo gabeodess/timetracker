@@ -1,0 +1,31 @@
+<h1>Timer</h1>
+
+<p>
+  <strong>Notes:</strong>
+	<%=h @timer.notes %>
+</p>
+<p>
+  <strong>Total Time:</strong>
+	<%=h @timer.total_time %>
+</p>
+<p>
+  <strong>Timer Started At:</strong>
+	<%=h @timer.timer_started_at %>
+</p>
+<p>
+  <strong>Task:</strong>
+	<%=h @timer.associated_task_id %>
+</p>
+<p>
+  <strong>User:</strong>
+	<%=h @timer.user_id %>
+</p>
+
+  
+
+
+<p>
+  <%= link_to_edit @timer, :text => 'Edit' %> |
+  <%= link_to_destroy @timer, :text => 'Destroy' %> |
+  <%= link_to "View All", timers_path %>
+</p>

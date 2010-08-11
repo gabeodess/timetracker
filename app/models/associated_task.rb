@@ -8,7 +8,7 @@ class AssociatedTask < ActiveRecord::Base
   # ================
   belongs_to :project
   belongs_to :task
-  has_many :assignments
+  has_many :timers
 
   
   

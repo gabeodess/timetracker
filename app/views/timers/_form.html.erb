@@ -7,9 +7,9 @@
 					url:url.replace("JTAG", $(this).val()),
 					dataType:'xml',
 					success:function(xml){
-						$('select#assignment_associated_task_id').html('');
+						$('select#timer_associated_task_id').html('');
 						$(xml).find('associated-task').each(function(){
-							$('select#assignment_associated_task_id').append(
+							$('select#timer_associated_task_id').append(
 								"<option value=" + $(this).children('id').text() + ">" + 
 									$(this).find('task name').text() + 
 								"</option>"
@@ -22,15 +22,15 @@
 	</script>
 <%- end -%>
 
-<% form_for @assignment do |f| %>
+<% form_for @timer do |f| %>
   <%= f.error_messages %>
 	<p>
 		<%= label_tag :project %>:
-		<%= select_tag :project, options_for_select(["Select A Project"] + @projects.sort_by{ |item| item.client_id }.map{ |item| ["#{item.name} (#{item.client.name})", item.id] }, :selected => @assignment.associated_task.try(:project_id)) %>
+		<%= select_tag :project, options_for_select(["Select A Project"] + @projects.sort_by{ |item| item.client_id }.map{ |item| ["#{item.name} (#{item.client.name})", item.id] }, :selected => @timer.associated_task.try(:project_id)) %>
 	</p>
 	<p>
 		<%= f.label :associated_task_id, "Task" %>: 
-	  <%= f.collection_select :associated_task_id, @assignment.associated_task.try(:project).try(:associated_tasks) || [], :id, :name, {:disabled => true} %>
+	  <%= f.collection_select :associated_task_id, @timer.associated_task.try(:project).try(:associated_tasks) || [], :id, :name, {:disabled => true} %>
 	</p>
   <p>
     <%= f.label :notes %><br />

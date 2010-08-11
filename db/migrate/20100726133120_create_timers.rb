@@ -1,6 +1,6 @@
-class CreateAssignments < ActiveRecord::Migration
+class CreateTimers < ActiveRecord::Migration
   def self.up
-    create_table :assignments do |t|
+    create_table :timers do |t|
       t.text :notes
       t.integer :total_time
       t.datetime :timer_started_at
@@ -11,6 +11,6 @@ class CreateAssignments < ActiveRecord::Migration
   end
   
   def self.down
-    drop_table :assignments
+    drop_table :timers
   end
 end

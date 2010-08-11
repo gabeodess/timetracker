@@ -8,7 +8,7 @@ class Project < ActiveRecord::Base
   # ================
   belongs_to :client
   has_many :associated_tasks, :dependent => :destroy
-  has_many :assignments, :through => :associated_tasks
+  has_many :timers, :through => :associated_tasks
   has_many :tasks, :through => :associated_tasks
   has_many :assigned_projects, :dependent => :destroy
   has_many :users, :through => :assigned_projects
@@ -33,7 +33,7 @@ class Project < ActiveRecord::Base
   # = Instance Methods =
   # ====================
   def total_time
-    assignments.map{ |item| item.total_time }.sum
+    timers.map{ |item| item.total_time }.sum
   end
   
   def hours_worked
