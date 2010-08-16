@@ -50,4 +50,21 @@
 
 <%= will_paginate %>
 
-<p><%= link_to_new :timer, :text => "New Timer" %></p>
+<p><%= link_to_new :timer, :text => "New Timer", :class => :new_timer %></p>
+<%- content_for :document_ready do -%>
+<script type="text/javascript" charset="utf-8">
+	function toggle_form(){
+		if($("#new_timer").css('display') == 'block'){
+			$("#new_timer").hide();
+		}else{
+			$("#new_timer").show();
+		}
+	}
+	
+	$(function(){
+		$("#new_timer").hide();
+		$('a.new_timer').click(function(){toggle_form(); return false;});
+	});
+</script>
+<%- end -%>
+<%= render 'form' %>
