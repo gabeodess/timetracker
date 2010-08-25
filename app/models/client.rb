@@ -43,7 +43,7 @@ class Client < ActiveRecord::Base
   end
     
   def total_due
-    @total_due ||= timers.map{ |item| item.hours * item.user.billing_rate }.sum
+    @total_due ||= timers.map{ |item| item.hours.to_f * item.user.billing_rate.to_f }.sum
   end
   
   def total_paid
