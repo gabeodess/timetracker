@@ -43,4 +43,5 @@ class ClientsController < ApplicationController
     flash[:notice] = "Successfully destroyed client."
     redirect_to clients_url
   end
+  
 end

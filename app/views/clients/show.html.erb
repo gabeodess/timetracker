@@ -8,12 +8,40 @@
   <strong>Company:</strong>
 	<%=h @client.company_id %>
 </p>
+<p>
+	<strong>Hours:</strong>
+	<%= @client.hours %>
+</p>
+<p>
+	<strong>Total due:</strong>
+	$<%= @client.total_due.to_f.round_with_precision(2) %>
+</p>
+<p>
+	<strong>Total paid:</strong>
+	$<%= @client.total_paid %>
+</p>
+<p>
+	<strong>Outstanding Balance:</strong>
+	$<%= @client.outstanding_balance %>
+</p>
 
 <p>
   <%= link_to_edit @client, :text => 'Edit' %> |
   <%= link_to_destroy @client, :text => 'Destroy' %> |
   <%= link_to "View All", clients_path %>
 </p>
+
+<div id="contacts">
+	<h2>Contacts</h2>
+	<ul>
+		<% if !@client.contacts.blank? %>
+		  <% for contact in @client.contacts %>
+		    <li><%= contact.info %> (<%= link_to_crud(contact) %>)</li>
+		  <% end %>
+		<% end %>		
+	</ul>
+	<%= link_to "new contact", new_contact_path(:"contact[client_id]" => @client.id) %>
+</div>
 
 <div class='bordertop'>
 	<h2>Projects</h2>
@@ -27,4 +55,19 @@
 		<% end %>
 	</ul>
 	<%= link_to "new project", new_project_path(:"project[client_id]" => @client.id) %>
+</div>
+
+<div id='invoices'>
+	<h2>Invoices</h2>
+	<% if !@client.invoices.blank? %>
+	<ul>
+	  <% for invoice in @client.invoices %>
+	    <li><%= link_to_show invoice, :text => invoice.created_at.to_s %></li>
+	  <% end %>
+	</ul>
+	<% end %>
+	<p>
+		<%= link_to 'invoice now!', new_invoice_path(:"invoice[client_id]" => @client.id) %>
+	</p>
+	
 </div>

@@ -1,0 +1,37 @@
+<% form_for @invoice do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :client_id %>
+
+	<% if !@invoice.uninvoiced_timers.blank? %>
+	<table>
+	  <% for timer in @invoice.uninvoiced_timers %>
+	    <tr>
+				<td>
+					<%= check_box_tag "invoice[invoicing_timer_ids][]", timer.id, true %>
+				</td>
+				<td><%= timer.task.name %></td>
+				<td><%= timer.project.name %></td>
+				<td><%= timer.hours.to_time %></td>
+				<td><%= timer.created_at %></td>
+			</tr>
+	  <% end %>
+	</table>
+	<% end %>
+	
+	<hr/>
+	
+	<h2>Send invoices to:</h2>
+	<% if !@invoice.contacts.blank? %>
+	  <% for contact in @invoice.contacts %>
+	    <li>
+				<%= check_box_tag :"invoice[email_ids][]", contact.id, true, :id => "invoice_email_id_#{contact.id}" %>
+				<%= label_tag "invoice_email_id_#{contact.id}", contact.full_name %>
+			</li>
+	  <% end %>
+	<% else %>
+	  
+	<% end %>
+	
+
+  <p><%= f.submit "Submit" %></p>
+<% end %>

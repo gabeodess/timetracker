@@ -1,4 +1,19 @@
-<h1><%= @user.login %></h1>
+<h1>
+	<%= @user.login %>
+	<%= link_to_edit @user, :class => '' %>
+</h1>
+
+<% if !@user.attributes.blank? %>
+  <% @user.attributes.sort_by{ |k,v| k }.each do |k, v| %>
+    <p>
+    	<strong><%= k %>:</strong>
+			<%= v %>
+    </p>
+  <% end %>
+<% else %>
+  
+<% end %>
+
 
 <h2>Companies</h2>
 <ul>

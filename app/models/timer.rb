@@ -14,6 +14,14 @@ class Timer < ActiveRecord::Base
   belongs_to :associated_task
   belongs_to :user
   
+  def project
+    associated_task.project
+  end
+  
+  def task
+    associated_task.task
+  end
+  
   def company_id
     associated_task.project.client.company_id
   end
@@ -89,7 +97,11 @@ class Timer < ActiveRecord::Base
   end
   
   def hours
-    return (total_time.to_f/3600).to_f.round_with_precision(2)
+    @hours ||= (total_time.to_f/3600).to_f.round_with_precision(2)
+  end
+  
+  def readable_hours
+    [hours.to_i, ':', ((hours - hours.to_i) * 60).round]
   end
   
   def timer_action

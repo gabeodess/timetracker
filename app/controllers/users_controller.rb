@@ -33,6 +33,15 @@ class UsersController < ApplicationController
     end
   end
   
+  def update
+    if @user.update_attributes(params[:user])
+      flash[:notice] = "Your account has been updated."
+      redirect_to @user
+    else
+      render :edit
+    end
+  end
+  
   protected
     def load_user
       @user = User.find_by_login(params[:id])

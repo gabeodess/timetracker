@@ -1,0 +1,21 @@
+<h1>Invoices</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>Client</th>
+    <th>Info</th>
+  </tr>
+  <% for invoice in @invoices %>
+    <tr>
+			<td><%=h invoice.client_id %></td>
+			<td><%=h invoice.info %></td>
+	    <td><%= link_to_crud invoice %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate %>
+
+<p><%= link_to_new :invoice, :text => "New Invoice" %></p>

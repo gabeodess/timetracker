@@ -7,11 +7,18 @@ class Client < ActiveRecord::Base
   # = Associations =
   # ================
   has_many :projects, :dependent => :destroy
+  has_many :associated_tasks, :through => :projects
   has_many :tasks, :through => :projects
   has_many :contacts, :dependent => :destroy
+  has_many :invoices, :dependent => :destroy
   belongs_to :company
-
   
+  def timer_ids
+    associated_tasks.map(&:timers).flatten.map(&:id)
+  end
+  def timers
+    Timer.id_is_any(timer_ids)
+  end  
   
   # ==============
   # = Attributes =
@@ -24,5 +31,27 @@ class Client < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :company_id
   
+  # ====================
+  # = Instance Methods =
+  # ====================
+  def total_time
+    @total_time ||= timers.map(&:total_time).sum
+  end
+  
+  def hours
+    @hours ||= timers.map(&:hours).map(&:to_f).sum
+  end
+    
+  def total_due
+    @total_due ||= timers.map{ |item| item.hours * item.user.billing_rate }.sum
+  end
+  
+  def total_paid
+    @total_paid ||= invoices.map(&:amount_paid).map(&:to_f).sum
+  end
+  
+  def outstanding_balance
+    @outstanding_balance ||= total_due - total_paid
+  end
   
 end

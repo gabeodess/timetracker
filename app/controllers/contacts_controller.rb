@@ -7,16 +7,12 @@ class ContactsController < ApplicationController
   def show
     @contact = Contact.find(params[:id])
   end
-  
-  def new
-    @contact = Contact.new
-  end
-  
+    
   def create
     @contact = Contact.new(params[:contact])
     if @contact.save
       flash[:notice] = "Successfully created contact."
-      redirect_to @contact
+      redirect_to @contact.client
     else
       render :action => 'new'
     end
@@ -42,4 +38,5 @@ class ContactsController < ApplicationController
     flash[:notice] = "Successfully destroyed contact."
     redirect_to contacts_url
   end
+    
 end

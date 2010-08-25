@@ -14,6 +14,12 @@ class User < ActiveRecord::Base
   has_many :assigned_projects
   has_many :projects, :through => :assigned_projects
   
+  # ===============
+  # = Validations =
+  # ===============
+  validates_inclusion_of :billing_rate, :in => 1..1000000, :message => ": Please enter a non-zero billing rate."
+  validates_numericality_of :billing_rate
+  
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
   validates_uniqueness_of   :login
@@ -33,7 +39,7 @@ class User < ActiveRecord::Base
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
   attr_accessor :current_company
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :current_company
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :current_company, :billing_rate
 
 
 

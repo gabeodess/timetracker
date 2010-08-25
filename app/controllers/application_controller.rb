@@ -20,12 +20,17 @@ class ApplicationController < ActionController::Base
     def company_login_required
       
       unless current_company and current_company.user_ids.include?(current_user.id)
+        logout_company
         flash[:notice] = "Please login through a company."
         redirect_to :root
         return
       end
       
       current_user.current_company = current_company
+    end
+    
+    def logout_company
+      session[:company_id] = nil
     end
   
     def current_company
