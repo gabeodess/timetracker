@@ -30,7 +30,7 @@ class Invoice < ActiveRecord::Base
   # =========
   # = Hooks =
   # =========
-  after_destroy :clean_timers
+  # after_destroy :clean_timers
   after_save :email_invoice
   before_create :print_receipt
   

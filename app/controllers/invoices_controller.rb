@@ -41,9 +41,9 @@ class InvoicesController < ApplicationController
   end
   
   def destroy
-    @invoice = Invoice.find(params[:id])
-    @invoice.destroy
-    flash[:notice] = "Successfully destroyed invoice."
+    # @invoice = Invoice.find(params[:id])
+    # @invoice.destroy
+    # flash[:notice] = "Successfully destroyed invoice."
     redirect_to @invoice.client
   end
 end
