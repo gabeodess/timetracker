@@ -17,7 +17,7 @@ class Client < ActiveRecord::Base
     associated_tasks.map(&:timers).flatten.map(&:id)
   end
   def timers
-    Timer.id_is_any(timer_ids)
+    return timer_ids.empty? ? [] : Timer.id_is_any(timer_ids) 
   end  
   
   # ==============

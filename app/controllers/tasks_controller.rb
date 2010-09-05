@@ -23,7 +23,7 @@ class TasksController < ApplicationController
     @task.company = current_company
     if @task.save
       flash[:notice] = "Successfully created task."
-      redirect_to :tasks
+      redirect_to :dashboard
     else
       render :action => 'new'
     end
@@ -37,7 +37,7 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
     if @task.update_attributes(params[:task])
       flash[:notice] = "Successfully updated task."
-      redirect_to :tasks
+      redirect_to :dashboard
     else
       render :action => 'edit'
     end
@@ -47,7 +47,7 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
     @task.destroy
     flash[:notice] = "Successfully destroyed task."
-    redirect_to tasks_url
+    redirect_to :dashboard
   end
   
   protected

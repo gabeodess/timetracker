@@ -44,7 +44,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @project.destroy
     flash[:notice] = "Successfully destroyed project."
-    redirect_to projects_url
+    redirect_to @project.client
   end
     
   protected

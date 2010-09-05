@@ -2,7 +2,7 @@ class CompaniesController < ApplicationController
   skip_before_filter :company_login_required, :only => [:show, :new, :create]
   filter_resource_access
   def index
-    @companies = Company.paginate(:page => params[:page])
+    @companies = current_user.companies.paginate(:page => params[:page])
   end
   
   def show
@@ -20,7 +20,7 @@ class CompaniesController < ApplicationController
     if @company.save
       CompanyBasedRole.create!(:name => 'admin', :user => current_user, :company => @company)
       flash[:notice] = "Successfully created company."
-      redirect_to @company
+      redirect_to :dashboard
     else
       render :action => 'new'
     end
@@ -29,7 +29,7 @@ class CompaniesController < ApplicationController
   def update
     if @company.update_attributes(params[:company])
       flash[:notice] = "Successfully updated company."
-      redirect_to @company
+      redirect_to :dashboard
     else
       render :action => 'edit'
     end
@@ -39,7 +39,7 @@ class CompaniesController < ApplicationController
     @company = Company.find(params[:id])
     @company.destroy
     flash[:notice] = "Successfully destroyed company."
-    redirect_to companies_url
+    redirect_to current_user
   end
   
   protected
