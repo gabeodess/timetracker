@@ -32,6 +32,7 @@ width:100%;">
 								<th>Billing Rate</th>
 								<th>Hours</th>
 								<th>Cost</th>
+								<%= "<th></th>" if include_check_boxes %>
 							</tr>
 						</thead>
 						<tbody>
@@ -47,6 +48,9 @@ width:100%;">
 								<td><%= number_to_currency(timer[:billing_rate]) %>/hr</td>
 								<td><%= timer[:hours].to_time %></td>
 								<td class='timer_cost'><%= number_to_currency(timer[:hours] * timer[:billing_rate]) %></td>
+								<%- if include_check_boxes -%>
+								<td><%= link_to image_tag("edit.png"), edit_timer_path(timer['id']) %></td>
+								<%- end -%>
 							</tr>
 							<%- end -%>
 							<tr>

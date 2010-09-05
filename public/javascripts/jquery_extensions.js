@@ -2,7 +2,7 @@
 // = Fuctions =
 // ============
 function currency_to_float(item){
-  return parseFloat(item.replace("$", ""));
+  return parseFloat(item.replace("$", "").replace(/,/g, ""));
 }
 
 function number_to_currency(item){
@@ -10,7 +10,26 @@ function number_to_currency(item){
   var integer = Math.floor(item);
   var decimal = Math.round((item - integer)*100)/100;
   var decimal_string = decimal == 0 ? "00" : [decimal.toString()[2], (decimal.toString()[3] || 0)].join("");
-  return "$" + integer + "." + decimal_string;
+  
+  var divby3 = integer.toString().length/3;
+  var leftovers = divby3 - Math.ceil(divby3);
+  var comma_count = leftovers > 0 ? divby3 : (divby3 - 1);
+  
+  var length = integer.toString().length
+  var old_integer_string = integer.toString();
+  var integer_string = "";
+  var j = 1;
+  for (var i = length - 1; i >= 0; i--){
+    if(j == 4){
+      integer_string = old_integer_string[i] + "," + integer_string;
+      j = 1;
+    }else{
+      integer_string = old_integer_string[i] + integer_string;
+    }
+    j++;
+  };
+  
+  return "$" + integer_string + "." + decimal_string;
 }
 
 // ============
@@ -59,8 +78,8 @@ $.fn.map = function(my_function){
   // for (var i=0; i < this.length; i++) {
   //   array.push(my_function($(original_item[i])));
   // }
-  this.each(my_function);
-  return array;
+  // this.each(my_function);
+  // return array;
 }
 
 
@@ -71,6 +90,13 @@ if (String.prototype.apostrophe_escape==null) String.prototype.apostrophe_escape
   return this.replace(/'/g,"&#39;");
 }
 
+if (String.prototype.reverse==null) String.prototype.reverse=function(){ 
+  var new_string = "";
+  for (var i = this.length - 1; i >= 0; i--){
+    new_string += this[i];
+  };
+  return new_string
+}
 
 
 // =======

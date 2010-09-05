@@ -45,6 +45,7 @@ class Timer < ActiveRecord::Base
   # ===============
   # = Validations =
   # ===============
+  validates_inclusion_of :total_time, :in => -2147483648..2147483647, :message => "is out of range."
   validates_presence_of :associated_task
   validates_format_of :hours, :with => /^\d+$|^\d+\.\d+$|^\d+:\d{2}$/
   
