@@ -1,6 +1,7 @@
 class Invoice < ActiveRecord::Base
   
   def after_initialize
+    self.invoice_emails ||= []
   end
   
   # ================
