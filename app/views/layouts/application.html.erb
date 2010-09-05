@@ -8,7 +8,6 @@
 	<title><%= yield(:title) || "#{cname}:#{aname}" %></title>
 	<link rel="shortcut icon" href="/favicon.ico" >
 	
-	<%= javascript_include_tag 'jquery', 'jquery-ui', 'application', :cache => false %>
 	<%= stylesheet_link_tag 'application', 'validation', :cache => false %>
 	
 	<%= yield(:head) %>
@@ -46,7 +45,10 @@
 			</div>
 		</div>
 	</div>
+	<%= javascript_include_tag 'jquery', 'jquery-ui', 'jquery_extensions', 'application', :cache => false %>
+	<%= yield :javascript %>
 	<%= yield :document_ready %>
+	
 	
 </body>
 </html>

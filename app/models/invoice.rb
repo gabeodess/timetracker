@@ -7,7 +7,6 @@ class Invoice < ActiveRecord::Base
   # = Associations =
   # ================
   belongs_to :client
-  # has_many :contacts, :through => :client
   has_many :timers
   
   def contacts
@@ -22,7 +21,6 @@ class Invoice < ActiveRecord::Base
   # = Attributes =
   # ==============
   attr_accessor :invoice_emails, :email_ids
-  # attr_accessible :email_ids
   attr_protected :info, :invoice_emails
   
   # ===============
@@ -37,7 +35,7 @@ class Invoice < ActiveRecord::Base
   before_create :print_receipt
   
   def email_invoice
-    Mailer.deliver_invoice(self)
+    Mailer.deliver_invoice(self) unless invoice_emails.empty?
   end
   
   def clean_timers
@@ -46,12 +44,12 @@ class Invoice < ActiveRecord::Base
     end
   end
   
-  def print_receipt
+  def print_receipt(all_timers = timers)
     receipt = {:projects => {}, :hours => 0, :total => 0}
 
-    projects = timers.map{ |item| item.project.name }.uniq
+    projects = all_timers.map{ |item| item.project.name }.uniq
     projects.each do |project|
-      my_timers = timers.select{ |item| item.project_name == project }
+      my_timers = all_timers.select{ |item| item.project_name == project }
       puts my_timers.map{ |item| item.attributes.merge!({
         :billing_rate => item.user.billing_rate,
         :task_name => item.task_name,

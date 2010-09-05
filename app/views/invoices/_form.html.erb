@@ -1,34 +1,68 @@
+<%- content_for :head do -%>
+	<style type="text/css" media="screen">
+		#new_invoice div{
+			float:left;
+			position:relative;
+			clear:both;
+		}
+		#new_invoice li{
+			float:left;
+			position:relative;
+			clear:both;
+		}
+	</style>
+<%- end -%>
+<%- content_for :javascript do -%>
+<script type="text/javascript" charset="utf-8">
+	function calculate_total(){
+		var sum = 0;
+		
+		$('.project_total_cost').each(function(){
+			sum += currency_to_float($(this).text());
+		});
+		
+		$('#invoice_total').text(number_to_currency(sum));
+		
+		return sum
+	}
+	
+	function calculate_project_totals(){
+		$("table.project").each(function(){
+			var items_for_tally = [];
+			
+			$(this).find("tr.timer").each(function(){
+				if($(this).find('input.include_timer:checked').length > 0){
+					items_for_tally.push(currency_to_float($(this).find('.timer_cost').text()));
+				}
+			});
+			var sum = items_for_tally.sum();
+			$(this).find('.project_total_cost').text(number_to_currency(sum));
+		});
+		
+		calculate_total();
+	}
+	
+	function tally_items(items){
+		sum = 0;
+		$.each(items, function(item){ 
+			sum += parseFloat(item.replace("$",''));
+		});
+	}
+	
+	$(function(){
+		$("input.include_timer").click(function(){
+			calculate_project_totals();
+		});
+	});
+</script>
+<%- end -%>
+
 <% form_for @invoice do |f| %>
   <%= f.error_messages %>
   <%= f.hidden_field :client_id %>
 
 	<% if !@invoice.uninvoiced_timers.blank? %>
-	<table>
-		<thead>
-			<tr>
-				<td></td>
-				<td>Task</td>
-				<td>Project</td>
-				<td>Hours</td>
-				<td>Start Date</td>
-				<td>Notes</td>
-			</tr>
-		</thead>
-		<tbody>
-	  <% for timer in @invoice.uninvoiced_timers %>
-	    <tr>
-				<td>
-					<%= check_box_tag "invoice[invoicing_timer_ids][]", timer.id, true %>
-				</td>
-				<td><%= timer.task.name %></td>
-				<td><%= timer.project.name %></td>
-				<td><%= timer.hours.to_time %></td>
-				<td><%= timer.created_at %></td>
-				<td><%= timer.notes %></td>
-			</tr>
-	  <% end %>
-		</tbody>
-	</table>
+	<%= render '/mailer/invoice', :include_check_boxes => true %>
 	<% end %>
 	
 	<hr/>

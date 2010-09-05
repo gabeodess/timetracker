@@ -13,6 +13,7 @@ class InvoicesController < ApplicationController
   
   def new
     @invoice = Invoice.new(params[:invoice])
+    @invoice.print_receipt(@invoice.uninvoiced_timers)
   end
   
   def create
@@ -43,6 +44,6 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.find(params[:id])
     @invoice.destroy
     flash[:notice] = "Successfully destroyed invoice."
-    redirect_to invoices_url
+    redirect_to @invoice.client
   end
 end

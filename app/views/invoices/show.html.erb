@@ -2,7 +2,7 @@
 <p class='clear'>
   <%= link_to_edit @invoice, :text => 'Edit' %> |
   <%= link_to_destroy @invoice, :text => 'Destroy' %> |
-  <%= link_to "View All", invoices_path %>
+  <%= link_to "Back To Client", @invoice.client %>
 </p>
 
 <hr>
