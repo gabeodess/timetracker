@@ -1,38 +1,5 @@
-<h1>Invoice</h1>
-
-<p>
-  <strong>Client:</strong>
-	<%= link_to_show @invoice.client, :text => @invoice.client.name %>
-</p>
-<p>
-  <strong>Info:</strong>
-	<%=h @invoice.info %>
-</p>
-
-<% if !@invoice.timers.blank? %>
-<table>
-  <% for timer in @invoice.timers %>
-    <tr>
-			<td><%= timer.task.name %></td>
-			<td><%= timer.project.name %></td>
-			<td><%= timer.readable_hours %></td>
-			<td><%= timer.created_at %></td>
-		</tr>
-  <% end %>
-</table>
-<% end %>
-
-<p>
-	<strong>Total:</strong>
-	<%= @invoice.total_hours %>
-</p>
-
-<p>
-	<strong>Outstanding Balance:</strong>
-	<%= @invoice.total_cost %>
-</p>
-
-<p>
+<%= render '/mailer/invoice' %>
+<p class='clear'>
   <%= link_to_edit @invoice, :text => 'Edit' %> |
   <%= link_to_destroy @invoice, :text => 'Destroy' %> |
   <%= link_to "View All", invoices_path %>
@@ -46,7 +13,7 @@
   	<% if !@invoice.contacts.blank? %>
   	  <% for contact in @invoice.contacts %>
   	    <li>
-  	    	<%= check_box_tag :"invoice[:email_ids][]", contact.id, true, :id => "invoice_email_id_#{contact.id}" %>
+  	    	<%= check_box_tag :"invoice[email_ids][]", contact.id, true, :id => "invoice_email_id_#{contact.id}" %>
 					<%= label_tag "invoice_email_id_#{contact.id}", contact.full_name %>
   	    </li>
   	  <% end %>

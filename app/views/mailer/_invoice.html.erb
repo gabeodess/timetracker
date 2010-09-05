@@ -1,0 +1,45 @@
+<div style='background-color: #333; padding: 40px 0;'>
+	<div style='background-color: #EEE;
+	margin: auto;
+	padding: 20px;
+	width: 60%;'>
+		<h1>Invoice <%= @invoice.id %></h1>
+
+		Amount due: $<%= @invoice.total.to_time %>
+
+		<ul style="list-style:none">
+			<%- @invoice.load_info[:projects].each do |name, stats| -%>
+				<li style='display:block'><h2><%= name %></h2></li>
+				<li style='display:block'>
+					<table border="1" cellspacing="0" cellpadding="1">
+						<thead>
+							<tr>
+								<th>Task</th>
+								<th>Notes</th>
+								<th>Billing Rate</th>
+								<th>Hours</th>
+								<th>Cost</th>
+							</tr>
+						</thead>
+						<tbody>
+							<%- stats[:timers].sort_by{ |item| item[:task_name] }.each do |timer| -%>
+							<tr>
+								<td><%= timer[:task_name] %></td>
+								<td><%= timer["notes"] %></td>
+								<td><%= number_to_currency(timer[:billing_rate]) %>/hr</td>
+								<td><%= timer[:hours].to_time %></td>
+								<td><%= number_to_currency(timer[:hours] * timer[:billing_rate]) %></td>
+							</tr>
+							<%- end -%>
+							<tr>
+								<td colspan=3>Total</td>
+								<td><%= stats[:hours].try(:to_time) %>&nbsp;hours</td>
+								<td>$<%= stats[:total] %></td>
+							</tr>
+						</tbody>
+					</table>
+				</li>
+			<%- end -%>
+		</ul>
+	</div>
+</div>

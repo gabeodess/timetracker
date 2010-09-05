@@ -22,6 +22,7 @@ class Invoice < ActiveRecord::Base
   # = Attributes =
   # ==============
   attr_accessor :invoice_emails, :email_ids
+  # attr_accessible :email_ids
   attr_protected :info, :invoice_emails
   
   # ===============
@@ -32,7 +33,8 @@ class Invoice < ActiveRecord::Base
   # = Hooks =
   # =========
   after_destroy :clean_timers
-  after_create :email_invoice
+  after_save :email_invoice
+  before_create :print_receipt
   
   def email_invoice
     Mailer.deliver_invoice(self)
@@ -44,9 +46,39 @@ class Invoice < ActiveRecord::Base
     end
   end
   
+  def print_receipt
+    receipt = {:projects => {}, :hours => 0, :total => 0}
+
+    projects = timers.map{ |item| item.project.name }.uniq
+    projects.each do |project|
+      my_timers = timers.select{ |item| item.project_name == project }
+      puts my_timers.map{ |item| item.attributes.merge!({
+        :billing_rate => item.user.billing_rate,
+        :task_name => item.task_name,
+        :hours => item.hours
+      })}.inspect
+      receipt[:projects][project] = {
+        :hours => my_timers.map(&:hours).sum, 
+        :total => my_timers.map(&:total_cost).sum,
+        :timers => my_timers.map{ |item| item.attributes.merge!({
+          :billing_rate => item.user.billing_rate,
+          :task_name => item.task_name,
+          :hours => item.hours
+        })}
+      }
+    end
+    
+    self.info = receipt.to_yaml
+    return self
+  end
+  
   # ====================
   # = Instance Methods =
-  # ====================  
+  # ====================
+  def load_info
+    YAML.load(info)
+  end
+  
   def total_hours
     timers.map{ |item| item.hours }.sum
   end

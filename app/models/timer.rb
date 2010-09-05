@@ -51,12 +51,20 @@ class Timer < ActiveRecord::Base
   # ====================
   # = Instance Methods =
   # ====================
+  def total_cost
+    hours * user.billing_rate
+  end
+  
   def client_name
     associated_task.project.client.name
   end
   
   def project_name
     associated_task.project.name
+  end
+  
+  def task_name
+    associated_task.task.name
   end
   
   def calculate_total_time
@@ -103,6 +111,7 @@ class Timer < ActiveRecord::Base
   def readable_hours
     [hours.to_i, ':', ((hours - hours.to_i) * 60).round]
   end
+  alias_method :hours_readable, :readable_hours
   
   def timer_action
     timer_running? ? stop_timer_display : start_timer_display
