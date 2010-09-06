@@ -13,8 +13,11 @@ $(document).ready(function(){
 	// ================
 	// = Flash Notice =
 	// ================
-	$('#content_for_flash').show('blind', {direction:'vertical'}, 500);
-	$('#content_for_flash').fadeOut(10000);
+	var flash = $('#content_for_flash');
+	var height = flash.height();
+	flash.height(0);
+  $('#content_for_flash').animate({height:20}, 500);
+  // $('#content_for_flash').fadeOut(10000);
 	
 	
 	// $(".gallery").gallery();
