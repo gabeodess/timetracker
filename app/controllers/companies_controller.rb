@@ -36,7 +36,7 @@ class CompaniesController < ApplicationController
   end
   
   def destroy
-    @company = Company.find(params[:id])
+    @company = Company.find_by_url_id(params[:id])
     @company.destroy
     flash[:notice] = "Successfully destroyed company."
     redirect_to current_user
