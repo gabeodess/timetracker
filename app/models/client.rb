@@ -18,6 +18,9 @@ class Client < ActiveRecord::Base
   end
   def timers
     return timer_ids.empty? ? [] : Timer.id_is_any(timer_ids) 
+  end
+  def uninvoiced_timers
+    return timer_ids.empty? ? [] : timers.invoice_id_is(nil)
   end  
   
   # ==============
@@ -34,6 +37,14 @@ class Client < ActiveRecord::Base
   # ====================
   # = Instance Methods =
   # ====================
+  def uninvoiced_hours
+    @uninvoiced_hours ||= uninvoiced_timers.map(&:hours).map(&:to_f).sum
+  end
+  
+  def uninvoiced_balance
+    uninvoiced_timers.map{ |item| item.hours.to_f * item.billing_rate.to_f }.sum
+  end
+  
   def total_time
     @total_time ||= timers.map(&:total_time).sum
   end
@@ -43,7 +54,7 @@ class Client < ActiveRecord::Base
   end
     
   def total_due
-    @total_due ||= timers.map{ |item| item.hours.to_f * item.user.billing_rate.to_f }.sum
+    @total_due ||= timers.map{ |item| item.hours.to_f * item.billing_rate.to_f }.sum
   end
   
   def total_paid

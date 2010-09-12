@@ -52,6 +52,10 @@ class Timer < ActiveRecord::Base
   # ====================
   # = Instance Methods =
   # ====================
+  def billing_rate
+    user.billing_rate
+  end
+  
   def total_cost
     hours * user.billing_rate
   end

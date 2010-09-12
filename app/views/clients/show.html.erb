@@ -9,7 +9,15 @@
 	<%=h @client.company_id %>
 </p>
 <p>
-	<strong>Hours:</strong>
+	<strong>Un-invoiced Hours:</strong>
+	<%= @client.uninvoiced_hours %>
+</p>
+<p>
+	<strong>Un-Invoiced Balance:</strong>
+	<%= number_to_currency(@client.uninvoiced_balance) %>
+</p>
+<p>
+	<strong>Total Hours:</strong>
 	<%= @client.hours %>
 </p>
 <p>
