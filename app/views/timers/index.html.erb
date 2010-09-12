@@ -37,7 +37,7 @@
 			<td>
 				<%- form_for timer do |f| -%>
 					<%= hidden_field_tag :"timer[toggle_timer]", true %>
-					<%= f.submit timer.timer_action %>
+					<%= f.submit timer.timer_action, :class => "#{'running_timer' if timer.running?}" %>
 				<%- end -%>
 			</td>
 			<td><%=h timer.project_name %></td>

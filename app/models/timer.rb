@@ -125,6 +125,7 @@ class Timer < ActiveRecord::Base
   def timer_running?
     timer_started_at?
   end
+  alias_method :running?, :timer_running?
   
   def start_timer_display
     "start timer"
