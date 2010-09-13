@@ -42,7 +42,7 @@
 			</td>
 			<td><%=h timer.project_name %></td>
 			<td><%=h timer.associated_task.task.name %></td>
-			<td><%=h timer.client_name %></td>
+			<td><%= link_to timer.client_name, timer.client %></td>
 	    <td><%= link_to_crud timer %></td>
     </tr>
   <% end %>

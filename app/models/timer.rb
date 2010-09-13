@@ -29,6 +29,10 @@ class Timer < ActiveRecord::Base
     Company.id_is(company_id).first
   end
   
+  def client
+    project.client
+  end
+  
   # ==============
   # = Attributes =
   # ==============
