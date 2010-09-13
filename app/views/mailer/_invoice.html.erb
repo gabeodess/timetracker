@@ -15,9 +15,20 @@ width:100%;">
 	margin:auto;
 	padding:20px;
 	width:60%;'>
-		<h1>Invoice <%= @invoice.id %></h1>
-
-		Amount due: <span id='invoice_total'><%= number_to_currency(@invoice.total) %></span>
+		<h1>Invoice ID: <%= @invoice.id %></h1>
+		
+		<p>
+			<strong>Invoice From:</strong>
+			<%= @invoice.company.name %>
+		</p>
+		<p>
+			<strong>Amount due:</strong>
+			<span id='invoice_total'><%= number_to_currency(@invoice.total) %></span>
+		</p>
+		<p>
+			<strong>Invoice Issue Date:</strong>
+			<%= Date.today %>
+		</p>
 
 		<ul style="list-style:none">
 			<%- @invoice.load_info[:projects].each do |name, stats| -%>
