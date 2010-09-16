@@ -156,15 +156,6 @@ pre{
         background:#efefef;
       }
 
-/* ================ */
-/* = Quick Styles = */
-/* ================ */
-.floatright{float:right;}
-.floatleft{float:left;}
-.clearboth{clear:both;}
-.clear{clear:both;}
-.padlr{padding:0 20px;}
-.padtb{padding:20px 0;}
 
 /* ================ */
 /* = Flash Notice = */
@@ -203,3 +194,15 @@ input.running_timer{
 	background-color:green;
 	color:white;
 }
+
+
+/* ================ */
+/* = Quick Styles = */
+/* ================ */
+.floatright{float:right;}
+.floatleft{float:left;}
+.clearboth{clear:both;}
+.clear{clear:both;}
+.padlr{padding:0 20px;}
+.padtb{padding:20px 0;}
+.background-grey{background:#eee;}

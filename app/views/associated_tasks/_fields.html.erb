@@ -1,0 +1,6 @@
+<%= f.hidden_field :project_id %>
+<%= f.hidden_field :task_id %>
+<%= f.check_box :_destroy, {:checked => !f.object.new_record?}, 0, 1 %>
+<%= f.object.task.name %>,
+<%= f.label :billing_rate, "Billing Rate" %>
+$<%= f.text_field :billing_rate, :size => 3 %>/hr

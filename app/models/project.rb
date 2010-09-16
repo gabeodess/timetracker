@@ -8,6 +8,12 @@ class Project < ActiveRecord::Base
   # ================
   belongs_to :client
   has_many :associated_tasks, :dependent => :destroy
+  accepts_nested_attributes_for(
+    :associated_tasks, 
+    :allow_destroy => true, 
+    :reject_if => proc { |obj| obj.delete('_destroy') == "1" }
+  )
+  
   has_many :timers, :through => :associated_tasks
   has_many :tasks, :through => :associated_tasks
   has_many :assigned_projects, :dependent => :destroy
@@ -16,6 +22,7 @@ class Project < ActiveRecord::Base
   # ==============
   # = Attributes =
   # ==============
+  attr_accessor :billing
   attr_protected :client_id
   
   # =========

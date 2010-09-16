@@ -2,6 +2,7 @@ class TimersController < ApplicationController
   before_filter :get_collections
   def index
     @timers = current_company.timers.user_id_is(current_user.id).paginate(:page => params[:page], :conditions => "invoice_id is null")
+    @clients = @timers.map(&:client).uniq.sort_by(&:name)
   end
   
   def show

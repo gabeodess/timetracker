@@ -1,8 +1,5 @@
 class AssociatedTask < ActiveRecord::Base
-  
-  def after_initialize
-  end
-  
+    
   # ================
   # = Associations =
   # ================
@@ -15,6 +12,7 @@ class AssociatedTask < ActiveRecord::Base
   # ==============
   # = Attributes =
   # ==============
+  attr_accessor :billing_rate
   
   # ===============
   # = Validations =

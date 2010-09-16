@@ -11,12 +11,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
   end
   
-  def new
-    # @project = Project.new(params[:project])
-  end
-  
   def create
-    # @project = Project.new(params[:project])
     if @project.save
       flash[:notice] = "Successfully created project."
       redirect_to @project
@@ -24,14 +19,10 @@ class ProjectsController < ApplicationController
       render :action => 'new'
     end
   end
-  
-  def edit
-    @project = Project.find(params[:id])
-  end
-  
+    
   def update
     @project = Project.find(params[:id])
-    params[:project][:task_ids] ||= []
+    # params[:project][:task_ids] ||= []
     if @project.update_attributes(params[:project])
       flash[:notice] = "Successfully updated project."
       redirect_to @project
@@ -51,6 +42,9 @@ class ProjectsController < ApplicationController
   def get_collections
     @clients = current_company.clients
     @tasks = current_company.tasks
+    @tasks.each do |task|
+      @project.associated_tasks.build(:task => task) unless @project.tasks.include?(task)
+    end
   end
   
   def new_controller_object_from_params(*args)
