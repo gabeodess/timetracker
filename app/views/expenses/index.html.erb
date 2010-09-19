@@ -1,0 +1,25 @@
+<h1>Expenses</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Cost</th>
+    <th>Invoice</th>
+    <th>Project</th>
+  </tr>
+  <% for expense in @expenses %>
+    <tr>
+			<td><%=h expense.name %></td>
+		  <td><%=h number_to_currency(expense.cost) %></td>
+			<td><%=h expense.invoice_id %></td>
+			<td><%=h expense.project_id %></td>
+	    <td><%= link_to_crud expense %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate %>
+
+<p><%= link_to_new :expense, :text => "New Expense" %></p>

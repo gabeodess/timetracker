@@ -27,6 +27,24 @@
   <%= link_to "View All", projects_path %>
 </p>
 
+<div id="expenses">
+	<h2>Expenses</h2>
+	<ul>
+		<% if !@project.expenses.blank? %>
+		  <% for expense in @project.expenses %>
+		    <li>
+		    	<%= number_to_currency(expense.cost) %>
+					(<%= expense.name %>)
+		    </li>
+		  <% end %>
+		<% end %>
+		
+	</ul>
+	<p>
+		<%= link_to "new expense", new_expense_path(:"expense[project_id]" => @project) %>
+	</p>
+</div>
+
 <div>
 	<h2>Tasks</h2>
 	<ul>

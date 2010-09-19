@@ -64,7 +64,7 @@
   <%= f.hidden_field :client_id %>
 
 	<% if !@invoice.uninvoiced_timers.blank? %>
-	<%= render '/mailer/invoice', :include_check_boxes => true %>
+		<%= render '/mailer/invoice', :include_check_boxes => true %>
 	<% end %>
 	
 	<hr/>

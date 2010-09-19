@@ -9,6 +9,7 @@ class Invoice < ActiveRecord::Base
   # ================
   belongs_to :client
   has_many :timers
+  has_many :expenses
   
   def contacts
     client.contacts
@@ -22,7 +23,7 @@ class Invoice < ActiveRecord::Base
   # = Attributes =
   # ==============
   attr_accessor :invoice_emails, :email_ids
-  attr_protected :info, :invoice_emails
+  attr_protected :info, :invoice_emails, :timer_ids, :expense_ids
   
   # ===============
   # = Validations =
@@ -104,6 +105,10 @@ class Invoice < ActiveRecord::Base
   
   def invoicing_timer_ids=(ids)
     self.timers = client.timers.id_is_any(ids)
+  end
+  
+  def invoicing_expense_ids=(ids)
+    self.expenses = client.expenses.id_is_any(ids)
   end
   
 end

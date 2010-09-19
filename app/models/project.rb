@@ -18,6 +18,7 @@ class Project < ActiveRecord::Base
   has_many :tasks, :through => :associated_tasks
   has_many :assigned_projects, :dependent => :destroy
   has_many :users, :through => :assigned_projects
+  has_many :expenses, :dependent => :destroy
   
   # ==============
   # = Attributes =

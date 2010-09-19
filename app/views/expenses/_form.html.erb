@@ -1,0 +1,14 @@
+<% form_for @expense do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :your_cost, "Cost" %><br />
+    $<%= f.text_field :your_cost %>
+  </p>
+  <%= f.hidden_field :invoice_id %>
+  <%= f.hidden_field :project_id %>
+  <p><%= f.submit "Submit" %></p>
+<% end %>

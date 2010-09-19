@@ -1,6 +1,10 @@
 authorization do
   role :guest do
     
+    has_permission_on :expenses, :to => :manage do
+      if_permitted_to :manage, :project
+    end
+    
     has_permission_on :invoices, :to => :manage do
       if_permitted_to :manage, :client
     end

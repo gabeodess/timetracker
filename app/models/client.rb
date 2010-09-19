@@ -7,12 +7,12 @@ class Client < ActiveRecord::Base
   # = Associations =
   # ================
   has_many :projects, :dependent => :destroy
+  has_many :expenses, :through => :projects
   has_many :associated_tasks, :through => :projects
   has_many :tasks, :through => :projects
   has_many :contacts, :dependent => :destroy
   has_many :invoices, :dependent => :destroy
   belongs_to :company
-  
   def timer_ids
     associated_tasks.map(&:timers).flatten.map(&:id)
   end
@@ -21,7 +21,7 @@ class Client < ActiveRecord::Base
   end
   def uninvoiced_timers
     return timer_ids.empty? ? [] : timers.invoice_id_is(nil)
-  end  
+  end 
   
   # ==============
   # = Attributes =

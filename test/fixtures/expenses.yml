@@ -1,0 +1,11 @@
+one:
+  name: MyString
+  cost: 9.99
+  invoice_id: 1
+  project_id: 1
+
+two:
+  name: MyString
+  cost: 9.99
+  invoice_id: 1
+  project_id: 1
