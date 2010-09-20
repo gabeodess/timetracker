@@ -3,11 +3,11 @@ class InvoicesController < ApplicationController
   filter_resource_access
   
   def index
-    @invoices = Invoice.paginate(:page => params[:page])
+    @invoices = current_company.invoices.paginate(:page => params[:page])
   end
   
   def show
-    @invoice = Invoice.find(params[:id])
+    @invoice = current_company.invoices.find(params[:id])
     @info = @invoice.load_info
   end
   
@@ -27,11 +27,11 @@ class InvoicesController < ApplicationController
   end
   
   def edit
-    @invoice = Invoice.find(params[:id])
+    @invoice = current_company.invoices.find(params[:id])
   end
   
   def update
-    @invoice = Invoice.find(params[:id])
+    @invoice = current_company.invoices.find(params[:id])
     if @invoice.update_attributes(params[:invoice])
       flash[:notice] = "Successfully updated invoice."
       redirect_to @invoice

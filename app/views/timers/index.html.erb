@@ -15,7 +15,7 @@
 	<tbody>
 		<% if !@clients.blank? %>
 		  <% for client in @clients %>
-		    <tr class='background-grey'><td colspan='6'><h2><%= client.name %></h2></td></tr>
+		    <tr class='background-grey'><td colspan='6'><h2><%= link_to client.name, client %></h2></td></tr>
 			  <% for timer in @timers.select{ |item| item.client.id == client.id } %>
 					<%- if timer.timer_running? -%>
 						<%- content_for :document_ready do -%>

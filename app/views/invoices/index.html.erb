@@ -5,12 +5,12 @@
 <table>
   <tr>
     <th>Client</th>
-    <th>Info</th>
+    <th>Date</th>
   </tr>
   <% for invoice in @invoices %>
     <tr>
-			<td><%=h invoice.client_id %></td>
-			<td><%=h invoice.info %></td>
+			<td><%= link_to h(invoice.client.name), invoice.client %></td>
+			<td><%=h invoice.created_at.to_s %></td>
 	    <td><%= link_to_crud invoice %></td>
     </tr>
   <% end %>
