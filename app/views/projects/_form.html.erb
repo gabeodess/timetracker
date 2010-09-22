@@ -21,21 +21,10 @@
 	
 	<div id='associated_tasks'>
 		<h2>Associated Tasks</h2>
-		<%= debug f.object.associated_tasks.length %>
     <%- f.fields_for :associated_tasks do |form| -%>
 			<div><%= render '/associated_tasks/fields', :f => form %></div>
 		<%- end -%>
 	</div>
-	
-	<!-- <div>
-		<% if !@tasks.blank? %>
-		<h2>Select Tasks</h2>
-		  <% for task in @tasks %>
-		    <div><%= check_box_tag :"project[task_ids][]", task.id, @project.new_record? ? task.default : @project.task_ids.include?(task.id), :id => "task_#{task.id}" %>
-				<%= label_tag :"task_#{task.id}", task.name %></div>
-		  <% end %>
-		<% end %>
-	</div> -->
-	
+		
   <p><%= f.submit "Submit" %></p>
 <% end %>
