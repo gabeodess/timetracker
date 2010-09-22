@@ -11,7 +11,7 @@ class Project < ActiveRecord::Base
   accepts_nested_attributes_for(
     :associated_tasks, 
     :allow_destroy => true, 
-    :reject_if => proc { |obj| obj.delete('_destroy') == "1" }
+    :reject_if => proc { |obj| puts obj['_destroy'] == "1"; obj.delete('_destroy') == "1" }
   )
   
   has_many :timers, :through => :associated_tasks
@@ -20,11 +20,14 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :assigned_projects
   has_many :expenses, :dependent => :destroy
   
+  def company
+    client.company
+  end
+  
   # ==============
   # = Attributes =
   # ==============
   attr_accessor :billing
-  attr_protected :client_id
   
   # =========
   # = Hooks =

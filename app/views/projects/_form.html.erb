@@ -21,6 +21,7 @@
 	
 	<div id='associated_tasks'>
 		<h2>Associated Tasks</h2>
+		<%= debug f.object.associated_tasks.length %>
     <%- f.fields_for :associated_tasks do |form| -%>
 			<div><%= render '/associated_tasks/fields', :f => form %></div>
 		<%- end -%>

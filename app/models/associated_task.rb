@@ -17,7 +17,7 @@ class AssociatedTask < ActiveRecord::Base
   # ===============
   # = Validations =
   # ===============
-  validates_presence_of :project
+  validates_presence_of :project, :on => :update
   validates_presence_of :task
   
   # ====================

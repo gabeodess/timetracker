@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   filter_resource_access
   
-  before_filter :get_collections, :only => [:new, :create, :edit, :update]
+  before_filter :get_collections, :only => [:new, :edit]
   
   def index
     @projects = current_company.projects.paginate(:page => params[:page])
@@ -16,6 +16,7 @@ class ProjectsController < ApplicationController
       flash[:notice] = "Successfully created project."
       redirect_to @project
     else
+      get_collections
       render :action => 'new'
     end
   end
@@ -27,6 +28,7 @@ class ProjectsController < ApplicationController
       flash[:notice] = "Successfully updated project."
       redirect_to @project
     else
+      get_collections
       render :action => 'edit'
     end
   end
@@ -49,7 +51,10 @@ class ProjectsController < ApplicationController
   
   def new_controller_object_from_params(*args)
     @project = Project.new(params[:project])
-    @project.client_id = params[:project].try(:[], :client_id)
+  	
+    @project.client_id = params[:project].try(:[], 'client_id')
+    
+    # raise @project.client.inspect
   end
   
 end
