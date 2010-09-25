@@ -36,9 +36,9 @@ class Client < ActiveRecord::Base
   
   # ====================
   # = Instance Methods =
-  # ====================
+  # ====================  
   def uninvoiced_hours
-    @uninvoiced_hours ||= uninvoiced_timers.map(&:hours).map(&:to_f).sum
+    @uninvoiced_hours ||= uninvoiced_timers.map(&:hours).sum
   end
   
   def uninvoiced_balance

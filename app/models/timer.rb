@@ -98,23 +98,9 @@ class Timer < ActiveRecord::Base
     # => returns all running timers from this user and this company and this day.
     sibling_timers.timer_started_at_gt(Time.now.beginning_of_day).all(:conditions => "timer_started_at is not null")
   end
-  
-  def start_timer
-    # => Stop all timers for this user from this company for today.
-    todays_running_siblings.each do |timer|
-      timer.stop_timer
-    end
-    self.timer_started_at = Time.now #unless created_at < Time.now.beginning_of_day
-  end
-  
-  def stop_timer
-    Timer.update_all(
-      {:total_time => total_time.to_i + (Time.now - timer_started_at), :timer_started_at => nil}, {:id => id}
-    )
-  end
-  
+    
   def hours
-    @hours ||= (total_time.to_f/3600).to_f.round_with_precision(2)
+    @hours ||= (total_time.to_f/3600)
   end
   
   def readable_hours
@@ -161,6 +147,23 @@ class Timer < ActiveRecord::Base
     else
       start_timer
     end
+  end
+  
+  # ==================
+  # = Update Methods =
+  # ==================
+  def start_timer
+    # => Stop all timers for this user from this company for today.
+    todays_running_siblings.each do |timer|
+      timer.stop_timer
+    end
+    self.timer_started_at = Time.now #unless created_at < Time.now.beginning_of_day
+  end
+  
+  def stop_timer
+    Timer.update_all(
+      {:total_time => total_time.to_i + (Time.now - timer_started_at), :timer_started_at => nil}, {:id => id}
+    )
   end
   
 end

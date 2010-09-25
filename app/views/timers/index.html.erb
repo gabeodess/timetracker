@@ -8,47 +8,67 @@
 	    <th>Notes</th>
 	    <th>Total Time</th>
 	    <th>Status</th>
-			<th>Project</th>
 	    <th>Task</th>
 	  </tr>
 	</thead>
 	<tbody>
 		<% if !@clients.blank? %>
 		  <% for client in @clients %>
-		    <tr class='background-grey'><td colspan='6'><h2><%= link_to client.name, client %></h2></td></tr>
-			  <% for timer in @timers.select{ |item| item.client.id == client.id } %>
-					<%- if timer.timer_running? -%>
-						<%- content_for :document_ready do -%>
-							<script type="text/javascript" charset="utf-8">
-								function update_time(){
-									$.ajax({
-										url:"<%= url_for(timer) %>",
-										dataType:'xml',
-										success:function(xml){
-											$("#hours_for_<%= timer.id %>").html($(xml).find("calculate-total-time-in-hours").text());
+		    <tr class='background-drkgrey'>
+					<td colspan='5'>
+						<h2>
+							<%= link_to client.name, client %>
+							<%= client.uninvoiced_hours.to_time %>
+						</h2>
+					</td>
+				</tr>
+				<%- timers = @timers.select{ |item| item.client.id == client.id } -%>
+				<%- projects = timers.map(&:project).uniq -%>
+				<% if !projects.blank? %>
+				  <% for project in projects %>
+					  <tr class='background-grey'>
+							<td colspan='5'>
+								<h5 class='floatleft'>
+									<%= link_to project.name, project %>
+									(<%= project.uninvoiced_hours.to_time %>)
+								</h5>
+							</td>
+						</tr>
+				    <% for timer in timers.select{ |item| item.project.name == project.name } %>
+							<%- if timer.timer_running? -%>
+								<%- content_for :document_ready do -%>
+									<script type="text/javascript" charset="utf-8">
+										function update_time(){
+											$.ajax({
+												url:"<%= url_for(timer) %>",
+												dataType:'xml',
+												success:function(xml){
+													$("#hours_for_<%= timer.id %>").html($(xml).find("calculate-total-time-in-hours").text());
+												}
+											});
 										}
-									});
-								}
-								$(function(){
-									update_time();
-									setInterval(function(){update_time()}, 30000)
-								});
-							</script>
-						<%- end -%>
-					<%- end -%>
-			    <tr>
-						<td><%=h timer.notes %></td>
-						<td id="hours_for_<%= timer.id %>"><%=h timer.hours %></td>
-						<td>
-							<%- form_for timer do |f| -%>
-								<%= hidden_field_tag :"timer[toggle_timer]", true %>
-								<%= f.submit timer.timer_action, :class => "#{'running_timer' if timer.running?}" %>
+										$(function(){
+											update_time();
+											setInterval(function(){update_time()}, 30000)
+										});
+									</script>
+								<%- end -%>
 							<%- end -%>
-						</td>
-						<td><%=h timer.project_name %></td>
-						<td><%=h timer.associated_task.task.name %></td>
-				    <td><%= link_to_crud timer %></td>
-			    </tr>
+							<tr>
+								<td><%=h timer.notes %></td>
+								<td id="hours_for_<%= timer.id %>"><%=h timer.hours.to_time %></td>
+								<td>
+									<%- form_for timer do |f| -%>
+										<%= hidden_field_tag :"timer[toggle_timer]", true %>
+										<%= f.submit timer.timer_action, :class => "#{'running_timer' if timer.running?}" %>
+									<%- end -%>
+								</td>
+								<td><%=h timer.associated_task.task.name %></td>
+						    <td><%= link_to_crud timer %></td>
+					    </tr>
+					  <% end %>
+				<% end %>
+				
 			  <% end %>
 		  <% end %>
 		<% else %>

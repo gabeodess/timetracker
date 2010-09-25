@@ -20,6 +20,9 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :assigned_projects
   has_many :expenses, :dependent => :destroy
   
+  def uninvoiced_timers
+    timers.invoice_id_is(nil)
+  end
   def company
     client.company
   end
@@ -42,7 +45,11 @@ class Project < ActiveRecord::Base
   
   # ====================
   # = Instance Methods =
-  # ====================
+  # ====================  
+  def uninvoiced_hours
+    @uninvoiced_hour ||= uninvoiced_timers.map(&:hours).sum
+  end
+  
   def total_time
     timers.map{ |item| item.total_time }.sum
   end
