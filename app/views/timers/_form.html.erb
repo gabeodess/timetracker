@@ -26,7 +26,7 @@
   <%= f.error_messages %>
 	<p>
 		<%= label_tag :project %>:
-		<%= select_tag :project, options_for_select(["Select A Project"] + @projects.sort_by{ |item| item.client_id }.map{ |item| ["#{item.name} (#{item.client.name})", item.id] }, :selected => f.object.associated_task.try(:project_id)) %>
+		<%= project_select @projects, :selected => f.object.associated_task.try(:project_id) %>
 	</p>
 	<p>
 		<%= f.label :associated_task_id, "Task" %>: 
@@ -34,7 +34,7 @@
 	</p>
   <p>
     <%= f.label :notes %><br />
-    <%= f.text_area :notes, :col => 3, :rows => 3 %>
+    <%= f.text_area :notes, :cols => 15, :rows => 3 %>
   </p>
   <p>
     <%= f.label :hours, "Hours:" %>
