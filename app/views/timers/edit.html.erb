@@ -1,5 +1,10 @@
 <h1>Edit Timer</h1>
 
+<p>
+	Timer running since 
+	<%= @timer.timer_started_at.to_s(:default) %>
+</p>
+
 <%= render :partial => 'form' %>
 
 <p>

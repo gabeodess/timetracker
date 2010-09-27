@@ -11,12 +11,16 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
   
-  before_filter :login_required, :company_login_required
+  before_filter :login_required, :company_login_required, :mobile_setup
   before_filter :my_basic_auth, :redirect_no_www
   
   helper_method :current_company
     
   protected
+    def mobile_setup
+      # request.format = 'mobile' if request.user_agent.downcase =~ /mobile|webos/
+    end
+  
     def company_login_required
       
       unless current_company and current_company.user_ids.include?(current_user.id)
@@ -61,9 +65,4 @@ class ApplicationController < ActionController::Base
         end
       end
     end
-    
-    
-
-  # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
 end

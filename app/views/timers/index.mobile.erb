@@ -1,8 +1,5 @@
 <h1>Timers</h1>
 
-<p><%= link_to_new :timer, :text => "New Timer", :class => :new_timer %></p>
-<%= render 'form.html.erb' %>
-
 <%= will_paginate %>
 
 <table>
@@ -82,20 +79,3 @@
 </table>
 
 <%= will_paginate %>
-
-<%- content_for :document_ready do -%>
-<script type="text/javascript" charset="utf-8">
-	function toggle_form(){
-		if($("#new_timer").css('display') == 'block'){
-			$("#new_timer").hide();
-		}else{
-			$("#new_timer").show();
-		}
-	}
-	
-	$(function(){
-		$("#new_timer").hide();
-		$('a.new_timer').click(function(){toggle_form(); return false;});
-	});
-</script>
-<%- end -%>

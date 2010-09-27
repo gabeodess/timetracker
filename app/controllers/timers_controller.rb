@@ -3,6 +3,10 @@ class TimersController < ApplicationController
   def index
     @timers = current_company.timers.user_id_is(current_user.id).paginate(:page => params[:page], :conditions => "invoice_id is null")
     @clients = @timers.map(&:client).uniq.sort_by(&:name)
+    respond_to do |format|
+      format.html
+      format.mobile
+    end
   end
   
   def show
