@@ -2,7 +2,7 @@
 
 	<script type="text/javascript" charset="utf-8">
 	
-		var projects = <%= @projects.to_json(:only => [:id, :name], :include => [:tasks]) %>;
+		var projects = <%= @projects.to_json(:only => [:id, :name], :include => {:associated_tasks => {:include => :task}}) %>;
 	
 		$(function(){			
 			$("select#project").change(function(){
@@ -11,17 +11,17 @@
 				var project = projects.detect(function(item){
 					return item.project.id == select.val();
 				}).project;
-				var tasks = project.tasks.sort(function(a, b){
-					var array = [a.name, b.name];
+				var associated_tasks = project.associated_tasks.sort(function(a, b){
+					var array = [a.task.name, b.task.name];
 					var condition = array.toString() == array.sort().toString();
 					return condition ? -1 : 1;
 				});
 
 				timer_select.html('');
-				$.each(project.tasks, function(k, task){
+				$.each(project.associated_tasks, function(k, associated_task){
 					timer_select.append(
-						"<option value=" + task.id + ">" + 
-							task.name + 
+						"<option value=" + associated_task.id + ">" + 
+							associated_task.task.name + 
 						"</option>"
 					);
 				});

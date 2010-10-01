@@ -54,7 +54,7 @@ class TimersController < ApplicationController
     @timer = Timer.find(params[:id])
     @timer.destroy
     flash[:notice] = "Successfully destroyed timer."
-    redirect_to timers_url
+    redirect_to timers_url(:anchor => "project_#{@timer.project.id}")
   end
   
   protected
