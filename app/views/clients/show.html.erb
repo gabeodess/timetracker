@@ -10,7 +10,7 @@
 </p>
 <p>
 	<strong>Un-invoiced Hours:</strong>
-	<%= @client.uninvoiced_hours %>
+	<%= @client.uninvoiced_hours.to_time %>
 </p>
 <p>
 	<strong>Un-Invoiced Balance:</strong>
@@ -18,19 +18,19 @@
 </p>
 <p>
 	<strong>Total Hours:</strong>
-	<%= @client.hours %>
+	<%= @client.hours.to_time %>
 </p>
 <p>
 	<strong>Total due:</strong>
-	$<%= @client.total_due.to_f.round_with_precision(2) %>
+	<%= number_to_currency(@client.total_due) %>
 </p>
 <p>
 	<strong>Total paid:</strong>
-	$<%= @client.total_paid %>
+	<%= number_to_currency(@client.total_paid) %>
 </p>
 <p>
 	<strong>Outstanding Balance:</strong>
-	$<%= @client.outstanding_balance %>
+	<%= number_to_currency(@client.outstanding_balance) %>
 </p>
 
 <p>
