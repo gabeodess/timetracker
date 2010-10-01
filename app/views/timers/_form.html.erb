@@ -1,21 +1,29 @@
 <%- content_for :document_ready do -%>
+
 	<script type="text/javascript" charset="utf-8">
+	
+		var projects = <%= @projects.to_json(:only => [:id, :name], :include => [:tasks]) %>;
+	
 		$(function(){			
 			$("select#project").change(function(){
-				var url = '<%= associated_tasks_path(:"search[project_id]" => "JTAG") %>';
-				$.ajax({
-					url:url.replace("JTAG", $(this).val()),
-					dataType:'xml',
-					success:function(xml){
-						$('select#timer_associated_task_id').html('');
-						$(xml).find('associated-task').each(function(){
-							$('select#timer_associated_task_id').append(
-								"<option value=" + $(this).children('id').text() + ">" + 
-									$(this).find('task name').text() + 
-								"</option>"
-							);
-						});
-					}
+				var select = $(this);
+				var timer_select = $('select#timer_associated_task_id');
+				var project = projects.detect(function(item){
+					return item.project.id == select.val();
+				}).project;
+				var tasks = project.tasks.sort(function(a, b){
+					var array = [a.name, b.name];
+					var condition = array.toString() == array.sort().toString();
+					return condition ? -1 : 1;
+				});
+
+				timer_select.html('');
+				$.each(project.tasks, function(k, task){
+					timer_select.append(
+						"<option value=" + task.id + ">" + 
+							task.name + 
+						"</option>"
+					);
 				});
 			});
 		});

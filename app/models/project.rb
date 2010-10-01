@@ -35,6 +35,13 @@ class Project < ActiveRecord::Base
   # =========
   # = Hooks =
   # =========
+  after_create :add_to_users
+  
+  def add_to_users
+    users.each do |user|
+      user.projects << self
+    end
+  end
   
   # ===============
   # = Validations =

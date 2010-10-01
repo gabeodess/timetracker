@@ -35,6 +35,27 @@ function number_to_currency(item){
 // ============
 // = Array =
 // ============
+if (Array.prototype.detect==null) Array.prototype.detect=function(my_function){ 
+  var return_val = null;
+  if(typeof(my_function) == 'function'){
+    for (var i=0; i < this.length; i++) {
+      var item = this[i];
+      if(my_function(item)){
+        return item;
+      }
+    };
+  }else{
+    for (var i=0; i < this.length; i++) {
+      var item = this[i];
+      if(item == my_function){
+        return item;
+      }
+    };
+  }
+  
+  return null;
+}
+
 if (Array.prototype.sum==null) Array.prototype.sum=function(){ 
   var return_val = 0;
   for (var i=0; i < this.length; i++) {
