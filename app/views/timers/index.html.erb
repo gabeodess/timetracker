@@ -29,14 +29,14 @@
 				<%- projects = timers.map(&:project).uniq -%>
 				<% if !projects.blank? %>
 				  <% for project in projects %>
-					  <tr class='background-grey'>
-							<td colspan='5'>
-								<h5 class='floatleft'>
-									<%= link_to project.name, project %>
-									(<%= project.uninvoiced_hours.to_time %>)
-								</h5>
-							</td>
-						</tr>
+					<%- content_tag_for :tr, project, :class => 'background-grey' do -%>
+					<td colspan='5'>
+						<h5 class='floatleft'>
+							<%= link_to project.name, project %>
+							(<%= project.uninvoiced_hours.to_time %>)
+						</h5>
+					</td>
+					<%- end -%>
 				    <% for timer in timers.select{ |item| item.project.name == project.name } %>
 							<%- if timer.timer_running? -%>
 								<%- content_for :document_ready do -%>

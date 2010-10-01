@@ -72,17 +72,6 @@ $.fn.disableSelect = function(){
   };
 }
 
-$.fn.map = function(my_function){
-  // var original_item = this;
-  // var array = new Array
-  // for (var i=0; i < this.length; i++) {
-  //   array.push(my_function($(original_item[i])));
-  // }
-  // this.each(my_function);
-  // return array;
-}
-
-
 // ==========
 // = String =
 // ==========

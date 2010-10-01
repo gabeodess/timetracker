@@ -41,7 +41,7 @@ class TimersControllerTest < ActionController::TestCase
   
   def test_update_valid
     Timer.any_instance.stubs(:valid?).returns(true)
-    put :update, :id => Timer.first
+    put_with admin, :update, :id => Timer.first
     assert_redirected_to timer_url(assigns(:timer))
   end
   

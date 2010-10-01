@@ -2,12 +2,14 @@ one:
   notes: MyText
   total_time: 1
   timer_started_at: 2010-07-26 09:31:20
-  task_id: 1
+  invoice_id: 1
   user_id: 1
+  associated_task_id: 1
 
 two:
   notes: MyText
   total_time: 1
   timer_started_at: 2010-07-26 09:31:20
-  task_id: 1
+  invoice_id: 1
   user_id: 1
+  associated_task_id: 1

@@ -2,6 +2,7 @@ module ProjectsHelper
   
   def project_select(projects, options = {}, ofs_options = {})
     options[:include_blank] ||= "Select A Project"
+    ofs_options[:selected] ||= options[:selected]
     select_tag(:project, options_for_project_select(projects, ofs_options))
   end
   

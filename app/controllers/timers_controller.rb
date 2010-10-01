@@ -26,7 +26,7 @@ class TimersController < ApplicationController
     @timer.user_id = current_user.id
     if @timer.save
       flash[:notice] = "Successfully created timer."
-      redirect_to :timers
+      redirect_to timers_url(:anchor => "project_#{@timer.project_id}")
     else
       render :action => 'new'
     end
@@ -38,9 +38,10 @@ class TimersController < ApplicationController
   
   def update
     @timer = Timer.find(params[:id])
+    started_at = @timer.timer_started_at
     if @timer.update_attributes(params[:timer])
-      flash[:notice] = "Successfully updated timer."
-      redirect_to :timers
+      flash[:notice] = started_at == @timer.timer_started_at ? "Successfully updated timer." : (@timer.timer_started_at.nil? ? "Successfully stopped timer" : "Successfully started timer")
+      redirect_to timers_url(:anchor => "project_#{@timer.project.id}")
     else
       render :action => 'edit'
     end
