@@ -36,7 +36,7 @@
 						</tr>
 				    <% for timer in timers.select{ |item| item.project.name == project.name } %>
 							<%- if timer.timer_running? -%>
-								<%- content_for :document_ready do -%>
+								<%- content_for :javascript do -%>
 									<script type="text/javascript" charset="utf-8">
 										function update_time(){
 											$.ajax({

@@ -44,7 +44,7 @@ class TimersController < ApplicationController
     started_at = @timer.timer_started_at
     if @timer.update_attributes(params[:timer])
       flash[:notice] = started_at == @timer.timer_started_at ? "Successfully updated timer." : (@timer.timer_started_at.nil? ? "Successfully stopped timer" : "Successfully started timer")
-      redirect_to timers_url(:anchor => "project_#{@timer.project.id}")
+      redirect_to timers_url(:anchor => "project_#{@timer.project.id}", :format => 'mobile')
     else
       render :action => 'edit'
     end

@@ -1,5 +1,20 @@
 authorization do
+  role :guest do
+    
+    has_permission_on :users, :to => :create
+    has_permission_on :users, :to => :manage do
+      if_attribute :id => is{user.id}
+    end
+    
+    has_permission_on :companies, :to => :create
+    
+  end
+  
   role :admin do
+    
+    has_permission_on :companies, :to => :manage do
+      if_attribute :admin_ids => contains{user.id}
+    end
     
     has_permission_on :expenses, :to => :manage do
       if_permitted_to :manage, :project
@@ -19,14 +34,7 @@ authorization do
       if_permitted_to :manage, :company
     end
     has_permission_on :home, :to => :manage
-    has_permission_on :users, :to => :create
-    has_permission_on :users, :to => :manage do
-      if_attribute :id => is{user.id}
-    end
-    has_permission_on :companies, :to => :create
-    has_permission_on :companies, :to => :manage do
-      if_attribute :admin_ids => contains{user.id}
-    end
+
     has_permission_on :clients, :to => :create
     has_permission_on :clients, :to => :manage do
       if_permitted_to :manage, :company
