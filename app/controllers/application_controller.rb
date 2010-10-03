@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
     
   protected
     def mobile_setup
-      # request.format = 'mobile' if request.user_agent.downcase =~ /mobile|webos/
+      request.format = 'mobile' if request.user_agent.downcase =~ /mobile|webos/
     end
   
     def company_login_required

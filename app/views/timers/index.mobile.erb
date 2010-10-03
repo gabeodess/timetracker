@@ -6,16 +6,16 @@
 	<thead>
 	  <tr>
 	    <th>Notes</th>
+			<th>Task</th>
 	    <th>Total Time</th>
 	    <th>Status</th>
-	    <th>Task</th>
 	  </tr>
 	</thead>
 	<tbody>
 		<% if !@clients.blank? %>
 		  <% for client in @clients %>
 		    <tr class='background-drkgrey'>
-					<td colspan='5'>
+					<td colspan='4'>
 						<h2>
 							<%= link_to client.name, client %>
 							<%= client.uninvoiced_hours.to_time %>
@@ -56,6 +56,7 @@
 							<%- end -%>
 							<tr>
 								<td><%=h timer.notes %></td>
+								<td><%= truncate(timer.task.name, :length => 10) %></td>
 								<td id="hours_for_<%= timer.id %>"><%=h timer.hours.to_time %></td>
 								<td>
 									<%- form_for timer do |f| -%>
@@ -63,8 +64,6 @@
 										<%= f.submit timer.timer_action, :class => "#{'running_timer' if timer.running?}" %>
 									<%- end -%>
 								</td>
-								<td><%=h timer.associated_task.task.name %></td>
-						    <td><%= link_to_crud timer %></td>
 					    </tr>
 					  <% end %>
 				<% end %>

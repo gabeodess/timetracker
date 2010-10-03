@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
   end
   
   def role_symbols
-    [:guest]
+    company_based_roles.company_id_is(current_company.id).map(&:name)
   end
   
   # =================

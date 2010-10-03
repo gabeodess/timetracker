@@ -1,0 +1,36 @@
+/* ========= */
+/* = Reset = */
+/* ========= */
+table{
+  float:none;
+}
+
+/* ========== */
+/* = Layout = */
+/* ========== */
+body{
+  padding:0;
+  margin:0;
+  width: auto;
+}
+
+#wrapper{
+  margin: 0px;
+  padding: 0px;
+  width: auto;
+}
+
+#content{
+  clear: both;
+  float: none;
+  margin: 0px;
+  padding: 0px;
+  width: auto;
+}
+
+#content_inner{
+  float: none;
+  margin: 3px;
+  padding: 5px;
+  width: auto;
+}

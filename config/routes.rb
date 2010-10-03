@@ -9,7 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.company_login '/company_login/:id', :controller => "company_sessions", :action => 'create', :conditions => {:method => :post}
   
-  map.dashboard '/dashboard', :controller => 'main', :action => 'dashboard', :conditions => {:method => :get}
+  map.dashboard '/dashboard.:format', :controller => 'current_company', :action => 'index', :conditions => {:method => :get}
   
   map.resources :tasks
 
@@ -27,10 +27,10 @@ ActionController::Routing::Routes.draw do |map|
 
   map.root :controller => 'home'
 
-  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.login '/login', :controller => 'sessions', :action => 'new'
-  map.register '/register', :controller => 'users', :action => 'create'
-  map.signup '/signup', :controller => 'users', :action => 'new'
+  map.logout '/logout.:format', :controller => 'sessions', :action => 'destroy'
+  map.login '/login.:format', :controller => 'sessions', :action => 'new'
+  map.register '/register.:format', :controller => 'users', :action => 'create'
+  map.signup '/signup.:format', :controller => 'users', :action => 'new'
   map.resources :users
 
   map.resource :session

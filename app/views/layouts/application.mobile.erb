@@ -9,7 +9,7 @@
 	<title><%= yield(:title) || "#{cname}:#{aname}" %></title>
 	<link rel="shortcut icon" href="/favicon.ico" >
 	
-	<%= stylesheet_link_tag "application" %>
+	<%= stylesheet_link_tag "application", "mobile" %>
 	
 	<%= yield(:head) %>
 	
@@ -29,15 +29,12 @@
 	
 	
 	<div id="wrapper">
-		<ul id='sidebar'>
-			<li><%= current_company.try(:name) %></li>
-		</ul>
 		<ul id='admin_nav'>
 			<li><%= link_to_active 'home', :root %></li>
-			<li><%= link_to_active 'my account', current_user if current_user %></li>
+			<li><%= link_to_active 'account', current_user if current_user %></li>
 			<%- if current_company -%>
-			<li><%= link_to_active 'dashboard', :dashboard %></li>
-			<li><%= link_to_controller :timers, :text => 'timesheets' %></li>
+			<li><%= link_to_active 'dash', :dashboard %></li>
+			<li><%= link_to_controller :timers, :text => 'timers' %></li>
 			<%- end -%>
 		</ul>
 		<div id="content">

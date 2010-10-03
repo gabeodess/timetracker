@@ -1,5 +1,5 @@
 authorization do
-  role :guest do
+  role :admin do
     
     has_permission_on :expenses, :to => :manage do
       if_permitted_to :manage, :project

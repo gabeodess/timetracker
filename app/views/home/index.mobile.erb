@@ -1,0 +1,8 @@
+<h1>Home#index</h1>
+<p>Find me in app/views/home/index.html.erb</p>
+
+<ul>
+	<li><%= link_to 'login', :login %></li>
+	<li><%= link_to 'sign up', :signup %></li>
+	<%= content_tag :li, link_to('log out', :logout) if logged_in? %>
+</ul>
