@@ -51,7 +51,7 @@ class ActiveSupport::TestCase
   
   def admin
     u = users(:admin)
-    u.roles << Role.new(:name => 'admin')
+    u.company_based_roles << CompanyBasedRole.new(:name => 'admin')
     return u
   end
   

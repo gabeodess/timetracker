@@ -56,11 +56,7 @@ class User < ActiveRecord::Base
   def to_param
     login
   end
-  
-  def roles
     
-  end
-  
   def role_symbols
     current_company ? company_based_roles.company_id_is(current_company.id).map(&:name) : []
   end

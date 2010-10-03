@@ -41,6 +41,8 @@ class TimersControllerTest < ActionController::TestCase
   
   def test_update_valid
     Timer.any_instance.stubs(:valid?).returns(true)
+    u = User.first
+    u.company_based_roles.build(:name => 'admin', :company_id => Timer.first.company.id)
     put_with admin, :update, :id => Timer.first
     assert_redirected_to timer_url(assigns(:timer))
   end
