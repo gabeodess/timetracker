@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :timers
   
-  map.company_login '/company_login/:id', :controller => "company_sessions", :action => 'create', :conditions => {:method => :post}
+  map.company_login '/company_login/:id', :controller => "company_sessions", :action => 'create', :conditions => {:method => [:post, :get]}
   
   map.dashboard '/dashboard.:format', :controller => 'current_company', :action => 'index', :conditions => {:method => :get}
   
