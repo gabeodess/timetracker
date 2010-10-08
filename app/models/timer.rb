@@ -63,6 +63,7 @@ class Timer < ActiveRecord::Base
   def total_cost
     hours * user.billing_rate
   end
+  alias_method :cost, :total_cost
   
   def client_name
     associated_task.project.client.name

@@ -23,7 +23,7 @@
 		
 		$('#invoice_total').text(number_to_currency(sum));
 		
-		return sum
+		return sum;
 	}
 	
 	function calculate_project_totals(){
@@ -40,6 +40,20 @@
 		});
 		
 		calculate_total();
+	}
+	
+	function calculate_project_expense_total(){
+		$("table.project_expenses").each(function(){
+			var items_for_tally = [];
+			
+			$(this).find("tr.expense").each(function(){
+				if($(this).find('input.include_expense:checked').length > 0){
+					items_for_tally.push(currency_to_float($(this).find('.expense_cost').text()));
+				}
+			});
+			var sum = items_for_tally.sum();
+			$(this).find('.project_total_cost').text(number_to_currency(sum));
+		});
 	}
 	
 	function tally_items(items){

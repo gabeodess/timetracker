@@ -10,11 +10,21 @@ class Invoice < ActiveRecord::Base
   belongs_to :client
   has_many :timers
   has_many :expenses
-  
+  def projects
+    client.projects
+  end
+  def uninvoiced_timers
+    client ? client.timers.all(:conditions => "invoice_id is null and timer_started_at is null") : []
+  end
+  def invoiced_timers
+    client ? client.timers.invoice_id_gt(0) : []
+  end
+  def uninvoiced_expenses
+    client.uninvoiced_expenses
+  end
   def contacts
     client.contacts
   end
-  
   def company
     client.company
   end
@@ -45,32 +55,55 @@ class Invoice < ActiveRecord::Base
       Timer.update_all({:invoice_id => nil}, {:id => timer.id})
     end
   end
-  
-  def print_receipt(all_timers = timers)
-    receipt = {:projects => {}, :hours => 0, :total => 0}
 
-    projects = all_timers.map{ |item| item.project.name }.uniq
-    projects.each do |project|
-      my_timers = all_timers.select{ |item| item.project_name == project }
-      puts my_timers.map{ |item| item.attributes.merge!({
-        :billing_rate => item.user.billing_rate,
-        :task_name => item.task_name,
-        :hours => item.hours
-      })}.inspect
-      receipt[:projects][project] = {
-        :hours => my_timers.map(&:hours).sum, 
-        :total => my_timers.map(&:total_cost).sum,
-        :timers => my_timers.map{ |item| item.attributes.merge!({
-          :billing_rate => item.user.billing_rate,
-          :task_name => item.task_name,
-          :hours => item.hours
-        })}
+  def print_receipt(my_timers = uninvoiced_timers, my_expenses = uninvoiced_expenses)    
+    receipt = {:projects => {}, :hours => 0, :total => 0}
+    
+    my_projects = projects.all(:include => [:uninvoiced_timers, :uninvoiced_expenses])
+
+    my_projects.each do |project|
+      next if project.uninvoiced_timers.length + project.uninvoiced_expenses.length == 0
+      receipt[:projects][project.name] = {
+        :hours => project.uninvoiced_hours, 
+        :total => project.uninvoiced_cost,
+        :expense_total => project.uninvoiced_expense_cost,
+        :timers_total => project.uninvoiced_timer_cost,
+        :timers => project.uninvoiced_timers.map{ |timer| timer.attributes.merge!({
+          :billing_rate => timer.user.billing_rate,
+          :task_name => timer.task_name,
+          :hours => timer.hours
+        })},
+        :expenses => project.uninvoiced_expenses.map{ |expense| expense.attributes }
       }
     end
     
     self.info = receipt.to_yaml
     return self
   end
+  
+  # def print_receipt(my_timers = uninvoiced_timers, my_expenses = uninvoiced_expenses)    
+  #   receipt = {:projects => {}, :hours => 0, :total => 0}
+  # 
+  #   projects = all_timers.map{ |item| item.project.name }.uniq
+  #   projects.each do |project|
+  #     selected_timers = my_timers.select{ |item| item.project_name == project }
+  #     receipt[:projects][project] = {
+  #       :hours => selected_timers.map(&:hours).sum, 
+  #       :total => selected_timers.map(&:total_cost).sum,
+  #       :timers => selected_timers.map{ |item| item.attributes.merge!({
+  #         :billing_rate => item.user.billing_rate,
+  #         :task_name => item.task_name,
+  #         :hours => item.hours
+  #       })},
+  #       :expenses => my_expenses.select{ |expense| 
+  #           expense.project.name == project }.map{ |expense| 
+  #           expense.attributes }
+  #     }
+  #   end
+  #   
+  #   self.info = receipt.to_yaml
+  #   return self
+  # end
   
   # ====================
   # = Instance Methods =
@@ -84,18 +117,18 @@ class Invoice < ActiveRecord::Base
   end
   
   def total
-    timers.map{ |item| item.hours * item.user.billing_rate }.sum
+    timers_cost + expenses_cost
   end
   alias_method :total_cost, :total
   
-  def uninvoiced_timers
-    client ? client.timers.all(:conditions => "invoice_id is null and timer_started_at is null") : []
+  def timers_cost
+    timers.map{ |item| item.hours * item.user.billing_rate }.sum
   end
   
-  def invoiced_timers
-    client ? client.timers.invoice_id_gt(0) : []
+  def expenses_cost
+    expenses.map(&:cost).sum
   end
-  
+    
   # ======================
   # = Virtual Attributes =
   # ======================

@@ -15,14 +15,13 @@ class Project < ActiveRecord::Base
   )
   
   has_many :timers, :through => :associated_tasks
+  has_many :uninvoiced_timers, :through => :associated_tasks, :source => :timers, :conditions => "timers.invoice_id is null"
   has_many :tasks, :through => :associated_tasks
   has_many :assigned_projects, :dependent => :destroy
   has_many :users, :through => :assigned_projects
   has_many :expenses, :dependent => :destroy
+  has_many :uninvoiced_expenses, :class_name => "Expense", :conditions => "expenses.invoice_id is null"
   
-  def uninvoiced_timers
-    timers.invoice_id_is(nil)
-  end
   def company
     client.company
   end
@@ -53,6 +52,18 @@ class Project < ActiveRecord::Base
   # ====================
   # = Instance Methods =
   # ====================  
+  def uninvoiced_timer_cost
+    uninvoiced_timers.map{ |timer| timer.cost }.sum
+  end
+  
+  def uninvoiced_expense_cost
+    uninvoiced_expenses.map{ |expense| expense.cost }.sum
+  end
+  
+  def uninvoiced_cost
+    uninvoiced_timer_cost + uninvoiced_expense_cost
+  end
+  
   def uninvoiced_hours
     @uninvoiced_hour ||= uninvoiced_timers.map(&:hours).sum
   end

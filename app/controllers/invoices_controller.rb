@@ -13,7 +13,7 @@ class InvoicesController < ApplicationController
   
   def new
     @invoice = Invoice.new(params[:invoice])
-    @invoice.print_receipt(@invoice.uninvoiced_timers)
+    @invoice.print_receipt#(@invoice.uninvoiced_timers)
   end
   
   def create

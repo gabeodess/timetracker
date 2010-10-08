@@ -1,0 +1,30 @@
+<table border="1" cellspacing="0" cellpadding="1" class='project_expenses'>
+	<thead>
+		<tr>
+			<%= "<th></th>" if include_check_boxes %>
+			<th>Description</th>
+			<th>Cost</th>
+			<%= "<th></th>" if include_check_boxes %>
+		</tr>
+	</thead>
+	<tbody>
+		<%- stats[:expenses].each do |expense| -%>
+		<tr class='expense'>
+			<%- if include_check_boxes -%>
+			<td>
+				<%= check_box_tag "expenses[expense_timer_ids][]", expense["id"], true, :class => 'include_expense' %>
+			</td>
+			<%- end -%>
+			<td><%= expense['name'] %></td>
+			<td class='expense_cost'><%= number_to_currency(expense["cost"]) %></td>
+			<%- if include_check_boxes -%>
+			<td><%= link_to image_tag("edit.png"), edit_expense_path(expense['id']) %></td>
+			<%- end -%>
+		</tr>
+		<%- end -%>
+		<tr>
+			<td colspan="<%= include_check_boxes ? 2 : 1 %>">Total</td>
+			<td class='total_expense_cost'><%= number_to_currency(stats[:expense_total]) %></td>
+		</tr>
+	</tbody>
+</table>

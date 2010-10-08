@@ -13,6 +13,12 @@ class Client < ActiveRecord::Base
   has_many :contacts, :dependent => :destroy
   has_many :invoices, :dependent => :destroy
   belongs_to :company
+  def expenses
+    Expense.project_id_is_any(project_ids)
+  end
+  def uninvoiced_expenses
+    expenses.invoice_id_is(nil)
+  end
   def timer_ids
     associated_tasks.map(&:timers).flatten.map(&:id)
   end
