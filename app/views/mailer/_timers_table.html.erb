@@ -1,4 +1,4 @@
-					<table border="1" cellspacing="0" cellpadding="1" class='project'>
+					<table border="1" cellspacing="0" cellpadding="1" class='project_timers'>
 						<thead>
 							<tr>
 								<%= "<th></th>" if include_check_boxes %>
@@ -15,14 +15,14 @@
 							<tr class='timer'>
 								<%- if include_check_boxes -%>
 								<td>
-									<%= check_box_tag "invoice[invoicing_timer_ids][]", timer["id"], true, :class => 'include_timer' %>
+									<%= check_box_tag "invoice[invoicing_timer_ids][]", timer["id"], true, :class => 'include_cost' %>
 								</td>
 								<%- end -%>
 								<td><%= timer[:task_name] %></td>
 								<td><%= timer["notes"] %></td>
 								<td><%= number_to_currency(timer[:billing_rate]) %>/hr</td>
 								<td><%= timer[:hours].to_time %></td>
-								<td class='timer_cost'><%= number_to_currency(timer[:hours] * timer[:billing_rate]) %></td>
+								<td class='cost'><%= number_to_currency(timer[:hours] * timer[:billing_rate]) %></td>
 								<%- if include_check_boxes -%>
 								<td><%= link_to image_tag("edit.png"), edit_timer_path(timer['id']) %></td>
 								<%- end -%>
@@ -31,7 +31,7 @@
 							<tr>
 								<td colspan="<%= include_check_boxes ? 4 : 3 %>">Total</td>
 								<td><%= stats[:hours].try(:to_time) %>&nbsp;hours</td>
-								<td class='project_total_cost'><%= number_to_currency(stats[:total]) %></td>
+								<td class='total_cost'><%= number_to_currency(stats[:timers_total]) %></td>
 							</tr>
 						</tbody>
 					</table>

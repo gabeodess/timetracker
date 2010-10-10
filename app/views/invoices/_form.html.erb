@@ -14,62 +14,114 @@
 <%- end -%>
 <%- content_for :javascript do -%>
 <script type="text/javascript" charset="utf-8">
-	function calculate_total(){
-		var sum = 0;
-		
-		$('.project_total_cost').each(function(){
-			sum += currency_to_float($(this).text());
-		});
-		
-		$('#invoice_total').text(number_to_currency(sum));
-		
-		return sum;
-	}
-	
-	function calculate_project_totals(){
-		$("table.project").each(function(){
-			var items_for_tally = [];
-			
-			$(this).find("tr.timer").each(function(){
-				if($(this).find('input.include_timer:checked').length > 0){
-					items_for_tally.push(currency_to_float($(this).find('.timer_cost').text()));
-				}
-			});
-			var sum = items_for_tally.sum();
-			$(this).find('.project_total_cost').text(number_to_currency(sum));
-		});
-		
-		calculate_total();
-	}
-	
-	function calculate_project_expense_total(){
-		$("table.project_expenses").each(function(){
-			var items_for_tally = [];
-			
-			$(this).find("tr.expense").each(function(){
-				if($(this).find('input.include_expense:checked').length > 0){
-					items_for_tally.push(currency_to_float($(this).find('.expense_cost').text()));
-				}
-			});
-			var sum = items_for_tally.sum();
-			$(this).find('.project_total_cost').text(number_to_currency(sum));
-		});
-	}
-	
-	function tally_items(items){
-		sum = 0;
-		$.each(items, function(item){ 
-			sum += parseFloat(item.replace("$",''));
-		});
-	}
-	
+
 	$(function(){
-		calculate_project_totals();
-		
-		$("input.include_timer").click(function(){
-			calculate_project_totals();
-		});
+		$("input.include_cost").click(function(){tally_invoice_total();});
 	});
+	
+	function tally_invoice_total(){
+		tally_project_totals();
+		var sum = $("#projects .project .total_cost").map(function(){
+			return currency_to_float($(this).text());
+		}).sum();
+		$("#invoice_total").text(number_to_currency(sum));
+	}
+	
+	function tally_project_totals(){
+		$("#projects .project").each(function(){
+			tally_table_totals($(this).find(".project_timers"));
+			tally_table_totals($(this).find(".project_expenses"));
+		});
+	}
+	
+	function tally_table_totals(tally_table){
+		var tally = [];
+		tally_table.find("input.include_cost:checked").each(function(){
+			tally.push(currency_to_float($(this).parents("tr:first").find(".cost").text()));
+		});
+		tally_table.find(".total_cost").text(number_to_currency(tally.sum()));
+	}
+	// function calculate_total(){
+	// 	var sum = 0;
+	// 	
+	// 	$('.project_total_cost').each(function(){
+	// 		sum += currency_to_float($(this).text());
+	// 	});
+	// 	
+	// 	$('#invoice_total').text(number_to_currency(sum));
+	// 	
+	// 	return sum;
+	// }
+	// 
+	// function calculate_project_totals(){
+	// 	$(".project").each(function(){
+	// 		var items_for_tally = [];
+	// 		
+	// 		$(this).find("table.project_timers tr.timer").each(function(){
+	// 			if($(this).find('input.include_cost:checked').length > 0){
+	// 				console.log($(this));
+	// 				console.log($(this).find('.cost').text());
+	// 				var amount = currency_to_float($(this).find('.cost').text());
+	// 				console.log(amount);
+	// 				items_for_tally.push(amount);
+	// 			}
+	// 		});
+	// 
+	// 		$(this).find("table.project_expenses tr.expense").each(function(){
+	// 			if($(this).find('input.include_cost:checked').length > 0){
+	// 				items_for_tally.push(currency_to_float($(this).find('.cost').text()));
+	// 			}
+	// 		});
+	// 
+	// 		var sum = items_for_tally.sum();
+	// 		$(this).find('.project_total_cost').text(number_to_currency(sum));
+	// 	});
+	// 	
+	// 	calculate_total();
+	// }
+	// 
+	// function calculate_project_timer_total(){
+	// 	$("table.project_timers").each(function(){
+	// 		var items_for_tally = [];
+	// 		
+	// 		$(this).find("tr.timer").each(function(){
+	// 			if($(this).find('input.include_cost:checked').length > 0){
+	// 				items_for_tally.push(currency_to_float($(this).find('.cost').text()));
+	// 			}
+	// 		});
+	// 		var sum = items_for_tally.sum();
+	// 		$(this).find('.timer_total_cost').text(number_to_currency(sum));
+	// 	});
+	// }
+	// 
+	// function calculate_project_expense_total(){
+	// 	$("table.project_expenses").each(function(){
+	// 		var items_for_tally = [];
+	// 		
+	// 		$(this).find("tr.expense").each(function(){
+	// 			if($(this).find('input.include_cost:checked').length > 0){
+	// 				items_for_tally.push(currency_to_float($(this).find('.cost').text()));
+	// 			}
+	// 		});
+	// 		var sum = items_for_tally.sum();
+	// 		$(this).find('.expense_total_cost').text(number_to_currency(sum));
+	// 	});
+	// }
+	// 
+	// function tally_items(items){
+	// 	sum = 0;
+	// 	$.each(items, function(item){ 
+	// 		sum += parseFloat(item.replace("$",''));
+	// 	});
+	// }
+	// 
+	// $(function(){
+	// 	calculate_project_totals();
+	// 	
+	// 	$("input.include_cost").click(function(){
+	// 		calculate_project_totals();
+	// 	});
+	// });
 </script>
 <%- end -%>
 
@@ -84,16 +136,20 @@
 	<hr/>
 	
 	<h2>Send invoices to:</h2>
-	<% if !@invoice.contacts.blank? %>
-	  <% for contact in @invoice.contacts %>
-	    <li>
-				<%= check_box_tag :"invoice[email_ids][]", contact.id, true, :id => "invoice_email_id_#{contact.id}" %>
-				<%= label_tag "invoice_email_id_#{contact.id}", contact.full_name %>
-			</li>
-	  <% end %>
-	<% else %>
-	  
-	<% end %>
+	<ul>
+		<% if !@invoice.contacts.blank? %>
+		  <% for contact in @invoice.contacts %>
+		    <li>
+					<%= check_box_tag :"invoice[email_ids][]", contact.id, true, :id => "invoice_email_id_#{contact.id}" %>
+					<%= label_tag "invoice_email_id_#{contact.id}", contact.full_name %>
+				</li>
+		  <% end %>
+		<% end %>
+	  <li>
+			<%= f.check_box :email_me %>
+			<%= f.label :email_me, "Send me a copy." %>
+		</li>
+	</ul>
 	
 
   <p><%= f.submit "Submit" %></p>

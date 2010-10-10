@@ -93,6 +93,15 @@ $.fn.disableSelect = function(){
   };
 }
 
+$.fn.sum = function(){
+  var sum = 0;
+  for (var i=0; i < this.length; i++) {
+    var num = parseFloat(this[i]) || 0;
+    sum += num;
+  };
+  return sum;
+}
+
 // ==========
 // = String =
 // ==========

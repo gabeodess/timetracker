@@ -32,8 +32,12 @@ class Invoice < ActiveRecord::Base
   # ==============
   # = Attributes =
   # ==============
-  attr_accessor :invoice_emails, :email_ids
+  attr_accessor :invoice_emails, :email_ids, :email_me
   attr_protected :info, :invoice_emails, :timer_ids, :expense_ids
+  
+  def issued_at
+    created_at.to_date unless new_record?
+  end
   
   # ===============
   # = Validations =
@@ -42,7 +46,7 @@ class Invoice < ActiveRecord::Base
   # =========
   # = Hooks =
   # =========
-  # after_destroy :clean_timers
+  # after_destroy :clean_timers, :clean_expenses
   after_save :email_invoice
   before_create :print_receipt
   
@@ -55,56 +59,39 @@ class Invoice < ActiveRecord::Base
       Timer.update_all({:invoice_id => nil}, {:id => timer.id})
     end
   end
+  def clean_expenses
+    expenses.each do |expense| 
+      Expense.update_all({:invoice_id => nil}, {:id => expense.id})
+    end
+  end
 
-  def print_receipt(my_timers = uninvoiced_timers, my_expenses = uninvoiced_expenses)    
-    receipt = {:projects => {}, :hours => 0, :total => 0}
+  def print_receipt(my_timers = timers, my_expenses = expenses)    
+    receipt = {:projects => {}, :hours => hours, :total => total}
     
     my_projects = projects.all(:include => [:uninvoiced_timers, :uninvoiced_expenses])
 
     my_projects.each do |project|
-      next if project.uninvoiced_timers.length + project.uninvoiced_expenses.length == 0
+      project_timers = my_timers.select{ |timer| timer.project_id == project.id }
+      project_expenses = my_expenses.select{ |expense| expense.project_id == project.id }
+      next if project_timers.length + project_expenses.length == 0
       receipt[:projects][project.name] = {
-        :hours => project.uninvoiced_hours, 
-        :total => project.uninvoiced_cost,
-        :expense_total => project.uninvoiced_expense_cost,
-        :timers_total => project.uninvoiced_timer_cost,
-        :timers => project.uninvoiced_timers.map{ |timer| timer.attributes.merge!({
+        :hours => project_timers.map(&:hours).sum, 
+        :total => project_timers.map(&:cost).sum + project_expenses.map(&:cost).sum,
+        :expense_total => project_expenses.map(&:cost).sum,
+        :timers_total => project_timers.map(&:cost).sum,
+        :timers => project_timers.map{ |timer| timer.attributes.merge!({
           :billing_rate => timer.user.billing_rate,
           :task_name => timer.task_name,
           :hours => timer.hours
         })},
-        :expenses => project.uninvoiced_expenses.map{ |expense| expense.attributes }
+        :expenses => project_expenses.map{ |expense| expense.attributes }
       }
     end
     
     self.info = receipt.to_yaml
     return self
   end
-  
-  # def print_receipt(my_timers = uninvoiced_timers, my_expenses = uninvoiced_expenses)    
-  #   receipt = {:projects => {}, :hours => 0, :total => 0}
-  # 
-  #   projects = all_timers.map{ |item| item.project.name }.uniq
-  #   projects.each do |project|
-  #     selected_timers = my_timers.select{ |item| item.project_name == project }
-  #     receipt[:projects][project] = {
-  #       :hours => selected_timers.map(&:hours).sum, 
-  #       :total => selected_timers.map(&:total_cost).sum,
-  #       :timers => selected_timers.map{ |item| item.attributes.merge!({
-  #         :billing_rate => item.user.billing_rate,
-  #         :task_name => item.task_name,
-  #         :hours => item.hours
-  #       })},
-  #       :expenses => my_expenses.select{ |expense| 
-  #           expense.project.name == project }.map{ |expense| 
-  #           expense.attributes }
-  #     }
-  #   end
-  #   
-  #   self.info = receipt.to_yaml
-  #   return self
-  # end
-  
+    
   # ====================
   # = Instance Methods =
   # ====================
@@ -115,6 +102,7 @@ class Invoice < ActiveRecord::Base
   def total_hours
     timers.map{ |item| item.hours }.sum
   end
+  alias_method :hours, :total_hours
   
   def total
     timers_cost + expenses_cost

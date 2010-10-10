@@ -14,6 +14,9 @@ class Timer < ActiveRecord::Base
   belongs_to :associated_task
   belongs_to :user
   
+  def project_id
+    associated_task.project_id
+  end
   def project
     associated_task.project
   end

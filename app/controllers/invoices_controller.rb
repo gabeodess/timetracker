@@ -13,11 +13,14 @@ class InvoicesController < ApplicationController
   
   def new
     @invoice = Invoice.new(params[:invoice])
+    @invoice.timers = @invoice.client.uninvoiced_timers
+    @invoice.expenses = @invoice.client.expenses
     @invoice.print_receipt#(@invoice.uninvoiced_timers)
   end
   
   def create
     @invoice = Invoice.new(params[:invoice])
+    @invoice.invoice_emails << current_user.email if @invoice.email_me == '1'
     if @invoice.save
       flash[:notice] = "Successfully created invoice."
       redirect_to @invoice

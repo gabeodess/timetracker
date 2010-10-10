@@ -23,20 +23,27 @@ width:100%;">
 		</p>
 		<p>
 			<strong>Amount due:</strong>
-			<span id='invoice_total'><%= number_to_currency(@invoice.total) %></span>
+			<span id='invoice_total'><%= number_to_currency(@invoice.load_info[:total]) %></span>
 		</p>
 		<p>
 			<strong>Invoice Issue Date:</strong>
-			<%= Date.today %>
+			<%= @invoice.issued_at || Date.today %>
 		</p>
 
-		<ul style="list-style:none">
+		<ul style="list-style:none" id='projects'>
 			<%- @invoice.load_info[:projects].each do |name, stats| -%>
-				<li style='display:block'><h2><%= name %></h2></li>
-				<li style='display:block'>
+				<li style='display:block; padding:20px; background:#<%= cycle("ccc", "ddd") %>' class='project'>
+					<h2 class=''><%= name %></h2>
+					<%- if stats[:timers].length > 0 -%>
+					<h3>Work Hours</h3>
 					<%= render '/mailer/timers_table', :stats => stats, :include_check_boxes => include_check_boxes %>
+					<div style='clear:both'></div>
+					<%- end -%>
+					<%- if stats[:expenses].length > 0 -%>
 					<h3>Expenses</h3>
 					<%= render '/mailer/expenses_table', :stats => stats, :include_check_boxes => include_check_boxes %>
+					<%- end -%>
+					<div style='clear:both'></div>
 				</li>
 			<%- end -%>
 		</ul>

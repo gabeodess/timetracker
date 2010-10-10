@@ -12,11 +12,11 @@
 		<tr class='expense'>
 			<%- if include_check_boxes -%>
 			<td>
-				<%= check_box_tag "expenses[expense_timer_ids][]", expense["id"], true, :class => 'include_expense' %>
+				<%= check_box_tag "invoice[invoicing_expense_ids][]", expense["id"], true, :class => 'include_cost' %>
 			</td>
 			<%- end -%>
 			<td><%= expense['name'] %></td>
-			<td class='expense_cost'><%= number_to_currency(expense["cost"]) %></td>
+			<td class='cost'><%= number_to_currency(expense["cost"]) %></td>
 			<%- if include_check_boxes -%>
 			<td><%= link_to image_tag("edit.png"), edit_expense_path(expense['id']) %></td>
 			<%- end -%>
@@ -24,7 +24,7 @@
 		<%- end -%>
 		<tr>
 			<td colspan="<%= include_check_boxes ? 2 : 1 %>">Total</td>
-			<td class='total_expense_cost'><%= number_to_currency(stats[:expense_total]) %></td>
+			<td class='total_cost'><%= number_to_currency(stats[:expense_total]) %></td>
 		</tr>
 	</tbody>
 </table>
