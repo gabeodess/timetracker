@@ -39,6 +39,7 @@ class Timer < ActiveRecord::Base
   # ==============
   # = Attributes =
   # ==============
+  attr_protected :timer_started_at, :stopped_at
   
   # =========
   # = Hooks =
@@ -161,13 +162,16 @@ class Timer < ActiveRecord::Base
     todays_running_siblings.each do |timer|
       timer.stop_timer
     end
-    self.timer_started_at = Time.now #unless created_at < Time.now.beginning_of_day
+    
+    # => start timer.
+    self.timer_started_at = Time.now
+    self.stopped_at = nil
   end
   
   def stop_timer
-    Timer.update_all(
-      {:total_time => total_time.to_i + (Time.now - timer_started_at), :timer_started_at => nil}, {:id => id}
-    )
+    self.total_time = total_time.to_i + (Time.now - timer_started_at), 
+    self.timer_started_at = nil,
+    self.stopped_at = Time.now
   end
   
 end

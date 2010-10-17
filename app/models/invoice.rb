@@ -2,6 +2,11 @@ class Invoice < ActiveRecord::Base
   
   def after_initialize
     self.invoice_emails ||= []
+    
+    if client
+      self.timers = client.uninvoiced_timers
+      self.expenses = client.expenses
+    end
   end
   
   # ================
@@ -37,6 +42,20 @@ class Invoice < ActiveRecord::Base
   
   def issued_at
     created_at.to_date unless new_record?
+  end
+  
+  def work_period_start
+    # => I use sort_by instead of ordering on the database level here because when you create a new Invoice the 
+    # timers are not stored in the database yet, only in the cache.  Besides there are so few timers associated
+    # with each invoice that we don't see a load hit.
+    timers.select{ |item| item.created_at }.sort_by(&:created_at).first.try(:created_at)
+  end
+  
+  def work_period_end
+    # => I use sort_by instead of ordering on the database level here because when you create a new Invoice the 
+    # timers are not stored in the database yet, only in the cache.  Besides there are so few timers associated
+    # with each invoice that we don't see a load hit.
+    timers.select{ |item| item.stopped_at }.sort_by(&:stopped_at).last.try(:stopped_at)
   end
   
   # ===============

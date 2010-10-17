@@ -29,6 +29,10 @@ width:100%;">
 			<strong>Invoice Issue Date:</strong>
 			<%= @invoice.issued_at || Date.today %>
 		</p>
+		<p>
+			<strong>Invoice Period:</strong>
+			<%= @invoice.work_period_start.try(:to_date) %> - <%= @invoice.work_period_end.try(:to_date) || Time.now %>
+		</p>
 
 		<ul style="list-style:none" id='projects'>
 			<%- @invoice.load_info[:projects].each do |name, stats| -%>
