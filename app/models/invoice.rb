@@ -3,10 +3,10 @@ class Invoice < ActiveRecord::Base
   def after_initialize
     self.invoice_emails ||= []
     
-    if new_record? and client
-      self.timers = client.uninvoiced_timers
-      self.expenses = client.expenses
-    end
+    # if new_record? and client
+    #   self.timers = client.uninvoiced_timers
+    #   self.expenses = client.expenses
+    # end
   end
   
   # ================
