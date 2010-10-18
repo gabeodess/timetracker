@@ -5,7 +5,7 @@ class ClientsController < ApplicationController
   end
   
   def show
-    @client = Client.find(params[:id])
+    @client = Client.find(params[:id], :include => [{:projects => [:timers, :uninvoiced_timers]}])
   end
   
   def new

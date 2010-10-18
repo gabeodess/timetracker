@@ -18,7 +18,7 @@
 		<% if !@clients.blank? %>
 		  <% for client in @clients %>
 		    <tr class='background-drkgrey'>
-					<td colspan='5'>
+					<td colspan='6'>
 						<h2>
 							<%= link_to client.name, client %>
 							<%= client.uninvoiced_hours.to_time %>
@@ -30,7 +30,7 @@
 				<% if !projects.blank? %>
 				  <% for project in projects %>
 					<%- content_tag_for :tr, project, :class => 'background-grey' do -%>
-					<td colspan='5'>
+					<td colspan='6'>
 						<h5 class='floatleft'>
 							<%= link_to project.name, project %>
 							(<%= project.uninvoiced_hours.to_time %>)
@@ -67,6 +67,7 @@
 									<%- end -%>
 								</td>
 								<td><%=h timer.associated_task.task.name %></td>
+								<td><%= timer.created_at.to_date %></td>
 						    <td><%= link_to_crud timer %></td>
 					    </tr>
 					  <% end %>
