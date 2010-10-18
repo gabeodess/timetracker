@@ -31,7 +31,7 @@ width:100%;">
 		</p>
 		<p>
 			<strong>Invoice Period:</strong>
-			<%= @invoice.work_period_start.try(:to_date) %> - <%= @invoice.work_period_end.try(:to_date) || Time.now %>
+			<%= @invoice.work_period_start.try(:to_date) %> - <%= @invoice.work_period_end.try(:to_date) %>
 		</p>
 
 		<ul style="list-style:none" id='projects'>
