@@ -43,7 +43,7 @@ width:100%;">
 					<%= render '/mailer/timers_table', :stats => stats, :include_check_boxes => include_check_boxes %>
 					<div style='clear:both'></div>
 					<%- end -%>
-					<%- if stats[:expenses].length > 0 -%>
+					<%- if (stats[:expenses] || []).length > 0 -%>
 					<h3>Expenses</h3>
 					<%= render '/mailer/expenses_table', :stats => stats, :include_check_boxes => include_check_boxes %>
 					<%- end -%>
