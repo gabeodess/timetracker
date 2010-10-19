@@ -169,8 +169,12 @@ class Timer < ActiveRecord::Base
   end
   
   def stop_timer
-    self.total_time = total_time.to_i + (Time.now - timer_started_at), 
-    self.timer_started_at = nil,
+    puts total_time
+    puts total_time.to_i
+    puts timer_started_at
+    self.total_time = total_time.to_i + (Time.now - timer_started_at)
+    puts total_time
+    self.timer_started_at = nil
     self.stopped_at = Time.now
   end
   
