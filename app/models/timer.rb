@@ -161,6 +161,7 @@ class Timer < ActiveRecord::Base
     # => Stop all timers for this user from this company for today.
     todays_running_siblings.each do |timer|
       timer.stop_timer
+      timer.save(false)
     end
     
     # => start timer.
@@ -168,12 +169,8 @@ class Timer < ActiveRecord::Base
     self.stopped_at = nil
   end
   
-  def stop_timer
-    puts total_time
-    puts total_time.to_i
-    puts timer_started_at
+  def stop_timer(options = {})
     self.total_time = total_time.to_i + (Time.now - timer_started_at)
-    puts total_time
     self.timer_started_at = nil
     self.stopped_at = Time.now
   end
