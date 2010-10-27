@@ -174,5 +174,9 @@ class Timer < ActiveRecord::Base
     self.timer_started_at = nil
     self.stopped_at = Time.now
   end
+  def stop_timer!
+    stop_timer
+    save!
+  end
   
 end
