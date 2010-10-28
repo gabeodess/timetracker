@@ -14,23 +14,23 @@
 </p>
 <p>
 	<strong>Un-Invoiced Balance:</strong>
-	<%# number_to_currency(@client.uninvoiced_balance) %>
+	<%= number_to_currency(@client.uninvoiced_balance) %>
 </p>
 <p>
 	<strong>Total Hours:</strong>
-	<%# @client.hours.to_time %>
+	<%= @client.hours.to_time %>
 </p>
 <p>
 	<strong>Total due:</strong>
-	<%# number_to_currency(@client.total_due) %>
+	<%= number_to_currency(@client.total_due) %>
 </p>
 <p>
 	<strong>Total paid:</strong>
-	<%# number_to_currency(@client.total_paid) %>
+	<%= number_to_currency(@client.total_paid) %>
 </p>
 <p>
 	<strong>Outstanding Balance:</strong>
-	<%# number_to_currency(@client.outstanding_balance) %>
+	<%= number_to_currency(@client.outstanding_balance) %>
 </p>
 
 <p>
@@ -70,7 +70,19 @@
 	<% if !@client.invoices.blank? %>
 	<ul>
 	  <% for invoice in @client.invoices %>
-	    <li><%= link_to_show invoice, :text => invoice.created_at.to_s %></li>
+	    <li>
+				<%= link_to_show invoice, :text => invoice.created_at.to_s %>
+				Total: <%= number_to_currency(invoice.total) %>
+				Paid: <%= number_to_currency(invoice.amount_paid.to_f) %>
+				Due: 
+				<span class="<%= invoice.paid_in_full? ? 'green' : 'red' %>"><%= number_to_currency(invoice.balance) %></span>
+				<% form_for invoice, :html => {:class => 'inline'} do |f| -%>
+					<%= hidden_field_tag :return_to, request.url %>
+				  <%= label_tag :payment, "Make Payment:", :for => "payment_#{invoice.id}" %>
+					$<%= text_field_tag "invoice[payment]", nil, :id => "payment_#{invoice.id}" %>
+					<%= f.submit "Submit" %>
+				<% end -%>
+			</li>
 	  <% end %>
 	</ul>
 	<% end %>

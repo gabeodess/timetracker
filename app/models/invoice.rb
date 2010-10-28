@@ -1,13 +1,13 @@
 class Invoice < ActiveRecord::Base
   
   def after_initialize
-    self.invoice_emails ||= []
-    
-    # if new_record? and client
-    #   self.timers = client.uninvoiced_timers
-    #   self.expenses = client.expenses
-    # end
+    self.invoice_emails ||= []    
   end
+  
+  # ==========
+  # = Scopes =
+  # ==========
+  default_scope :order => "created_at ASC"
   
   # ================
   # = Associations =
@@ -114,6 +114,14 @@ class Invoice < ActiveRecord::Base
   # ====================
   # = Instance Methods =
   # ====================
+  def paid_in_full?
+    balance.round <= 0
+  end
+  
+  def balance
+    total - amount_paid.to_f
+  end
+  
   def load_info
     YAML.load(info)
   end
@@ -139,6 +147,10 @@ class Invoice < ActiveRecord::Base
   # ======================
   # = Virtual Attributes =
   # ======================
+  def payment=(amount)
+    self.amount_paid = amount_paid.to_f + amount.to_f
+  end
+  
   def email_ids=(ids)
     self.invoice_emails = contacts.id_is_any(ids).map(&:email)
   end
