@@ -160,8 +160,7 @@ class Timer < ActiveRecord::Base
   def start_timer
     # => Stop all timers for this user from this company for today.
     todays_running_siblings.each do |timer|
-      timer.stop_timer
-      timer.save(false)
+      timer.stop_timer!
     end
     
     # => start timer.
