@@ -38,7 +38,7 @@ class Invoice < ActiveRecord::Base
   # = Attributes =
   # ==============
   attr_accessor :invoice_emails, :email_ids, :email_me
-  attr_protected :info, :invoice_emails, :timer_ids, :expense_ids
+  attr_protected :info, :invoice_emails, :timer_ids, :expense_ids, :total
   
   def issued_at
     created_at.to_date unless new_record?
@@ -84,8 +84,9 @@ class Invoice < ActiveRecord::Base
     end
   end
 
-  def print_receipt(my_timers = timers, my_expenses = expenses)    
-    receipt = {:projects => {}, :hours => hours, :total => total}
+  def print_receipt(my_timers = timers, my_expenses = expenses)
+    self.total = tally_total
+    receipt = {:projects => {}, :hours => hours, :total => tally_total}
     
     my_projects = projects.all(:include => [:uninvoiced_timers, :uninvoiced_expenses])
 
@@ -131,10 +132,21 @@ class Invoice < ActiveRecord::Base
   end
   alias_method :hours, :total_hours
   
-  def total
+  def tally_total
     timers_cost + expenses_cost
   end
-  alias_method :total_cost, :total
+  
+  def tally_total_from_receipt
+    tally_timer_total_from_receipt + tally_expense_total_from_receipt
+  end
+  
+  def tally_timer_total_from_receipt
+    load_info[:projects].map{ |k, v| v[:timers]}.flatten.map{|item| item[:billing_rate] * item[:hours]}.sum
+  end
+  
+  def tally_expense_total_from_receipt
+    load_info[:projects].map{ |k, v| v[:expenses]}.flatten.map{|item| item['cost']}.sum
+  end
   
   def timers_cost
     timers.map{ |item| item.hours * item.user.billing_rate }.sum
