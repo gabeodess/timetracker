@@ -82,6 +82,12 @@
 					$<%= text_field_tag "invoice[payment]", nil, :id => "payment_#{invoice.id}" %>
 					<%= f.submit "Submit" %>
 				<% end -%>
+				or
+				<% form_for invoice, :html => {:class => 'inline'} do |f| -%>
+					<%= hidden_field_tag :return_to, request.url %>
+					<%= hidden_field_tag "invoice[pay_in_full]", true %>
+					<%= f.submit "Pay In Full" %>
+				<% end -%>
 			</li>
 	  <% end %>
 	</ul>

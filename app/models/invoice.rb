@@ -159,6 +159,10 @@ class Invoice < ActiveRecord::Base
   # ======================
   # = Virtual Attributes =
   # ======================
+  def pay_in_full=(pay)
+      self.amount_paid = total if pay
+  end
+  
   def payment=(amount)
     self.amount_paid = amount_paid.to_f + amount.to_f
   end
