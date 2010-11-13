@@ -120,7 +120,7 @@ class Invoice < ActiveRecord::Base
   end
   
   def balance
-    total - amount_paid.to_f
+    total.to_f - amount_paid.to_f
   end
   
   def load_info
@@ -145,7 +145,7 @@ class Invoice < ActiveRecord::Base
   end
   
   def tally_expense_total_from_receipt
-    load_info[:projects].map{ |k, v| v[:expenses]}.flatten.map{|item| item['cost']}.sum
+    load_info[:projects].map{ |k, v| v[:expenses] || []}.flatten.map{|item| item['cost']}.sum
   end
   
   def timers_cost

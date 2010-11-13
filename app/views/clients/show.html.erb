@@ -72,7 +72,7 @@
 	  <% for invoice in @client.invoices %>
 	    <li>
 				<%= link_to_show invoice, :text => invoice.created_at.to_s %>
-				Total: <%= number_to_currency(invoice.load_info[:total]) %>
+				Total: <%= number_to_currency(invoice.total) %>
 				Paid: <%= number_to_currency(invoice.amount_paid.to_f) %>
 				Due: 
 				<span class="<%= invoice.paid_in_full? ? 'green' : 'red' %>"><%= number_to_currency(invoice.balance) %></span>
