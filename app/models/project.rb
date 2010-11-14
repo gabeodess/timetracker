@@ -56,7 +56,11 @@ class Project < ActiveRecord::Base
   
   # ====================
   # = Instance Methods =
-  # ====================  
+  # ====================
+  def billing_project?
+    billing == 'project'
+  end
+  
   def uninvoiced_timer_cost
     uninvoiced_timers.map{ |timer| timer.cost }.sum
   end
