@@ -23,8 +23,7 @@ class InvoiceTest < ActiveSupport::TestCase
       :timers => client.uninvoiced_timers, 
       :expenses => client.uninvoiced_expenses
     })
-    # invoice.timers = client.uninvoiced_timers
-    # invoice.expenses = client.uninvoiced_expenses
+
     assert invoice.timers.count == 10, invoice.timers.count.inspect
     assert invoice.timers_cost > 0
     assert invoice.expenses.count == 10

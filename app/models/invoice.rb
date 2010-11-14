@@ -100,7 +100,7 @@ class Invoice < ActiveRecord::Base
         :expense_total => project_expenses.map(&:cost).sum,
         :timers_total => project_timers.map(&:cost).sum,
         :timers => project_timers.map{ |timer| timer.attributes.merge!({
-          :billing_rate => timer.user.billing_rate,
+          :billing_rate => timer.billing_rate,
           :task_name => timer.task_name,
           :hours => timer.hours
         })},
@@ -149,7 +149,7 @@ class Invoice < ActiveRecord::Base
   end
   
   def timers_cost
-    timers.map{ |item| item.hours * item.user.billing_rate }.sum
+    timers.map{ |item| item.hours * item.billing_rate }.sum
   end
   
   def expenses_cost

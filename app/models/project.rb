@@ -29,13 +29,19 @@ class Project < ActiveRecord::Base
   # ==============
   # = Attributes =
   # ==============
-  attr_accessor :billing
+  cattr_reader :billing_options
+  @@billing_options = {
+    :user => "Bill By User",
+    :project => "Bill By Project",
+    :non_billable => "Non-Billable"
+  }
   
   # ===============
   # = Validations =
   # ===============
-  validates_presence_of :name
-  validates_presence_of :client
+  validates_presence_of :name, :client
+  validates_inclusion_of :billing, :in => @@billing_options.keys.map(&:to_s), :message => ": Please select a valid billing option"
+  validates_presence_of :billing_rate, :if => Proc.new{ |project| project.billing == 'project' }
   
   # =========
   # = Hooks =

@@ -14,9 +14,28 @@
     <%= f.label :allotted_hours %><br />
     <%= f.text_field :allotted_hours %>
   </p>
+	<%- content_for :javascript do -%>
+	<script type="text/javascript" charset="utf-8">
+		$(function(){
+			show_hide_billing_rate_fields();
+			$('select#project_billing').change(show_hide_billing_rate_fields)
+			function show_hide_billing_rate_fields(){
+				if($('select#project_billing').val() == 'project'){
+					$('#billing_rate_fields').show();
+				}else{
+					$('#billing_rate_fields').hide();
+				}
+			}
+		});
+	</script>
+	<%- end -%>
 	<p>
 		<%= f.label :billing %>
-		<%= f.select :billing, BILLING_OPTIONS.map{ |k, v| [v, k] } %>
+		<%= f.select :billing, Project.billing_options.sort_by{ |k, v| v }.map{ |k, v| [v, k.to_s] } %>
+	</p>
+	<p id='billing_rate_fields'>
+		<%= f.label :billing_rate, "Billing Rate" %>
+		$<%= f.text_field :billing_rate %>/hr
 	</p>
 	
 	<div id='associated_tasks'>

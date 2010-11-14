@@ -46,7 +46,11 @@ class ActiveSupport::TestCase
   end
  
   def setup
-    login_as :quentin if defined? session
+    @company = Factory(:company)
+    @user = @company.owner
+    @client = @company.clients.first
+    @project = @client.projects.first
+    @session_vars = {:user_id => @user.id, :company_id => @company.url_id}
   end
   
   def admin

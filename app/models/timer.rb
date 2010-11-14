@@ -61,11 +61,22 @@ class Timer < ActiveRecord::Base
   # = Instance Methods =
   # ====================
   def billing_rate
-    user.billing_rate
+    return_value =
+      case project.billing
+      when 'user'
+        user.billing_rate
+      when 'project'
+        project.billing_rate
+      when 'non_billable'
+        0
+      else
+        raise "invalid billing option."
+      end
+    return return_value
   end
   
   def total_cost
-    hours * user.billing_rate
+    hours * billing_rate
   end
   alias_method :cost, :total_cost
   

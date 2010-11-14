@@ -32,19 +32,7 @@ end
 
 Factory.define :project do |p|
   p.sequence(:name){ |i| "Project #{i}" }
-    
-  # p.after_create do |project|
-  #   2.times do |i|
-  #     Factory(:timer, {
-  #       :user_id => project.client.company.owner.id,
-  #       :associated_task => project.associated_tasks.random_element
-  #     })
-  #   end
-  #   
-  #   2.times do |i|
-  #     Factory.build(:expense, :project_id => project.id)
-  #   end
-  # end
+  p.billing 'user'    
 end
 
 Factory.define(:invoice){}
