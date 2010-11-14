@@ -1,24 +1,53 @@
-Factory.define :invoice do |i|
-  
-  i.association :client
-end
-
-Factory.define :client do |c|
-  c.name 'Client 1'
-  
-  c.association :company
-  
-  # c.after_create{ |client| 5.times{ |i| client.projects << Factory(:project, :name => "project#{i}") } }
-end
-
+# ===================
+# = Build A Company =
+# ===================
 Factory.define :company do |c|
   c.sequence(:name){ |i| "Comany #{i}" }
   c.sequence(:url_id){ |i| "company#{i}" }
   
   c.association :owner, :factory => :user
   
-  # c.after_create{ |company| 5.times{ |i| company.tasks << Factory(:task) } }
+  c.after_create do |company|
+    2.times do |i|
+      Factory(:client, :company => company)
+      Factory(:task, :company => company)
+    end
+    company.save!
+  end
 end
+
+Factory.define :client do |c|
+  c.sequence(:name){ |i| "Client #{i}" }
+    
+  c.after_create do |client|
+    2.times do |i|
+      Factory(:project, :client_id => client.id, :tasks => client.company.tasks)
+    end
+                
+    # 2.times do |i|
+    #   Factory(:invoice, :client_id => client.id)
+    # end
+  end
+end
+
+Factory.define :project do |p|
+  p.sequence(:name){ |i| "Project #{i}" }
+    
+  # p.after_create do |project|
+  #   2.times do |i|
+  #     Factory(:timer, {
+  #       :user_id => project.client.company.owner.id,
+  #       :associated_task => project.associated_tasks.random_element
+  #     })
+  #   end
+  #   
+  #   2.times do |i|
+  #     Factory.build(:expense, :project_id => project.id)
+  #   end
+  # end
+end
+
+Factory.define(:invoice){}
 
 Factory.define :user do |u|
   u.sequence(:login){ |i| "foo#{i}" }
@@ -29,23 +58,11 @@ Factory.define :user do |u|
 end
 
 Factory.define :task do |t|
-  t.sequence(:name){ |i| "Task #{i}" }
-  
-  t.association :company
-end
-
-Factory.define :project do |p|
-  p.sequence(:name){ |i| "Project #{i}" }
-  
-  # p.association :client
-  
-  # p.after_create{ |project| project.tasks = project.company.tasks }
+  t.sequence(:name){ |i| "Task #{i}" }  
 end
 
 Factory.define :timer do |t|
   t.total_time((rand * 10 ** (1..9).to_a.random_element).floor)
-  
-  t.association :user
 end
 
 Factory.define :expense do |e|

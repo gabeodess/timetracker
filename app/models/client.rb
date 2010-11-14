@@ -12,6 +12,7 @@ class Client < ActiveRecord::Base
   has_many :tasks, :through => :projects
   has_many :contacts, :dependent => :destroy
   has_many :invoices, :dependent => :destroy
+  has_many :unpaid_invoices, :class_name => "Invoice", :foreign_key => "client_id", :conditions => "abs(invoices.total - invoices.amount_paid) > 0.001"
   belongs_to :company
   def expenses
     Expense.project_id_is_any(project_ids)

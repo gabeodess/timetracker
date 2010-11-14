@@ -122,6 +122,10 @@ class Timer < ActiveRecord::Base
   end
   alias_method :running?, :timer_running?
   
+  def stopped?
+    !running?
+  end
+  
   def start_timer_display
     "start timer"
   end
@@ -169,6 +173,7 @@ class Timer < ActiveRecord::Base
   end
   
   def stop_timer(options = {})
+    return true if stopped?
     self.total_time = total_time.to_i + (Time.now - timer_started_at)
     self.timer_started_at = nil
     self.stopped_at = Time.now

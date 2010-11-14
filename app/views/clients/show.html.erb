@@ -66,10 +66,10 @@
 </div>
 
 <div id='invoices'>
-	<h2>Invoices</h2>
+	<h2>Unpaid Invoices</h2>
 	<% if !@client.invoices.blank? %>
 	<ul>
-	  <% for invoice in @client.invoices %>
+	  <% for invoice in @client.unpaid_invoices %>
 	    <li>
 				<%= link_to_show invoice, :text => invoice.created_at.to_s %>
 				Total: <%= number_to_currency(invoice.total) %>

@@ -3,7 +3,8 @@ require 'test_helper'
 class InvoiceTest < ActiveSupport::TestCase
 
   test "should not update total through mass assignment" do
-    invoice = Factory(:invoice, :total => 10)
+    company = Factory(:company)
+    invoice = Factory(:invoice, :client => company.clients.first)
     assert invoice.update_attribute(:total, 10)
     assert invoice.total == 10
     assert invoice.update_attributes!(:total => 20)
@@ -11,21 +12,19 @@ class InvoiceTest < ActiveSupport::TestCase
   end
   
   test "after print receipt total should equal tally_total and tally_total_from_receipt" do
-    invoice = Factory(:invoice)
-    client = invoice.client
-    company = client.company
-    
-    10.times{ |i| client.projects << Factory.build(:project, :tasks => company.tasks) }
-    client.save!
-    assert client.projects.length == 10, client.projects.length.inspect
-    assert client.projects.count == 10, client.projects.count.inspect
-    assert client.projects.map{ |p| p.tasks.empty? }.uniq == [false]
-    
-    10.times{ |i| Factory(:timer, :associated_task => client.projects.random_element.associated_tasks.random_element) }
+    company = Factory(:company)
+    client = company.clients.first
+        
+    10.times{ |i| Factory(:timer, {:user => company.owner, :associated_task => client.projects.random_element.associated_tasks.random_element}) }
     10.times{ |i| Factory(:expense, :project_id => client.project_ids.random_element) }
     
-    invoice.timers = client.uninvoiced_timers
-    invoice.expenses = client.uninvoiced_expenses
+    invoice = Factory(:invoice, {
+      :client => client, 
+      :timers => client.uninvoiced_timers, 
+      :expenses => client.uninvoiced_expenses
+    })
+    # invoice.timers = client.uninvoiced_timers
+    # invoice.expenses = client.uninvoiced_expenses
     assert invoice.timers.count == 10, invoice.timers.count.inspect
     assert invoice.timers_cost > 0
     assert invoice.expenses.count == 10

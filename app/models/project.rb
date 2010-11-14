@@ -31,6 +31,12 @@ class Project < ActiveRecord::Base
   # ==============
   attr_accessor :billing
   
+  # ===============
+  # = Validations =
+  # ===============
+  validates_presence_of :name
+  validates_presence_of :client
+  
   # =========
   # = Hooks =
   # =========
@@ -41,13 +47,6 @@ class Project < ActiveRecord::Base
       user.projects << self
     end
   end
-  
-  # ===============
-  # = Validations =
-  # ===============
-  validates_presence_of :name
-  validates_presence_of :client
-  
   
   # ====================
   # = Instance Methods =
