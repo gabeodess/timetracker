@@ -59,4 +59,33 @@ class ActiveSupport::TestCase
     return u
   end
   
+  # ==================
+  # = Method Missing =
+  # ==================
+  def method_missing(method, *args)
+    begin
+      super
+    rescue Exception => e
+      method = method.to_s
+      case method = method.to_s
+      when /^(get|post|put|delete)_/
+        http_method = method.gsub(/_\w+$/,'')
+        template = method.gsub(/^[a-z]+_/,'')
+        do_template(http_method, template, *args)
+      else
+        super
+      end
+    end
+  end
+  
+  def do_template(http_method, template, *args)
+    do_ok(http_method, *args)
+    assert_template(template)
+  end
+  
+  def do_ok(http_method, *args)
+    send(http_method, *args)
+    assert_response :ok
+  end
+    
 end

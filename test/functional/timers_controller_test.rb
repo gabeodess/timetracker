@@ -1,6 +1,19 @@
 require 'test_helper'
 
 class TimersControllerTest < ActionController::TestCase
+  
+  test "index should not include invoiced timers" do
+    company = Factory(:company)
+    client = company.clients.first
+    project = client.projects.first
+    task = company.tasks.first
+    user = company.owner
+    timer1 = create_timer(client, user, :invoice_id => 1)
+    timer2 = create_timer(client, user)
+    get_index(:index, {}, {:user_id => user.id, :company_id => company.url_id})
+    assert assigns(:timers) == [timer2]
+  end
+  
   test "siblings are stopped when timer is started" do
     company = Factory(:company)
     client = company.clients.first
@@ -42,4 +55,15 @@ class TimersControllerTest < ActionController::TestCase
     assert((timer = assigns(:timer)).todays_running_siblings.length == 1)
     
   end
+  
+  # ===========
+  # = Private =
+  # ===========
+  private
+  def create_timer(client, user, options = {})
+    Factory(:timer, {
+      :associated_task => client.projects.map(&:associated_tasks).flatten.random_element, :user => user
+    }.merge(options))
+  end
+  
 end
