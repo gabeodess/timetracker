@@ -51,10 +51,11 @@ class ActiveSupport::TestCase
     @client = @company.clients.first
     @project = @client.projects.first
     load_project
+    
     @invoice = Factory(:invoice, {
       :client => @client, 
-      :timers => @client.uninvoiced_timers, 
-      :expenses => @client.uninvoiced_expenses
+      :timers => [add_timer_to_project], 
+      :expenses => [add_expense_to_project]
     })
     @session_vars = {:user_id => @user.id, :company_id => @company.url_id}
   end

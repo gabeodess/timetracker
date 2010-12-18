@@ -30,7 +30,10 @@ class InvoicesControllerTest < ActionController::TestCase
   test "should get new with no timers" do
     Timer.destroy_all
     assert @client.reload.timer_ids.empty?
+    assert expense = @client.expenses.first
     get_new :new, {:invoice => {:client => @client}}, @session_vars
+    assert invoice = assigns(:invoice)
+    assert css_select("tr.expense").to_s.match(expense.name), [css_select("form ul").to_s, expense.name].inspect
   end
   
   test "should require client on new" do
