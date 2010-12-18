@@ -22,20 +22,14 @@ Factory.define :client do |c|
   c.after_create do |client|
     2.times do |i|
       Factory(:project, :client_id => client.id, :tasks => client.company.tasks)
-    end
-                
-    # 2.times do |i|
-    #   Factory(:invoice, :client_id => client.id)
-    # end
+    end                
   end
 end
 
 Factory.define :project do |p|
   p.sequence(:name){ |i| "Project #{i}" }
-  p.billing 'user'    
+  p.billing 'user'  
 end
-
-Factory.define(:invoice){}
 
 Factory.define :user do |u|
   u.sequence(:login){ |i| "foo#{i}" }
@@ -52,6 +46,20 @@ end
 Factory.define :timer do |t|
   t.total_time((rand * 10 ** (1..9).to_a.random_element).floor)
 end
+
+Factory.define(:invoice) do |i|
+end
+
+# Factory.define(:loaded_invoice, :parent => :invoice) do |li|
+#   li.before_save do |invoice|
+#     2.times do |i|
+#       @project.timers << Factory(:timer, :associated_task => @project.associated_tasks.random_element)
+#       @project.expenses << Factory(:expense)
+#     end
+#     invoice.timers = invoice.client.uninvoiced_timers
+#     invoice.expenses = invoice.client.uninvoiced_expenses
+#   end
+# end
 
 Factory.define :expense do |e|
   e.sequence(:name){ |i| "Expense #{i}" }

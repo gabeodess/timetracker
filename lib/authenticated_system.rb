@@ -66,6 +66,7 @@ module AuthenticatedSystem
         format.html do
           logout_company
           store_location
+          flash[:notice] = 'Please log in.'
           redirect_to :login
         end
         # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987

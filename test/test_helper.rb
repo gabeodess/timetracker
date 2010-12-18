@@ -50,6 +50,12 @@ class ActiveSupport::TestCase
     @user = @company.owner
     @client = @company.clients.first
     @project = @client.projects.first
+    load_project
+    @invoice = Factory(:invoice, {
+      :client => @client, 
+      :timers => @client.uninvoiced_timers, 
+      :expenses => @client.uninvoiced_expenses
+    })
     @session_vars = {:user_id => @user.id, :company_id => @company.url_id}
   end
   
@@ -57,6 +63,19 @@ class ActiveSupport::TestCase
     u = users(:admin)
     u.company_based_roles << CompanyBasedRole.new(:name => 'admin')
     return u
+  end
+  
+  def load_project
+    add_timer_to_project
+    add_expense_to_project
+  end
+  
+  def add_timer_to_project
+    Factory(:timer, {:user => @user, :associated_task => @project.associated_tasks.random_element})
+  end
+
+  def add_expense_to_project
+    Factory(:expense, :project => @project)
   end
   
   # ==================
@@ -68,6 +87,9 @@ class ActiveSupport::TestCase
     rescue Exception => e
       method = method.to_s
       case method = method.to_s
+      when /_login_required$/
+        http_method = method.gsub(/_\w+$/,'')
+        do_login_required(http_method, *args)
       when /^(get|post|put|delete)_/
         http_method = method.gsub(/_\w+$/,'')
         template = method.gsub(/^[a-z]+_/,'')
@@ -76,6 +98,12 @@ class ActiveSupport::TestCase
         super
       end
     end
+  end
+  
+  def do_login_required(http_method, *args)
+    send(http_method, *args)
+    assert_redirected_to login_url
+    assert flash[:notice]
   end
   
   def do_template(http_method, template, *args)

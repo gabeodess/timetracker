@@ -7,18 +7,20 @@ class Project < ActiveRecord::Base
   # = Associations =
   # ================
   belongs_to :client
+  
   has_many :associated_tasks, :dependent => :destroy
   accepts_nested_attributes_for(
     :associated_tasks, 
     :allow_destroy => true, 
     :reject_if => proc { |obj| puts obj['_destroy'] == "1"; obj.delete('_destroy') == "1" }
   )
-  
   has_many :timers, :through => :associated_tasks
-  has_many :uninvoiced_timers, :through => :associated_tasks, :source => :timers, :conditions => "timers.invoice_id is null"
   has_many :tasks, :through => :associated_tasks
+  
   has_many :assigned_projects, :dependent => :destroy
   has_many :users, :through => :assigned_projects
+
+  has_many :uninvoiced_timers, :through => :associated_tasks, :source => :timers, :conditions => "timers.invoice_id is null"
   has_many :expenses, :dependent => :destroy
   has_many :uninvoiced_expenses, :class_name => "Expense", :conditions => "expenses.invoice_id is null"
   

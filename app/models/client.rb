@@ -12,7 +12,11 @@ class Client < ActiveRecord::Base
   has_many :tasks, :through => :projects
   has_many :contacts, :dependent => :destroy
   has_many :invoices, :dependent => :destroy
-  has_many :unpaid_invoices, :class_name => "Invoice", :foreign_key => "client_id", :conditions => "abs(invoices.total - invoices.amount_paid) > 0.001"
+  has_many :unpaid_invoices, {
+    :class_name => "Invoice", 
+    :foreign_key => "client_id", 
+    :conditions => "abs(invoices.total - invoices.amount_paid) > 0.001"
+  }
   belongs_to :company
   def expenses
     Expense.project_id_is_any(project_ids)
@@ -24,10 +28,12 @@ class Client < ActiveRecord::Base
     associated_tasks.map(&:timers).flatten.map(&:id)
   end
   def timers
-    return timer_ids.empty? ? [] : Timer.id_is_any(timer_ids) 
+    # => The Searchlogic *any* option returns everything as apposed to nothing when handed an empty array.
+    # Therefor, we include "0" so that if timer_ids is empty it will look for a timer with id of 0 and find nothing.
+    Timer.id_is_any(timer_ids << 0) 
   end
   def uninvoiced_timers
-    return timer_ids.empty? ? [] : timers.invoice_id_is(nil)
+    timers.invoice_id_is(nil)
   end 
   
   # ==============
