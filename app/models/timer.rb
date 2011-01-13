@@ -54,18 +54,29 @@ class Timer < ActiveRecord::Base
   # = Validations =
   # ===============
   validates_inclusion_of :total_time, :in => -2147483648..2147483647, :message => "is out of range."
-  validates_presence_of :associated_task
+  validates_presence_of :associated_task, :user
   validates_format_of :hours, :with => /^\d+$|^\d+\.\d+$|^\d+:\d{2}$/
   
   # ====================
   # = Instance Methods =
   # ====================
   def billing_rate
-    user.billing_rate
+    return_value =
+      case project.billing
+      when 'user'
+        user.billing_rate
+      when 'project'
+        project.billing_rate
+      when 'non_billable'
+        0
+      else
+        raise "invalid billing option."
+      end
+    return return_value
   end
   
   def total_cost
-    hours * user.billing_rate
+    hours * billing_rate
   end
   alias_method :cost, :total_cost
   
@@ -122,6 +133,10 @@ class Timer < ActiveRecord::Base
   end
   alias_method :running?, :timer_running?
   
+  def stopped?
+    !running?
+  end
+  
   def start_timer_display
     "start timer"
   end
@@ -160,7 +175,7 @@ class Timer < ActiveRecord::Base
   def start_timer
     # => Stop all timers for this user from this company for today.
     todays_running_siblings.each do |timer|
-      timer.stop_timer
+      timer.stop_timer!
     end
     
     # => start timer.
@@ -168,14 +183,15 @@ class Timer < ActiveRecord::Base
     self.stopped_at = nil
   end
   
-  def stop_timer
-    puts total_time
-    puts total_time.to_i
-    puts timer_started_at
+  def stop_timer(options = {})
+    return true if stopped?
     self.total_time = total_time.to_i + (Time.now - timer_started_at)
-    puts total_time
     self.timer_started_at = nil
     self.stopped_at = Time.now
+  end
+  def stop_timer!
+    stop_timer
+    save!
   end
   
 end

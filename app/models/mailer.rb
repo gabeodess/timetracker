@@ -2,7 +2,7 @@ class Mailer < ActionMailer::Base
   
 
   def invoice(invoice)
-    subject    "Invoice #{invoice.id} From #{invoice.company.name}"
+    subject    "#{Rails.env unless Rails.env.production?}Invoice #{invoice.id} From #{invoice.company.name}"
     recipients invoice.invoice_emails
     from       '"Time Tracker" <notify@timetracker.com>'
     sent_on    Time.now

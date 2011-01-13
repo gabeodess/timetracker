@@ -32,7 +32,11 @@ class Company < ActiveRecord::Base
   # =========
   # = Hooks =
   # =========
-  after_create :create_default_tasks
+  after_create :create_default_tasks, :add_owner_to_users
+  
+  def add_owner_to_users
+    CompanyBasedRole.create!({:user => owner, :company => self, :name => 'admin'})
+  end
   
   def create_default_tasks
     ["Research", "Development", "Design", "Project Management"].each do |name|
@@ -45,8 +49,7 @@ class Company < ActiveRecord::Base
   # ===============
   # = Validations =
   # ===============
-  validates_presence_of :owner_id
-  validates_presence_of :url_id
+  validates_presence_of :owner, :url_id
   validates_uniqueness_of :url_id
   validates_format_of :url_id, :with => /^[A-Za-z0-9-]+$/
   

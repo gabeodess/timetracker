@@ -1,13 +1,13 @@
 class Invoice < ActiveRecord::Base
   
   def after_initialize
-    self.invoice_emails ||= []
-    
-    # if new_record? and client
-    #   self.timers = client.uninvoiced_timers
-    #   self.expenses = client.expenses
-    # end
+    self.invoice_emails ||= []    
   end
+  
+  # ==========
+  # = Scopes =
+  # ==========
+  default_scope :order => "created_at ASC"
   
   # ================
   # = Associations =
@@ -38,7 +38,7 @@ class Invoice < ActiveRecord::Base
   # = Attributes =
   # ==============
   attr_accessor :invoice_emails, :email_ids, :email_me
-  attr_protected :info, :invoice_emails, :timer_ids, :expense_ids
+  attr_protected :info, :invoice_emails, :timer_ids, :expense_ids, :total
   
   def issued_at
     created_at.to_date unless new_record?
@@ -84,8 +84,9 @@ class Invoice < ActiveRecord::Base
     end
   end
 
-  def print_receipt(my_timers = timers, my_expenses = expenses)    
-    receipt = {:projects => {}, :hours => hours, :total => total}
+  def print_receipt(my_timers = timers, my_expenses = expenses)
+    self.total = tally_total
+    receipt = {:projects => {}, :hours => hours, :total => tally_total}
     
     my_projects = projects.all(:include => [:uninvoiced_timers, :uninvoiced_expenses])
 
@@ -99,7 +100,7 @@ class Invoice < ActiveRecord::Base
         :expense_total => project_expenses.map(&:cost).sum,
         :timers_total => project_timers.map(&:cost).sum,
         :timers => project_timers.map{ |timer| timer.attributes.merge!({
-          :billing_rate => timer.user.billing_rate,
+          :billing_rate => timer.billing_rate,
           :task_name => timer.task_name,
           :hours => timer.hours
         })},
@@ -114,6 +115,14 @@ class Invoice < ActiveRecord::Base
   # ====================
   # = Instance Methods =
   # ====================
+  def paid_in_full?
+    balance.round <= 0
+  end
+  
+  def balance
+    total.to_f - amount_paid.to_f
+  end
+  
   def load_info
     YAML.load(info)
   end
@@ -123,13 +132,24 @@ class Invoice < ActiveRecord::Base
   end
   alias_method :hours, :total_hours
   
-  def total
+  def tally_total
     timers_cost + expenses_cost
   end
-  alias_method :total_cost, :total
+  
+  def tally_total_from_receipt
+    tally_timer_total_from_receipt + tally_expense_total_from_receipt
+  end
+  
+  def tally_timer_total_from_receipt
+    load_info[:projects].map{ |k, v| v[:timers]}.flatten.map{|item| item[:billing_rate] * item[:hours]}.sum
+  end
+  
+  def tally_expense_total_from_receipt
+    load_info[:projects].map{ |k, v| v[:expenses] || []}.flatten.map{|item| item['cost']}.sum
+  end
   
   def timers_cost
-    timers.map{ |item| item.hours * item.user.billing_rate }.sum
+    timers.map{ |item| item.hours * item.billing_rate }.sum
   end
   
   def expenses_cost
@@ -139,6 +159,14 @@ class Invoice < ActiveRecord::Base
   # ======================
   # = Virtual Attributes =
   # ======================
+  def pay_in_full=(pay)
+      self.amount_paid = total if pay
+  end
+  
+  def payment=(amount)
+    self.amount_paid = amount_paid.to_f + amount.to_f
+  end
+  
   def email_ids=(ids)
     self.invoice_emails = contacts.id_is_any(ids).map(&:email)
   end
