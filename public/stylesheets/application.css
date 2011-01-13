@@ -1,9 +1,9 @@
 body{
-  font-family:        helvetica,arial,sans-serif;
-  font-size:          100%;
-  background:         #ebebeb;
-  color:              #222;
-  padding:            35px;
+    background: url("../images/pattern_black_BG.jpg") repeat scroll 0 0 transparent;
+    font-family:        helvetica,arial,sans-serif;
+    font-size:          100%;
+    color:              #222;
+    padding:            35px;
 }
 a{
   color:              #333;

@@ -1,8 +1,10 @@
-<h1>TimeTracker</h1>
-<h2>Track Your Time. It's Valuable</h2>
-
-<ul>
-	<li><%= link_to 'login', :login %></li>
-	<li><%= link_to 'sign up', :signup %></li>
-	<%= content_tag :li, link_to('log out', :logout) if logged_in? %>
-</ul>
+<h1>Track Your Time. It's Valuable</h1>
+<div id="signIn">
+	<h2>App Sign In</h2>
+	<ul>
+		<li><%= link_to 'login', :login %></li>
+		<li>- or -</li>
+		<li><%= link_to 'sign up', :signup %></li>
+		<%= content_tag :li, link_to('log out', :logout) if logged_in? %>
+	</ul>
+</div>

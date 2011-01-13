@@ -34,6 +34,10 @@
 		</ul>
 		<ul id='admin_nav'>
 			<li><%= link_to_active 'home', :root %></li>
+			<li>About</li>
+			<li>Contact</li>
+			<li>Help</li>
+			<li>Feedback</li>
 			<li><%= link_to_active 'my account', current_user if current_user %></li>
 			<%- if current_company -%>
 			<li><%= link_to_active 'dashboard', :dashboard %></li>
