@@ -9,7 +9,7 @@
 	<title><%= yield(:title) || "#{cname}:#{aname}" %></title>
 	<link rel="shortcut icon" href="/favicon.ico" >
 	
-	<%= stylesheet_link_tag 'application', 'validation' %>
+	<%= stylesheet_link_tag 'application', 'validation', 'reset' %>
 	
 	<%= yield(:head) %>
 	
@@ -27,28 +27,47 @@
 		<%- end -%>
 	</div>
 	
-	
-	<div id="wrapper">
-		<ul id='sidebar'>
-			<li><%= current_company.try(:name) %></li>
-		</ul>
-		<ul id='admin_nav'>
-			<li><%= link_to_active 'home', :root %></li>
-			<li>About</li>
-			<li>Contact</li>
-			<li>Help</li>
-			<li>Feedback</li>
-			<li><%= link_to_active 'my account', current_user if current_user %></li>
-			<%- if current_company -%>
-			<li><%= link_to_active 'dashboard', :dashboard %></li>
-			<li><%= link_to_controller :timers, :text => 'timesheets' %></li>
-			<%- end -%>
-		</ul>
-		<div id="content">
-			<div id="content_inner">		
-				<%= yield %>
+	<div id="mainContain">
+		<div id="mountainContain">
+			<div id="wrapper">
+				<!-- <ul id='sidebar'>
+					<li><%= current_company.try(:name) %></li>
+				</ul> -->
+				<ul id='admin_nav'>
+					<li id="ttlogo"><%= link_to_active 'home', :root %></li>
+					<li><a href="#">About</a></li>
+					<li><a href="#">Contact</a></li>
+					<li><a href="#">Help</a></li>
+					<li><a href="#">Feedback</a></li>
+					<%- if current_company -%>
+					<li><%= link_to_active 'my account', current_user if current_user %></li>
+					<li><%= link_to_active 'dashboard', :dashboard %></li>
+					<li><%= link_to_controller :timers, :text => 'timesheets' %></li>
+					<%- end -%>
+				</ul>
+				<div id="content">
+					<div id="content_inner">		
+						<%= yield %>
+					</div>
+				</div>
 			</div>
 		</div>
+	</div>
+	<div id="pointWrapper">
+		<ul id="points">
+			<li>
+				<h3 class="p1">What is Petaker</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore. <a href="#">View Screenshots.</a></p>
+			</li>
+			<li>
+				<h3 class="p2">Why are we here?</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			</li>
+			<li>
+				<h3 class="p3">Free Accounts!</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. <a href="#">Read FAQ</a></p>
+			</li>
+		</ul>
 	</div>
 	<%= javascript_include_tag 'jquery', 'jquery-ui', 'jquery_extensions', 'application', :cache => false %>
 	<%= yield :javascript %>

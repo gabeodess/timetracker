@@ -1,10 +1,24 @@
-<h1>Track Your Time. It's Valuable</h1>
+<h1 id="cHome">Track Your Time. It's Valuable</h1>
 <div id="signIn">
-	<h2>App Sign In</h2>
-	<ul>
-		<li><%= link_to 'login', :login %></li>
-		<li>- or -</li>
-		<li><%= link_to 'sign up', :signup %></li>
-		<%= content_tag :li, link_to('log out', :logout) if logged_in? %>
-	</ul>
+	<div id="signInInner">
+		<h2>Beta Sign In</h2>
+		<% form_tag session_path do -%>
+		
+		
+		<%= text_field_tag 'login', @login, :value => 'Username', :class => 'loginCred'  %>
+
+		<%= password_field_tag 'password', nil, :value => 'Password', :class => 'loginCred'  %>
+
+		<!-- Uncomment this if you want this functionality
+		<p><%= label_tag 'remember_me', 'Remember me' %>
+		<%= check_box_tag 'remember_me', '1', @remember_me %></p>
+		-->
+		<ul>
+			<li><%= submit_tag 'Log in', :class => 'login' %></li>
+			<li>- or -</li>
+			<li><%= link_to 'sign up', :signup, :class => 'signup' %></li>
+			<%= content_tag :li, link_to('log out', :logout) if logged_in? %>
+		</ul>
+		<% end -%>
+	</div>
 </div>

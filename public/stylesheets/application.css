@@ -1,168 +1,99 @@
+/* --------------------------------------------------------------
+
+ *Global Structure
+
+-------------------------------------------------------------- */
 body{
-    background: url("../images/pattern_black_BG.jpg") repeat scroll 0 0 transparent;
-    font-family:        helvetica,arial,sans-serif;
-    font-size:          100%;
-    color:              #222;
-    padding:            35px;
+	background:url("../images/pattern_black_BG.jpg") repeat scroll 0 0 transparent;
+	font-family:helvetica,arial,sans-serif;
+	font-size:100%;
+	color:#222222;
+	margin:0;
 }
-a{
-  color:              #333;
-  font-size:            12px;
+#mainContain{
+    background: url("../images/consumer/greenStatic_BG.jpg") repeat scroll 0 0 transparent;
+    display: inline-block;
+    position: relative;
+    width: 100%;
 }
-.notice{
-  position:           absolute;
-  z-index:            9999;
-  padding:            15px;
-  background:           #777;
-  opacity:            0.75;
-  border:             15px solid #444;
-  width:              500px;
-  height:             100px;
-  margin:             auto;
-  text-align:           center;
-}
-.back{
-  float:              right;
-  margin:             0 -20px 5px 0;
-  text-transform:         uppercase;
-}
-
-#wrapper{
-  width:              900px;
-  margin:             auto;
-}
-#sidebar{
-  float:left;
-  margin-left:-170px;
-  width:100px;
-}
-#admin_nav{
-  float:              left;
-  width:              100%;
-  margin:             0;
-  padding:            0;
-}
-#admin_nav li{
-  display:            inline;
-  float:              left;
-  border-top:           1px solid #4e4e4e;
-  border-right:         1px solid #4e4e4e;
-  border-left:          1px solid #4e4e4e;
-  margin:             0 2px 0 0;
-}
-#admin_nav li .active{
-  display:            block;
-  float:              left;
-  text-decoration:        none;
-  font-size:            12px;
-  padding:            5px 10px;
-  text-transform:         uppercase;
-  background:           #4e4e4e;
-  color:              #fff;
-}
-#admin_nav li a{
-  display:            block;
-  float:              left;
-  color:              #4e4e4e;
-  text-decoration:        none;
-  font-size:            12px;
-  padding:            5px 10px;
-  text-transform:         uppercase;
-  background:           #aaa; 
-}
-
-#content{
-  float:              left;
-  width:              100%;
-  padding:            10px;
-  background:           #4e4e4e;
-  font-size:            12px;
-  border:             1px solid #4e4e4e;
-}
-#content_inner{
-  float:              left;
-  width:              880px;
-  padding:            10px;
-  background:           #fff;
-  border:             1px solid #4e4e4e;
-  -webkit-border-radius:      4px;
-  -moz-border-radius:       5px;
-}
-
-table{
-	float:							left;
-	width:							100%;
-	border-collapse:				collapse;
-}
-table td{
-	padding:						4px  8px;
-}
-tr.row{
-
-}
-tr.current_row{
-	background:						#ffffaa !important;
-	cursor:							default;
-}
-
-pre{
-	-moz-background-clip:border;
-	-moz-background-inline-policy:continuous;
-	-moz-background-origin:padding;
-	background:#EFEFEF none repeat scroll 0 0;
-	overflow-x:scroll;
-	padding:20px;
-}
-
-/* ============== */
-/* = Nav Styles = */
-/* ============== */
-.nav_style_1{
-	padding-bottom:20px;
-}
-	.nav_style_1 li{
-		float:left;
-	}
-		.nav_style_1 li a{
-			display:block;
-			padding:20px;
-		}
-			.nav_style_1 li a.active{
-				-moz-border-radius-bottomleft:20px;
-				-moz-border-radius-bottomright:20px;
-				-moz-border-radius-topleft:20px;
-				-moz-border-radius-topright:20px;
-				-webkit-radius:20px;
-				background:#EFEFEF none repeat scroll 0 0;			}
-
-/* =========== */
-/* = Sub Nav = */
-/* =========== */
-#subnav{
-  height:80px;
-}
-  #subnav li{
+#mountainContain{
+    background: url("../images/consumer/mountainsLarge.png") no-repeat scroll center bottom transparent;
     display: block;
     float: left;
-    height: 50px;
-    line-height: 50px;
-    margin-right: 20px;
-  }
-    #subnav li a{
-      display:block;
-      padding:0 12px;
-         -moz-border-radius: 12px; /* FF1+ */
-      -webkit-border-radius: 12px; /* Saf3+, Chrome */
-              border-radius: 12px; /* Opera 10.5, IE 9 */
-    }
-      #subnav li a.active{
-        background:#efefef;
-      }
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+#wrapper{
+	margin: auto;
+    width: 960px;
+}
+#sidebar{}
+#admin_nav{
+    display: block;
+    float: left;
+    margin-top: 50px;
+    position: relative;
+    text-align: center;
+    width: 960px;
+}
+#admin_nav li{
+    display: inline-block;
+    position: relative;
+}
+#admin_nav li a{
+	-moz-border-radius: 4px 4px 4px 4px;
+	-webkit-border-radius: 4px 4px 4px 4px;
+	-o-border-radius: 4px 4px 4px 4px;
+	border-radius: 4px 4px 4px 4px;
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+	color: #FFFFFF;
+	float: left;
+	font-family: helvetica,arial,sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	margin-right: 15px;
+	padding: 10px;
+	text-decoration: none;
+}
+#admin_nav li#ttlogo{}
+#admin_nav li#ttlogo a{
+    background: url("../images/consumer/logo.png") repeat scroll 0 0 transparent;
+    float: left;
+    height: 30px;
+    padding: 0;
+    text-indent: -9999px;
+    width: 168px;
+}
+#content{
+	float: left;
+    position: relative;
+    width: 960px;
+}
+#content_inner{}
 
+/* --------------------------------------------------------------
 
-/* ================ */
-/* = Flash Notice = */
-/* ================ */
+ *Notices
+
+-------------------------------------------------------------- */
+.notice{
+	position:absolute;
+	z-index:9999;
+	padding:15px;
+	background:#777;
+	opacity:0.75;
+	border:15px solid #444;
+	width: 500px;
+	height:100px;
+	margin:auto;
+	text-align:center;
+}
+.back{
+	float: right;
+	margin:0 -20px 5px 0;
+	text-transform: uppercase;
+}
 #flash_wrapper{
 	left: 0px;
 	position: absolute;
@@ -170,7 +101,6 @@ pre{
 	top: 0px;
 	width: 100%;
 }
-
 #content_for_flash{
 	background: #AAA;
 	border-bottom-left-radius: 10px 10px;
@@ -190,26 +120,156 @@ pre{
 	width: 50%;
 }
 
-/* ======== */
-/* = Misc = */
-/* ======== */
+/* --------------------------------------------------------------
+
+ *Headings
+
+-------------------------------------------------------------- */
+h1#cHome{
+    background: url("../images/consumer/slogan.png") repeat scroll 0 0 transparent;
+    clear: both;
+    display: block;
+    height: 63px;
+    margin: 80px auto 60px;
+    position: relative;
+    text-indent: -9999px;
+    width: 769px;
+}
+
+/* --------------------------------------------------------------
+
+ *Login or Sign Up
+
+-------------------------------------------------------------- */
+#signIn{
+    -moz-border-radius: 3px 3px 0 0;
+    -webkit-border-radius: 3px 3px 0 0;
+    -o-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+    background: url("../images/consumer/loginBorder_repeat.png") repeat scroll 0 0 transparent;
+    display: block;
+    margin: auto;
+    padding: 20px 20px 0;
+    text-align: center;
+    width: 458px;
+}
+#signInInner{
+    -moz-border-radius: 3px 3px 0 0;
+    -webkit-border-radius: 3px 3px 0 0;
+    -o-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+    background: url("../images/pattern_black_BG.jpg") repeat scroll 0 0 transparent;
+    display: block;
+    padding: 47px;
+    position: relative;
+    width:364px;
+}
+#signIn h2{
+    background: url("../images/consumer/betaH2.png") no-repeat scroll 0 0 transparent;
+    height: 24px;
+    margin-bottom: 15px;
+    text-indent: -9999px;
+    width: 194px;
+}
+#signIn input{
+    background: none repeat scroll 0 0 #C5CD80;
+    border: 1px solid #EEF89B;
+    color: #92985F;
+    font-size: 18px;
+    line-height: 24px;
+    padding: 10px 0 10px 10px;
+    width: 358px;
+}
+#signIn input.loginCred{
+    margin-top: 32px;
+}
+#signIn input:focus{
+    color:#3b3d26;
+}
+#signIn ul{
+    clear: both;
+    display: inline-block;
+    margin-top: 40px;
+    position: relative;
+}
+#signIn li{
+    float: left;
+    position: relative;
+}
+#signIn li a{}
+#signIn li input.login{
+    background: url("../images/consumer/loginBtn_sprite.png") no-repeat scroll 0 0 transparent;
+    border: 0 none;
+    cursor:pointer;
+    float: left;
+    height: 55px;
+    position: relative;
+    text-indent: -9999px;
+    width: 135px;
+}
+#signIn li input.login:hover{
+    background: url("../images/consumer/loginBtn_sprite.png") no-repeat scroll 0 -55px transparent;
+}
+#signIn li a.signup{
+    background: url("../images/consumer/signUpBtn_sprite.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 55px;
+    position: relative;
+    text-indent: -9999px;
+    width: 166px;
+}
+#signIn li a.signup:hover{
+    background: url("../images/consumer/signUpBtn_sprite.png") no-repeat scroll 0 -55px transparent;
+}
+
+
+
+#pointWrapper{
+    margin: 92px auto;
+    width: 960px;
+}
+#points{}
+#points li{
+    float: left;
+    padding: 20px;
+    position: relative;
+    width: 280px;
+}
+#points li h3{
+    display: block;
+    height: 45px;
+    text-indent: -9999px;
+}
+#points li h3.p1{
+    background: url("../images/consumer/pointOne.png") no-repeat scroll 0 0 transparent;
+}
+#points li h3.p2{
+    background: url("../images/consumer/pointTwo.png") no-repeat scroll 0 0 transparent;
+}
+#points li h3.p3{
+    background: url("../images/consumer/pointThree.png") no-repeat scroll 0 0 transparent;
+}
+#points li p{
+    border-top: 1px solid #202020;
+    color: #E7E7E7;
+    font-family: helvetica,arial,sans-serif;
+    font-size: 13px;
+    line-height: 22px;
+    margin-top: 15px;
+    padding-top: 20px;
+}
+#points li a{
+    color: #9CB82B;
+    display: block;
+    text-decoration: none;
+}
+
+/* --------------------------------------------------------------
+
+ *Timers
+
+-------------------------------------------------------------- */
 input.running_timer{
 	background-color:green;
 	color:white;
 }
-
-
-/* ================ */
-/* = Quick Styles = */
-/* ================ */
-.green{color:green;}
-.red{color:red;}
-.inline{display:inline;}
-.floatright{float:right;}
-.floatleft{float:left;}
-.clearboth{clear:both;}
-.clear{clear:both;}
-.padlr{padding:0 20px;}
-.padtb{padding:20px 0;}
-.background-grey{background:#eee;}
-.background-drkgrey{background:#999;}
