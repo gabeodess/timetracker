@@ -2,20 +2,19 @@
 
 <%= error_messages_for :user %>
 <% form_for @user do |f| -%>
-<p><%= label_tag 'login' %><br/>
-<%= f.text_field :login %></p>
 
-<p><%= label_tag 'email' %><br/>
-<%= f.text_field :email %></p>
+<%= f.text_field :login, :value => 'Username' %>
 
-<p><%= f.label :billing_rate, "Billing Rate" %></p>
-<%= f.text_field :billing_rate %>
 
-<p><%= label_tag 'password' %><br/>
-<%= f.password_field :password %></p>
+<%= f.text_field :email, :value => 'E-mail' %>
 
-<p><%= label_tag 'password_confirmation', 'Confirm Password' %><br/>
-<%= f.password_field :password_confirmation %></p>
+<%= f.text_field :billing_rate, :value => 'Billing Rates' %>
 
-<p><%= submit_tag @user.new_record? ? 'Sign up' : 'Update' %></p>
+
+<%= f.password_field :password, :value => 'Password' %>
+
+
+<%= f.password_field :password_confirmation, :value => 'Password' %>
+
+<%= submit_tag @user.new_record? ? 'Sign up' : 'Update' %>
 <% end -%>

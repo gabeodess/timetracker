@@ -39,3 +39,8 @@ q:before, q:after {
 }
 
 input::-moz-focus-inner { border: 0; }
+
+a:focus{
+    outline:0;
+    border:0;
+}
