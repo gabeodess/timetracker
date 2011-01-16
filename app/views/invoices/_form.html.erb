@@ -41,87 +41,6 @@
 		});
 		tally_table.find(".total_cost").text(number_to_currency(tally.sum()));
 	}
-	// function calculate_total(){
-	// 	var sum = 0;
-	// 	
-	// 	$('.project_total_cost').each(function(){
-	// 		sum += currency_to_float($(this).text());
-	// 	});
-	// 	
-	// 	$('#invoice_total').text(number_to_currency(sum));
-	// 	
-	// 	return sum;
-	// }
-	// 
-	// function calculate_project_totals(){
-	// 	$(".project").each(function(){
-	// 		var items_for_tally = [];
-	// 		
-	// 		$(this).find("table.project_timers tr.timer").each(function(){
-	// 			if($(this).find('input.include_cost:checked').length > 0){
-	// 				console.log($(this));
-	// 				console.log($(this).find('.cost').text());
-	// 				var amount = currency_to_float($(this).find('.cost').text());
-	// 				console.log(amount);
-	// 				items_for_tally.push(amount);
-	// 			}
-	// 		});
-	// 
-	// 		$(this).find("table.project_expenses tr.expense").each(function(){
-	// 			if($(this).find('input.include_cost:checked').length > 0){
-	// 				items_for_tally.push(currency_to_float($(this).find('.cost').text()));
-	// 			}
-	// 		});
-	// 
-	// 		var sum = items_for_tally.sum();
-	// 		$(this).find('.project_total_cost').text(number_to_currency(sum));
-	// 	});
-	// 	
-	// 	calculate_total();
-	// }
-	// 
-	// function calculate_project_timer_total(){
-	// 	$("table.project_timers").each(function(){
-	// 		var items_for_tally = [];
-	// 		
-	// 		$(this).find("tr.timer").each(function(){
-	// 			if($(this).find('input.include_cost:checked').length > 0){
-	// 				items_for_tally.push(currency_to_float($(this).find('.cost').text()));
-	// 			}
-	// 		});
-	// 		var sum = items_for_tally.sum();
-	// 		$(this).find('.timer_total_cost').text(number_to_currency(sum));
-	// 	});
-	// }
-	// 
-	// function calculate_project_expense_total(){
-	// 	$("table.project_expenses").each(function(){
-	// 		var items_for_tally = [];
-	// 		
-	// 		$(this).find("tr.expense").each(function(){
-	// 			if($(this).find('input.include_cost:checked').length > 0){
-	// 				items_for_tally.push(currency_to_float($(this).find('.cost').text()));
-	// 			}
-	// 		});
-	// 		var sum = items_for_tally.sum();
-	// 		$(this).find('.expense_total_cost').text(number_to_currency(sum));
-	// 	});
-	// }
-	// 
-	// function tally_items(items){
-	// 	sum = 0;
-	// 	$.each(items, function(item){ 
-	// 		sum += parseFloat(item.replace("$",''));
-	// 	});
-	// }
-	// 
-	// $(function(){
-	// 	calculate_project_totals();
-	// 	
-	// 	$("input.include_cost").click(function(){
-	// 		calculate_project_totals();
-	// 	});
-	// });
 </script>
 <%- end -%>
 
@@ -129,9 +48,7 @@
   <%= f.error_messages %>
   <%= f.hidden_field :client_id %>
 
-	<% if !@invoice.uninvoiced_timers.blank? %>
-		<%= render '/mailer/invoice', :include_check_boxes => true %>
-	<% end %>
+	<%= render '/mailer/invoice', :include_check_boxes => true %>
 	
 	<hr/>
 	

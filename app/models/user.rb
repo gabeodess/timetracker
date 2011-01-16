@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :assignments
   has_many :assigned_projects
   has_many :projects, :through => :assigned_projects
+  has_many :timers
   
   # ===============
   # = Validations =

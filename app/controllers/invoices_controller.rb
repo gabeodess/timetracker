@@ -14,8 +14,8 @@ class InvoicesController < ApplicationController
   def new
     @invoice = Invoice.new(params[:invoice])
     @invoice.timers = @invoice.client.uninvoiced_timers
-    @invoice.expenses = @invoice.client.expenses
-    @invoice.print_receipt#(@invoice.uninvoiced_timers)
+    @invoice.expenses = @invoice.client.uninvoiced_expenses
+    @invoice.print_receipt
   end
   
   def create
@@ -37,7 +37,7 @@ class InvoicesController < ApplicationController
     @invoice = current_company.invoices.find(params[:id])
     if @invoice.update_attributes(params[:invoice])
       flash[:notice] = "Successfully updated invoice."
-      redirect_to @invoice
+      redirect_to params[:return_to] || @invoice
     else
       render :action => 'edit'
     end

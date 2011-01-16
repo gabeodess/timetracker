@@ -3,8 +3,6 @@
 <p><%= link_to_new :timer, :text => "New Timer", :class => :new_timer %></p>
 <%= render 'form.html.erb' %>
 
-<%= will_paginate %>
-
 <table>
 	<thead>
 	  <tr>
@@ -81,8 +79,6 @@
 		
 	</tbody>
 </table>
-
-<%= will_paginate %>
 
 <%- content_for :document_ready do -%>
 <script type="text/javascript" charset="utf-8">
