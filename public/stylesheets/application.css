@@ -38,7 +38,7 @@ body{
     width: 960px;
 }
 #admin_nav li{
-    display: inline-block;
+    display: block;
     position: relative;
 }
 #admin_nav li a{
