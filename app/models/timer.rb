@@ -116,7 +116,10 @@ class Timer < ActiveRecord::Base
   end
     
   def hours
-    @hours ||= (total_time.to_f/3600)
+    @hours ||= hours!
+  end
+  def hours!
+    total_time.to_f/3600
   end
   
   def readable_hours
@@ -148,17 +151,21 @@ class Timer < ActiveRecord::Base
   # ======================
   # = Virtual Attributes =
   # ======================
+  def stop_and_set=(hours)
+    stop_timer
+    self.hours = hours
+  end
+  def stop_and_set
+    nil
+  end
+  
   def hours=(value)
-    puts "hello from hours= #{value}"
-    if value.include?(':')
-      puts "hello from :"
+    if value.to_s.include?(':')
       array = value.split(":")
-      puts "array = #{array.inspect}"
       self.total_time = (array[0].to_i * 3600 + array[1].to_i * 60)
     else
       self.total_time = (value.to_f * 3600).to_i
     end
-    puts "total_time = #{self.total_time}"
   end
   
   def toggle_timer=(value)

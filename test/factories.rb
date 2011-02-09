@@ -47,6 +47,14 @@ Factory.define :timer do |t|
   t.total_time((rand * 10 ** (1..9).to_a.random_element).floor)
 end
 
+Factory.define :loaded_timer, :parent => :timer do |lt|
+  lt.association :associated_task
+  lt.association :user
+end
+
+Factory.define :associated_task do |at|
+end
+
 Factory.define(:invoice) do |i|
 end
 

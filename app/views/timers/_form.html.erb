@@ -50,3 +50,18 @@
   </p>
   <p><%= f.submit "Submit" %></p>
 <% end %>
+
+<%- if @timer and @timer.running? -%>
+<% form_for @timer do |f| -%>
+	<p>
+		Help! I forgot to stop my timer!  That's okay, enter the total value of the timer here and click submit to reset it.
+	</p>
+	<p>
+		Timer has been running for <%= ((Time.now - @timer.timer_started_at)/3600).round %> hours since
+		<%= @timer.timer_started_at %>
+	</p>
+	<%= f.label :stop_and_set, "Stop and Set" %>
+  <%= f.text_field :stop_and_set %>
+	<%= f.submit "Submit", :disable_with => 'Submiting...' %>
+<% end -%>
+<%- end -%>

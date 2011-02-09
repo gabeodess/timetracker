@@ -2,6 +2,42 @@ require 'test_helper'
 
 class TimersControllerTest < ActionController::TestCase
   
+  def setup
+    @company = Factory(:company)
+    @user = @company.owner
+    @project = @company.clients.first.projects.first
+    @task = @company.tasks.first
+    @associated_task = Factory(:associated_task, :project => @project, :task => @task)
+    @timer = Factory(:timer, {
+      :total_time => 200, 
+      :timer_started_at => 24.hours.ago, 
+      :associated_task => @associated_task,
+      :user => @user
+    })
+    @session_vars = {:user_id => @user.id, :company_id => @company.url_id}
+  end
+  
+  # =========
+  # = Index =
+  # =========
+  test "should get index" do
+    get_index :index, {}, @session_vars
+  end
+  
+  # ========
+  # = Show =
+  # ========
+  test "should get show" do
+    get_show :show, {:id => @timer}, @session_vars
+  end
+  
+  # ========
+  # = Edit =
+  # ========
+  test "should get edit" do
+    get_edit :edit, {:id => @timer}, @session_vars
+  end
+  
   test "index should not include invoiced timers" do
     company = Factory(:company)
     client = company.clients.first
