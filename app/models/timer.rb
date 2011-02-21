@@ -60,7 +60,7 @@ class Timer < ActiveRecord::Base
     if stop_and_set
       
       # => Convert stop_and_set to the environment's time zone.
-      time = Time.parse(stop_and_set.to_s(:number))
+      time = Time.zone.parse(stop_and_set.to_s(:number))
       
       time_worked = total_time + (time - timer_started_at)
       puts [time_worked, time, timer_started_at].inspect
