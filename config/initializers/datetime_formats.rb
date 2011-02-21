@@ -23,4 +23,6 @@
 # %%  Literal “%’’ character
 
 Time::DATE_FORMATS[:default] = "%m.%d.%Y - %I:%M%p"
+Time::DATE_FORMATS[:select] = "%Y %B %d - %H:%M"
+
 Date::DATE_FORMATS[:default] = "%m.%d.%Y"
