@@ -1,21 +1,14 @@
 <h1>Timers</h1>
 
-<p><%= link_to_new :timer, :text => "New Timer", :class => :new_timer %></p>
-<%= render 'form.html.erb' %>
+<div id='new_timer'><%= render 'form.html.erb' %></div>
 
-<table>
+<table id='timers_list'>
 	<thead>
-	  <tr>
-	    <th>Notes</th>
-	    <th>Total Time</th>
-	    <th>Status</th>
-	    <th>Task</th>
-	  </tr>
 	</thead>
 	<tbody>
 		<% if !@clients.blank? %>
 		  <% for client in @clients %>
-		    <tr class='background-drkgrey'>
+		    <tr class='background-drkgrey child-border'>
 					<td colspan='6'>
 						<h2>
 							<%= link_to client.name, client %>
@@ -27,7 +20,7 @@
 				<%- projects = timers.map(&:project).uniq -%>
 				<% if !projects.blank? %>
 				  <% for project in projects %>
-					<%- content_tag_for :tr, project, :class => 'background-grey' do -%>
+					<%- content_tag_for :tr, project, :class => 'background-grey child-border' do -%>
 					<td colspan='6'>
 						<h5 class='floatleft'>
 							<%= link_to project.name, project %>
@@ -35,6 +28,14 @@
 						</h5>
 					</td>
 					<%- end -%>
+				  <tr class='th-border'>
+				    <th>Notes</th>
+				    <th>Total Time</th>
+				    <th>Status</th>
+				    <th>Task</th>
+						<th>Created At</th>
+						<th></th>
+				  </tr>
 				    <% for timer in timers.select{ |item| item.project.name == project.name } %>
 							<%- if timer.timer_running? -%>
 								<%- content_for :document_ready do -%>
@@ -55,7 +56,7 @@
 									</script>
 								<%- end -%>
 							<%- end -%>
-							<tr>
+							<tr class='child-border'>
 								<td><%=h timer.notes %></td>
 								<td id="hours_for_<%= timer.id %>"><%=h timer.hours.to_time %></td>
 								<td>
@@ -79,20 +80,3 @@
 		
 	</tbody>
 </table>
-
-<%- content_for :document_ready do -%>
-<script type="text/javascript" charset="utf-8">
-	function toggle_form(){
-		if($("#new_timer").css('display') == 'block'){
-			$("#new_timer").hide();
-		}else{
-			$("#new_timer").show();
-		}
-	}
-	
-	$(function(){
-		$("#new_timer").hide();
-		$('a.new_timer').click(function(){toggle_form(); return false;});
-	});
-</script>
-<%- end -%>

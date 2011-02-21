@@ -202,6 +202,8 @@ input.running_timer{
 /* ================ */
 /* = Quick Styles = */
 /* ================ */
+.th-border th{border:1px solid;}
+.child-border > *{border:1px solid;}
 .green{color:green;}
 .red{color:red;}
 .inline{display:inline;}

@@ -39,12 +39,34 @@ class Timer < ActiveRecord::Base
   # ==============
   # = Attributes =
   # ==============
+  
+  # => Using composed of allows us to an attribute writer with multiparameter attributes.
+  # BUG: The time gets set as UTC instead of the environment's time zone.
+  composed_of :stop_and_set,
+              :class_name => 'Time',
+              :mapping => %w(Time to_s),
+              :constructor => Proc.new{ |item| item },
+              :converter => Proc.new{ |item| item }
+              
   attr_protected :timer_started_at, :stopped_at
   
   # =========
   # = Hooks =
   # =========
   before_create :initial_timer_status
+  before_save :stop_and_set_now
+
+  def stop_and_set_now
+    if stop_and_set
+      
+      # => Convert stop_and_set to the environment's time zone.
+      time = Time.parse(stop_and_set.to_s(:number))
+      
+      time_worked = total_time + (time - timer_started_at)
+      stop_timer
+      self.total_time = time_worked
+    end
+  end
   
   def initial_timer_status
     start_timer if total_time.to_i == 0
@@ -150,15 +172,7 @@ class Timer < ActiveRecord::Base
   
   # ======================
   # = Virtual Attributes =
-  # ======================
-  def stop_and_set=(hours)
-    stop_timer
-    self.hours = hours
-  end
-  def stop_and_set
-    nil
-  end
-  
+  # ======================  
   def hours=(value)
     if value.to_s.include?(':')
       array = value.split(":")

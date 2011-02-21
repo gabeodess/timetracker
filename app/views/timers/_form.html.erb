@@ -32,22 +32,24 @@
 
 <% form_for @timer || Timer.new do |f| %>
   <%= f.error_messages %>
-	<p>
-		<%= label_tag :project %>:
-		<%= project_select @projects, :selected => f.object.associated_task.try(:project_id) %>
-	</p>
-	<p>
-		<%= f.label :associated_task_id, "Task" %>: 
-	  <%= f.collection_select :associated_task_id, f.object.associated_task.try(:project).try(:associated_tasks) || [], :id, :name, {:disabled => true} %>
-	</p>
-  <p>
-    <%= f.label :notes %><br />
-    <%= f.text_area :notes, :cols => 15, :rows => 3 %>
-  </p>
-  <p>
-    <%= f.label :hours, "Hours:" %>
-    <%= f.text_field :hours, :size => 3 %>
-  </p>
+	<fieldset>
+		<p>
+			<%= label_tag :project %>:
+			<%= project_select @projects, :selected => f.object.associated_task.try(:project_id) %>
+		</p>
+		<p>
+			<%= f.label :associated_task_id, "Task" %>: 
+		  <%= f.collection_select :associated_task_id, f.object.associated_task.try(:project).try(:associated_tasks) || [], :id, :name, {:disabled => true} %>
+		</p>
+	  <p>
+	    <%= f.label :notes %><br />
+	    <%= f.text_area :notes, :cols => 15, :rows => 3 %>
+	  </p>
+	  <p>
+	    <%= f.label :hours, "Hours:" %>
+	    <%= f.text_field :hours, :size => 3 %>
+	  </p>
+	</fieldset>
   <p><%= f.submit "Submit" %></p>
 <% end %>
 
@@ -57,11 +59,11 @@
 		Help! I forgot to stop my timer!  That's okay, enter the total value of the timer here and click submit to reset it.
 	</p>
 	<p>
-		Timer has been running for <%= ((Time.now - @timer.timer_started_at)/3600).round %> hours since
+		Timer has been running for <%= ((Time.now - @timer.timer_started_at)/3600).to_time %> hours since
 		<%= @timer.timer_started_at %>
 	</p>
-	<%= f.label :stop_and_set, "Stop and Set" %>
-  <%= f.text_field :stop_and_set %>
+	<%= f.label :stop_and_set, "What time did you stop?" %>
+  <%= f.datetime_select :stop_and_set, :default => f.object.timer_started_at %>
 	<%= f.submit "Submit", :disable_with => 'Submiting...' %>
 <% end -%>
 <%- end -%>

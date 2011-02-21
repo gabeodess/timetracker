@@ -1,0 +1,12 @@
+/* ================ */
+/* = timers#index = */
+/* ================ */
+div#new_timer{
+  float:right;
+  width:22;
+}
+
+table#timers_list{
+  float:left;
+  width:75%;
+}
