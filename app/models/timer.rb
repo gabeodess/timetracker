@@ -63,7 +63,6 @@ class Timer < ActiveRecord::Base
       time = Time.zone.parse(stop_and_set.to_s(:number))
       
       time_worked = total_time + (time - timer_started_at)
-      puts [time_worked, time, timer_started_at].inspect
       stop_timer
       self.total_time = time_worked
     end
