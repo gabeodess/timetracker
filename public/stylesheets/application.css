@@ -75,7 +75,6 @@ body{
     width: 960px;
 }
 #content_inner{
-  background: #DBFFB7;
   padding: 40px;
   margin: 40px 0;
   -moz-border-radius: 12px;
@@ -83,8 +82,8 @@ body{
   border-radius: 12px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
-  background-clip: padding-box;
   opacity: .8;
+  background: rgba(219, 233, 183, .9);
 }
 
 /* --------------------------------------------------------------
@@ -153,22 +152,6 @@ h1#cHome{
 
 /* --------------------------------------------------------------
 
-/* ================ */
-/* = Quick Styles = */
-/* ================ */
-.th-border th{border:1px solid;}
-.child-border > *{border:1px solid;}
-.green{color:green;}
-.red{color:red;}
-.inline{display:inline;}
-.floatright{float:right;}
-.floatleft{float:left;}
-.clearboth{clear:both;}
-.clear{clear:both;}
-.padlr{padding:0 20px;}
-.padtb{padding:20px 0;}
-.background-grey{background:#eee;}
-.background-drkgrey{background:#999;}
 
  *Login or Sign Up
 

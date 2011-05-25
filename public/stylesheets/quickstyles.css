@@ -1,0 +1,18 @@
+/* ================ */
+/* = Quick Styles = */
+/* ================ */
+.th-border th{border:1px solid;}
+.child-border > *{border:1px solid;}
+.green{color:green;}
+.red{color:red;}
+.inline{display:inline;}
+.floatright{float:right;}
+.floatleft{float:left;}
+.clearboth{clear:both;}
+.clear{clear:both;}
+.padlr{padding:0 20px;}
+.padtb{padding:20px 0;}
+.background-grey{background:#eee;}
+.background-drkgrey{background:#999;}
+.small{font-size:small;}
+.downcase, .lowercase{text-transform:lowercase;}

@@ -12,7 +12,7 @@ module ProjectsHelper
     return grouped_options_for_select(
       clients.sort_by(&:name
       ).map{ |client| [client.name, projects.select{ |project| project.client.id == client.id 
-      }.map{ |project| [project.name, project.id] }] }
+      }.map{ |project| [project.name, project.id] }] }, nil, "Select a project"
     )
   end
   

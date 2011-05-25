@@ -12,6 +12,9 @@
 					<td colspan='6'>
 						<h2>
 							<%= link_to client.name, client %>
+							<span class='small downcase'>
+								(<%= link_to "Invoice Now", new_invoice_path(:client_id => client.id) %>)
+							</span>
 							<%= client.uninvoiced_hours.to_time %>
 						</h2>
 					</td>
