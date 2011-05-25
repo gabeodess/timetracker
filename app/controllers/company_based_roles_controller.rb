@@ -1,7 +1,7 @@
 class CompanyBasedRolesController < ApplicationController
   filter_resource_access
   def index
-    @company_based_roles = CompanyBasedRole.paginate(:page => params[:page])
+    @company_based_roles = current_company.company_based_roles.paginate(:page => params[:page])
   end
   
   def show
@@ -9,7 +9,7 @@ class CompanyBasedRolesController < ApplicationController
   end
   
   def new
-    @company_based_role = CompanyBasedRole.new
+    @company_based_role = CompanyBasedRole.new(params[:company_based_role])
   end
   
   def create

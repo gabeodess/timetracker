@@ -11,14 +11,13 @@ class CompaniesController < ApplicationController
   end
   
   def new
-    @company = Company.new
+    @company = Company.new(params[:company])
   end
   
   def create
     @company = Company.new(params[:company])
     @company.owner_id = current_user.id
     if @company.save
-      CompanyBasedRole.create!(:name => 'admin', :user => current_user, :company => @company)
       flash[:notice] = "Successfully created company."
       redirect_to :dashboard
     else

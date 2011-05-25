@@ -49,6 +49,11 @@ class Project < ActiveRecord::Base
   # = Hooks =
   # =========
   after_create :add_to_users
+  before_destroy :destroy_worthy?
+  
+  def destroy_worthy?
+    timers.first(:select => 'timers.id').nil?
+  end
   
   def add_to_users
     users.each do |user|

@@ -50,6 +50,7 @@ class ActiveSupport::TestCase
     @user = @company.owner
     @client = @company.clients.first
     @project = @client.projects.first
+    @task = Factory(:task, :company_id => @company.id)
     load_project
     
     @invoice = Factory(:invoice, {
@@ -118,3 +119,4 @@ class ActiveSupport::TestCase
   end
     
 end
+require 'mocha'

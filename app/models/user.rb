@@ -59,7 +59,7 @@ class User < ActiveRecord::Base
   end
     
   def role_symbols
-    current_company ? company_based_roles.company_id_is(current_company.id).map(&:name).map(&:to_sym) : []
+    (current_company ? company_based_roles.company_id_is(current_company.id).map(&:name).map(&:to_sym) : []) << :user
   end
   
   # =================

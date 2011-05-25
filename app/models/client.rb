@@ -11,7 +11,7 @@ class Client < ActiveRecord::Base
   has_many :associated_tasks, :through => :projects
   has_many :tasks, :through => :projects
   has_many :contacts, :dependent => :destroy
-  has_many :invoices, :dependent => :destroy
+  has_many :invoices
   has_many :unpaid_invoices, {
     :class_name => "Invoice", 
     :foreign_key => "client_id", 
@@ -46,6 +46,15 @@ class Client < ActiveRecord::Base
   # ===============
   validates_presence_of :name
   validates_presence_of :company_id
+  
+  # =========
+  # = Hooks =
+  # =========
+  before_destroy :destroy_worthy?
+  
+  def destroy_worthy?
+    [invoices.first(:select => 'id'), projects.first(:select => 'id')].uniq == [nil]
+  end
   
   # ====================
   # = Instance Methods =

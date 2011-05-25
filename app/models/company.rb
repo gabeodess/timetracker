@@ -8,7 +8,7 @@ class Company < ActiveRecord::Base
   # ================
   has_many :company_based_roles, :dependent => :destroy
   has_many :users, :through => :company_based_roles
-  has_many :clients, :dependent => :destroy
+  has_many :clients
   has_many :invoices, :through => :clients
   has_many :projects, :through => :clients
   has_many :tasks, :dependent => :destroy
@@ -33,6 +33,11 @@ class Company < ActiveRecord::Base
   # = Hooks =
   # =========
   after_create :create_default_tasks, :add_owner_to_users
+  before_destroy :destroy_worthy?
+  
+  def destroy_worthy?
+    clients.first(:select => 'id').nil?
+  end
   
   def add_owner_to_users
     CompanyBasedRole.create!({:user => owner, :company => self, :name => 'admin'})
@@ -49,19 +54,37 @@ class Company < ActiveRecord::Base
   # ===============
   # = Validations =
   # ===============
-  validates_presence_of :owner, :url_id
+  validate :validate_uniqueness_of_name
+  validates_presence_of :owner_id, :url_id
   validates_uniqueness_of :url_id
   validates_format_of :url_id, :with => /^[A-Za-z0-9-]+$/
+  
+  def validate_uniqueness_of_name
+    company_scope = new_record? ? [:id_not_null] : [:id_not, id]
+    errors.add :name, "has already been taken." if Company.send(*company_scope).find_by_owner_id_and_name(owner_id, name)
+  end
   
   # ====================
   # = Instance Methods =
   # ====================
+  def owner_name
+    owner.login
+  end
+  
   def admin_ids
     company_based_roles.name_is('admin').map(&:user_id) << owner_id
   end
   
   def to_param
     url_id
+  end
+  
+  # =================
+  # = Class Methods =
+  # =================
+  def self.authenticate(my_url_id, current_user)
+    company = owner_id_is(current_user.id).url_id_is(my_url_id).first
+    return company ? company : current_user.companies.url_id_is(my_url_id).first
   end
   
 end

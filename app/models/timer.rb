@@ -6,7 +6,7 @@ class Timer < ActiveRecord::Base
   # ==========
   # = Scopes =
   # ==========
-  default_scope :order => "created_at ASC"
+  default_scope :order => "timers.created_at ASC"
   
   # ================
   # = Associations =

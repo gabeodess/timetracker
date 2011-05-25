@@ -1,12 +1,28 @@
+Factory.define :company_based_role do |c|
+  c.company_id 1
+  c.user_id 1
+  c.name 'admin'
+end
+
+Factory.define :contact do |c|
+  c.email "foobar@test.com"
+end
+
 # ===================
 # = Build A Company =
 # ===================
+Factory.define :empty_company, :class => Company do |c|
+  c.sequence(:name){ |i| "Company #{i}" }
+  c.sequence(:url_id){ |i| "company#{i}" }
+  
+  c.owner_id 1
+end
+
 Factory.define :company do |c|
-  c.sequence(:name){ |i| "Comany #{i}" }
+  c.sequence(:name){ |i| "Company #{i}" }
   c.sequence(:url_id){ |i| "company#{i}" }
   
   c.association :owner, :factory => :user
-  
   c.after_create do |company|
     2.times do |i|
       Factory(:client, :company => company)
@@ -58,18 +74,8 @@ end
 Factory.define(:invoice) do |i|
 end
 
-# Factory.define(:loaded_invoice, :parent => :invoice) do |li|
-#   li.before_save do |invoice|
-#     2.times do |i|
-#       @project.timers << Factory(:timer, :associated_task => @project.associated_tasks.random_element)
-#       @project.expenses << Factory(:expense)
-#     end
-#     invoice.timers = invoice.client.uninvoiced_timers
-#     invoice.expenses = invoice.client.uninvoiced_expenses
-#   end
-# end
-
 Factory.define :expense do |e|
   e.sequence(:name){ |i| "Expense #{i}" }
   e.your_cost((rand * 10 ** (1..9).to_a.random_element).floor.to_s)
+  e.project_id 1
 end

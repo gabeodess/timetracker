@@ -3,10 +3,6 @@ class ProjectsController < ApplicationController
   
   before_filter :get_collections, :only => [:new, :edit]
   
-  def index
-    @projects = current_company.projects.paginate(:page => params[:page])
-  end
-  
   def show
     @project = Project.find(params[:id])
   end
@@ -23,7 +19,6 @@ class ProjectsController < ApplicationController
     
   def update
     @project = Project.find(params[:id])
-    # params[:project][:task_ids] ||= []
     if @project.update_attributes(params[:project])
       flash[:notice] = "Successfully updated project."
       redirect_to @project

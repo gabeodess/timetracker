@@ -3,7 +3,7 @@
 class Expense < ActiveRecord::Base
   
   def after_initialize
-    self.your_cost ||= cost.to_s if cost
+    self.your_cost ||= cost.to_s if attributes[:cost]
   end
   
   # ================
@@ -23,7 +23,7 @@ class Expense < ActiveRecord::Base
   # = Validations =
   # ===============
   validates_format_of :your_cost, :with => Validator.currency_regex, :allow_blank => true
-  validates_presence_of :project, :name, :cost
+  validates_presence_of :project_id, :name, :cost
   
   # =========
   # = Hooks =

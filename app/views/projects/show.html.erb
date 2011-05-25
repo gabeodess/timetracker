@@ -28,13 +28,12 @@
 <%- end -%>
 <p>
   <strong>Client:</strong>
-	<%=h @project.client.name %>
+	<%= link_to h(@project.client.name), @project.client %>
 </p>
 
 <p>
   <%= link_to_edit @project, :text => 'Edit' %> |
   <%= link_to_destroy @project, :text => 'Destroy' %> |
-  <%= link_to "View All", projects_path %>
 </p>
 
 <div id="expenses">

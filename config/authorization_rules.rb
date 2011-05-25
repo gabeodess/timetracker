@@ -2,18 +2,32 @@ authorization do
   role :guest do
     
     has_permission_on :users, :to => :create
+    
+  end
+  
+  role :user do
     has_permission_on :users, :to => :manage do
       if_attribute :id => is{user.id}
     end
     
     has_permission_on :companies, :to => :create
     
+    has_permission_on :companies, :to => [:manage] do
+      if_attribute :owner_id => is{user.id}
+    end
   end
   
   role :admin do
     
-    has_permission_on :companies, :to => :manage do
+    has_permission_on :company_based_roles, :to => [:manage] do
+      if_attribute :company_id => is{user.current_company.id}
+    end
+    
+    has_permission_on :companies, :to => [:read, :create, :update] do
       if_attribute :admin_ids => contains{user.id}
+    end
+    has_permission_on :companies, :to => [:read, :create, :update] do
+      if_attribute :owner_id=> is{user.id}
     end
     
     has_permission_on :expenses, :to => :manage do
