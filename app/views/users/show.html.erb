@@ -25,6 +25,7 @@
 				<%= "*" if company.url_id == session[:company_id] %>
 				<%= link_to company.name, company_login_path(company), :method => :post %>
 				(Owner: <%= company.owner_name %>)
+				<%= link_to_destroy(company) if company.destroy_worthy? %>
 			</li>
 	  <% end %>
 	<% end %>

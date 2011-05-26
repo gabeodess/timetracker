@@ -12,6 +12,22 @@
   <%= link_to "View All", companies_path %>
 </p>
 
+<h2>Collaborators</h2>
+<ul>
+	<% if !@company.company_based_roles.blank? %>
+	  <% for company_based_role in @company.company_based_roles %>
+	    <%- content_tag_for :li, company_based_role do -%>
+				<%= company_based_role.user_email %>
+				(<%= company_based_role.name %>)
+				<%= company_based_role.owner? ? "(owner)" : link_to_destroy(company_based_role) %>
+			<%- end -%>
+	  <% end %>
+	<% else %>
+	  
+	<% end %>
+	
+</ul>
+
 <h2>Clients</h2>
 <ul>
 	<% if !@company.clients.blank? %>

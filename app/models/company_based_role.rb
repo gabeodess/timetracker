@@ -7,7 +7,7 @@ class CompanyBasedRole < ActiveRecord::Base
   # = Associations =
   # ================
   belongs_to :company
-  belongs_to :user
+  belongs_to :user#, :foreign_key => :email, :primary_key => :email
   
   # ==============
   # = Attributes =
@@ -31,6 +31,17 @@ class CompanyBasedRole < ActiveRecord::Base
   
   def set_name
     self.name ||= 'employee'
+  end
+  
+  # ====================
+  # = Instance Methods =
+  # ====================
+  def owner?
+    company.owner_id == user_id
+  end
+  
+  def user_email
+    user.email
   end
   
 end
