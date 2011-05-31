@@ -22,11 +22,9 @@
 				<%= company_based_role.owner? ? "(owner)" : link_to_destroy(company_based_role) %>
 			<%- end -%>
 	  <% end %>
-	<% else %>
-	  
 	<% end %>
-	
 </ul>
+<%= render 'company_based_roles/form' %>
 
 <h2>Clients</h2>
 <ul>

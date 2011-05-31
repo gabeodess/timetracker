@@ -8,7 +8,7 @@ class BillingRateTest < ActionController::IntegrationTest
     @project = @company.projects.first
     @timer = Factory(:timer, {
       :user => @user, 
-      :associated_task => @project.associated_tasks.random_element, 
+      :associated_task => @project.associated_tasks.sample, 
       :total_time => 3600
     })
   end

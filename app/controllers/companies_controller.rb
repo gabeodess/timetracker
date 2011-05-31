@@ -19,7 +19,7 @@ class CompaniesController < ApplicationController
     @company.owner_id = current_user.id
     if @company.save
       flash[:notice] = "Successfully created company."
-      redirect_to :dashboard
+      redirect_to current_user
     else
       render :action => 'new'
     end

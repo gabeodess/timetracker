@@ -1,3 +1,4 @@
 =Install Postgres Gem
+Please adjust as necessary for your system specifications.
  - $export PATH=/opt/local/lib/postgresql83/bin:${PATH}
  - $env ARCHFLAGS="-arch x86_64" gem install pg

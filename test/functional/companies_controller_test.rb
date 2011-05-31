@@ -38,7 +38,7 @@ class CompaniesControllerTest < ActionController::TestCase
   def test_create_valid
     Company.any_instance.stubs(:valid?).returns(true)
     post :create, {}, @session_vars
-    assert_redirected_to :dashboard
+    assert_redirected_to assigns(:company).owner
   end
   
   def test_edit_unauthorized

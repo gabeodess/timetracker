@@ -59,7 +59,7 @@ class TimersControllerTest < ActionController::TestCase
     timers = []
     2.times do |i|
       timers << Factory(:timer, {
-        :associated_task => client.projects.map(&:associated_tasks).flatten.random_element, :user => user
+        :associated_task => client.projects.map(&:associated_tasks).flatten.sample, :user => user
       })
     end
     timer1 = timers[0]
@@ -98,7 +98,7 @@ class TimersControllerTest < ActionController::TestCase
   private
   def create_timer(client, user, options = {})
     Factory(:timer, {
-      :associated_task => client.projects.map(&:associated_tasks).flatten.random_element, :user => user
+      :associated_task => client.projects.map(&:associated_tasks).flatten.sample, :user => user
     }.merge(options))
   end
   

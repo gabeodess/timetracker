@@ -15,8 +15,8 @@ class InvoiceTest < ActiveSupport::TestCase
     company = Factory(:company)
     client = company.clients.first
         
-    10.times{ |i| Factory(:timer, {:user => company.owner, :associated_task => client.projects.random_element.associated_tasks.random_element}) }
-    10.times{ |i| Factory(:expense, :project_id => client.project_ids.random_element) }
+    10.times{ |i| Factory(:timer, {:user => company.owner, :associated_task => client.projects.sample.associated_tasks.sample}) }
+    10.times{ |i| Factory(:expense, :project_id => client.project_ids.sample) }
     
     invoice = Factory(:invoice, {
       :client => client, 

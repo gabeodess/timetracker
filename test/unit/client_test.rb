@@ -10,9 +10,9 @@ class ClientTest < ActiveSupport::TestCase
       5.times do |i|
         Factory(:timer, {
           :user => company.owner,
-          :associated_task => client.projects.map(&:associated_tasks).flatten.random_element
+          :associated_task => client.projects.map(&:associated_tasks).flatten.sample
         })
-        Factory(:expense, :project => client.projects.random_element)
+        Factory(:expense, :project => client.projects.sample)
       end
       Factory(:invoice, {
         :timers => client.timers,

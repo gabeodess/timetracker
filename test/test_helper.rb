@@ -73,7 +73,7 @@ class ActiveSupport::TestCase
   end
   
   def add_timer_to_project
-    Factory(:timer, {:user => @user, :associated_task => @project.associated_tasks.random_element})
+    Factory(:timer, {:user => @user, :associated_task => @project.associated_tasks.sample})
   end
 
   def add_expense_to_project

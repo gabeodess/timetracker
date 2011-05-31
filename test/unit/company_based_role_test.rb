@@ -7,5 +7,5 @@ class CompanyBasedRoleTest < ActiveSupport::TestCase
       @user.company_based_roles.each(&:destroy)
     end
   end
-
+  
 end

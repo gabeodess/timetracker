@@ -40,7 +40,7 @@ class Company < ActiveRecord::Base
   end
   
   def add_owner_to_users
-    CompanyBasedRole.create!({:user => owner, :company => self, :name => 'admin'})
+    CompanyBasedRole.create!({:user => owner, :company => self, :name => 'admin', :email => owner.email})
   end
   
   def create_default_tasks

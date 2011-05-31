@@ -9,7 +9,11 @@ class User < ActiveRecord::Base
   # = Associations =
   # ================
   has_many :company_based_roles
-  has_many :companies, :through => :company_based_roles
+  has_many :companies, :through => :company_based_roles do
+    def <<(company)
+      CompanyBasedRole.create!({:email => proxy_owner.email, :company => company})
+    end
+  end
   has_many :assignments
   has_many :assigned_projects
   has_many :projects, :through => :assigned_projects
@@ -49,7 +53,15 @@ class User < ActiveRecord::Base
   # uff.  this is really an authorization, not authentication routine.  
   # We really need a Dispatch Chain here or something.
   # This will also let us return a human error message.
-  #
+  
+  # =========
+  # = Hooks =
+  # =========
+  after_create :update_company_based_roles
+  
+  def update_company_based_roles
+    CompanyBasedRole.update_all({:user_id => id}, {:id => CompanyBasedRole.find_all_by_email(email).map(&:id)})
+  end
   
   # ====================
   # = Instance Methods =

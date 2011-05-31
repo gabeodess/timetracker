@@ -7,30 +7,38 @@ class CompanyBasedRole < ActiveRecord::Base
   # = Associations =
   # ================
   belongs_to :company
-  belongs_to :user#, :foreign_key => :email, :primary_key => :email
+  belongs_to :user
   
   # ==============
   # = Attributes =
   # ==============
+  cattr_accessor :names
+  @@names = %w( admin employee )
   
   # ===============
   # = Validations =
   # ===============
-  validates_inclusion_of :name, :in => %w( admin employee )
-  validates_presence_of :user_id, :company_id
+  validates_inclusion_of :name, :in => @@names
+  validates_presence_of :company_id
+  validates_format_of :email, :with => String::Regex.email
   
   # =========
   # = Hooks =
   # =========
+  before_save :set_user
   before_validation :set_name
   before_destroy :check_ownership
   
   def check_ownership
-    !(company and company.owner_id == user.id)
+    !(company and company.owner_id == (User.find_by_id(user_id, :select => "id") || User.find_by_email(email, :select => 'id, email')).try(:id))
   end
   
   def set_name
     self.name ||= 'employee'
+  end
+  
+  def set_user
+    self.user = User.find_by_email(email, :select => 'id, email') if email
   end
   
   # ====================
@@ -41,7 +49,7 @@ class CompanyBasedRole < ActiveRecord::Base
   end
   
   def user_email
-    user.email
+    user.try(:email)
   end
   
 end

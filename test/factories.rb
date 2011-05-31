@@ -2,6 +2,7 @@ Factory.define :company_based_role do |c|
   c.company_id 1
   c.user_id 1
   c.name 'admin'
+  c.email 'foo@test.com'
 end
 
 Factory.define :contact do |c|
@@ -60,7 +61,7 @@ Factory.define :task do |t|
 end
 
 Factory.define :timer do |t|
-  t.total_time((rand * 10 ** (1..9).to_a.random_element).floor)
+  t.total_time((rand * 10 ** (1..9).to_a.sample).floor)
 end
 
 Factory.define :loaded_timer, :parent => :timer do |lt|
@@ -76,6 +77,6 @@ end
 
 Factory.define :expense do |e|
   e.sequence(:name){ |i| "Expense #{i}" }
-  e.your_cost((rand * 10 ** (1..9).to_a.random_element).floor.to_s)
+  e.your_cost((rand * 10 ** (1..9).to_a.sample).floor.to_s)
   e.project_id 1
 end
