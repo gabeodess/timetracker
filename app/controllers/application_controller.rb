@@ -22,7 +22,6 @@ class ApplicationController < ActionController::Base
     end
   
     def company_login_required
-      
       unless current_company and current_company.user_ids.include?(current_user.id)
         logout_company
         flash[:notice] = "Please login through a company."

@@ -1,6 +1,10 @@
 class InvoicesController < ApplicationController
   
+  before_filter :my_test
   filter_resource_access
+  
+  def my_test
+  end
   
   def index
     @invoices = current_company.invoices.paginate(:page => params[:page])
@@ -12,7 +16,6 @@ class InvoicesController < ApplicationController
   end
   
   def new
-    @invoice = Invoice.new(params[:invoice])
     @invoice.timers = @invoice.client.uninvoiced_timers
     @invoice.expenses = @invoice.client.uninvoiced_expenses
     @invoice.print_receipt
