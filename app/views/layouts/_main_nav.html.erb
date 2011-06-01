@@ -1,0 +1,12 @@
+<ul id='admin_nav'>
+	<li id="ttlogo"><%= link_to_active 'home', :root %></li>
+	<li><a href="#">About</a></li>
+	<li><a href="#">Contact</a></li>
+	<li><a href="#">Help</a></li>
+	<li><a href="#">Feedback</a></li>
+	<%- if current_company -%>
+	<li><%= link_to_active 'my account', current_user if current_user %></li>
+	<li><%= link_to_active 'dashboard', :dashboard %></li>
+	<li><%= link_to_controller :timers, :text => 'timesheets' %></li>
+	<%- end -%>
+</ul>
