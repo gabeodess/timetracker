@@ -1,44 +1,35 @@
-<h1>Timers</h1>
-
-<div id='new_timer'><%= render 'form.html.erb' %></div>
-
 <table id='timers_list'>
 	<thead>
 	</thead>
 	<tbody>
 		<% if !@clients.blank? %>
 		  <% for client in @clients %>
-		    <tr class='background-drkgrey child-border'>
-					<td colspan='6'>
-						<h2>
+				<tr>
+					<th class="client_name">
 							<%= link_to client.name, client %>
-							<span class='small downcase'>
-								(<%= link_to "Invoice Now", new_invoice_path(:invoice => {:client_id => client.id}) %>)
-							</span>
+							(<%= link_to "Invoice Now", new_invoice_path(:invoice => {:client_id => client.id}) %>)
 							<%= client.uninvoiced_hours.to_time %>
-						</h2>
-					</td>
-				</tr>
+					</th>
+					<th>Total Time</th>
+					<th>Status</th>
+					<th colspan="2">Task</th>
+					<th></th>
+			  </tr>
 				<%- timers = @timers.select{ |item| item.client.id == client.id } -%>
 				<%- projects = timers.map(&:project).uniq -%>
 				<% if !projects.blank? %>
 				  <% for project in projects %>
-					<%- content_tag_for :tr, project, :class => 'background-grey child-border' do -%>
-					<td colspan='6'>
-						<h5 class='floatleft'>
+					<%- content_tag_for :tr, project do -%>
+					<td class="project_title">
 							<%= link_to project.name, project %>
 							(<%= project.uninvoiced_hours.to_time %>)
-						</h5>
 					</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
 					<%- end -%>
-				  <tr class='th-border'>
-				    <th>Notes</th>
-				    <th>Total Time</th>
-				    <th>Status</th>
-				    <th>Task</th>
-						<th>Created At</th>
-						<th></th>
-				  </tr>
 				    <% for timer in timers.select{ |item| item.project.name == project.name } %>
 							<%- if timer.timer_running? -%>
 								<%- content_for :document_ready do -%>
@@ -59,8 +50,8 @@
 									</script>
 								<%- end -%>
 							<%- end -%>
-							<tr class='child-border'>
-								<td><%=h timer.notes %></td>
+							<tr>
+								<td class="timer_name"><%=h timer.notes %></td>
 								<td id="hours_for_<%= timer.id %>"><%=h timer.hours.to_time %></td>
 								<td>
 									<%- form_for timer do |f| -%>
@@ -83,4 +74,5 @@
 		
 	</tbody>
 </table>
+<div id='new_timer'><%= render 'form.html.erb' %></div>
 <div class='clear'></div>
