@@ -36,21 +36,18 @@
 					<li><a href="#">Help</a></li>
 					<li><a href="#">Feedback</a></li>
 				</ul>
+				<ul class="user_status">
+					<li class="username">strevathan<a href="/logout"> (sign out)</a></li>
+					<li><%= link_to_active 'my account', current_user if current_user %></li>
+					<li>
+						Active Timer(s): <a href="#">Front End</a>
+					</li>
+				</ul>
 				<ul class="sub_nav">
 					<%- if current_company -%>
 					<li><%= link_to_active 'dashboard', :dashboard %></li>
 					<li><%= link_to_controller :timers, :text => 'timesheets' %></li>
 					<%- end -%>
-				</ul>
-				<ul class="user_status">
-					<li class="username">strevathan<a href="/logout">(sign out)</a></li>
-					<li><%= link_to_active 'my account', current_user if current_user %></li>
-					<li>
-						Active Timer(s):
-						<ul>
-							<li><a href="#">Front End</a></li>
-						</ul>
-					</li>
 				</ul>
 				<div id="content">
 					<div id="pre-content"><%= yield :pre_content %></div>
@@ -66,7 +63,5 @@
 	<%= javascript_include_tag 'jquery', 'jquery-ui', 'jquery_extensions', 'application', :cache => false %>
 	<%= yield :javascript %>
 	<%= yield :document_ready %>
-	
-	
 </body>
 </html>

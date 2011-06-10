@@ -1,12 +1,14 @@
-<h1>Task</h1>
+<div class="non_table_data">
+	<h1>Task</h1>
 
-<p>
-  <strong>Name:</strong>
-	<%=h @task.name %>
-</p>
+	<p>
+	  <strong>Name:</strong>
+		<%=h @task.name %>
+	</p>
 
-<p>
-  <%= link_to_edit @task, :text => 'Edit' %> |
-  <%= link_to_destroy @task, :text => 'Destroy' %> |
-  <%= link_to "View All", tasks_path %>
-</p>
+	<p>
+	  <%= link_to_edit @task, :text => 'Edit' %> |
+	  <%= link_to_destroy @task, :text => 'Destroy' %> |
+	  <%= link_to "View All", tasks_path %>
+	</p>
+</div>

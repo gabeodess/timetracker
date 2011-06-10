@@ -1,62 +1,63 @@
-<h1>Company</h1>
+<div class="non_table_data">
+	<h1>Company</h1>
 
-<h2>Company Name</h2>
-<p>
-  <strong>Name:</strong>
-	<%=h @company.name %>
-</p>
+	<h2>Company Name</h2>
+	<p>
+	  <strong>Name:</strong>
+		<%=h @company.name %>
+	</p>
 
-<p>
-  <%= link_to_edit @company, :text => 'Edit' %> |
-  <%= link_to_destroy @company, :text => 'Destroy' %> |
-  <%= link_to "View All", companies_path %>
-</p>
+	<p>
+	  <%= link_to_edit @company, :text => 'Edit' %> |
+	  <%= link_to_destroy @company, :text => 'Destroy' %> |
+	  <%= link_to "View All", companies_path %>
+	</p>
 
-<h2>Collaborators</h2>
-<ul>
-	<% if !@company.company_based_roles.blank? %>
-	  <% for company_based_role in @company.company_based_roles %>
-	    <%- content_tag_for :li, company_based_role do -%>
-				<%= company_based_role.user_email %>
-				(<%= company_based_role.name %>)
-				<%= company_based_role.owner? ? "(owner)" : link_to_destroy(company_based_role) %>
-			<%- end -%>
-	  <% end %>
-	<% end %>
-</ul>
-<%= render 'company_based_roles/form' %>
+	<h2>Collaborators</h2>
+	<ul>
+		<% if !@company.company_based_roles.blank? %>
+		  <% for company_based_role in @company.company_based_roles %>
+		    <%- content_tag_for :li, company_based_role do -%>
+					<%= company_based_role.user_email %>
+					(<%= company_based_role.name %>)
+					<%= company_based_role.owner? ? "(owner)" : link_to_destroy(company_based_role) %>
+				<%- end -%>
+		  <% end %>
+		<% end %>
+	</ul>
+	<%= render 'company_based_roles/form' %>
 
-<h2>Clients</h2>
-<ul>
-	<% if !@company.clients.blank? %>
-	  <% for client in @company.clients %>
-	    <li>
-				<%= link_to client.name, client %>
-				<% if !client.projects.blank? %>
-					<ul>
-				  <% for project in client.projects %>
-				    <li><%= link_to project.name, project %></li>
-				  <% end %>
-					</ul>
-				<% end %>				
-			</li>
-	  <% end %>
-	<% end %>
+	<h2>Clients</h2>
+	<ul>
+		<% if !@company.clients.blank? %>
+		  <% for client in @company.clients %>
+		    <li>
+					<%= link_to client.name, client %>
+					<% if !client.projects.blank? %>
+						<ul>
+					  <% for project in client.projects %>
+					    <li><%= link_to project.name, project %></li>
+					  <% end %>
+						</ul>
+					<% end %>				
+				</li>
+		  <% end %>
+		<% end %>
 	
-</ul>
-<%= link_to "new client", :new_client %>
+	</ul>
+	<%= link_to "new client", :new_client %>
 
-<div id="tasks">
-	<h2>Tasks</h2>
-	<% if !current_company.tasks.blank? %>
-		<ul>
-	  <% for task in current_company.tasks %>
-	    <li><%= link_to task.name, task %> <%= "(default)" if task.default %></li>
-	  <% end %>
-		</ul>
-		<%= render '/tasks/form' %>
-	<% end %>
-	<p><%= link_to "View All", :tasks %></p>
+	<div id="tasks">
+		<h2>Tasks</h2>
+		<% if !current_company.tasks.blank? %>
+			<ul>
+		  <% for task in current_company.tasks %>
+		    <li><%= link_to task.name, task %> <%= "(default)" if task.default %></li>
+		  <% end %>
+			</ul>
+			<%= render '/tasks/form' %>
+		<% end %>
+		<p><%= link_to "View All", :tasks %></p>
 	
+	</div>
 </div>
-

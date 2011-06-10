@@ -1,99 +1,101 @@
-<h1>Client</h1>
+<div class="non_table_data">
+	<h1>Client</h1>
 
-<p>
-  <strong>Name:</strong>
-	<%=h @client.name %>
-</p>
-<p>
-  <strong>Company:</strong>
-	<%=h @client.company_id %>
-</p>
-<p>
-	<strong>Un-invoiced Hours:</strong>
-	<%= @client.uninvoiced_hours.to_time %>
-</p>
-<p>
-	<strong>Un-Invoiced Balance:</strong>
-	<%= number_to_currency(@client.uninvoiced_balance) %>
-</p>
-<p>
-	<strong>Total Hours:</strong>
-	<%= @client.hours.to_time %>
-</p>
-<p>
-	<strong>Total due:</strong>
-	<%= number_to_currency(@client.total_due) %>
-</p>
-<p>
-	<strong>Total paid:</strong>
-	<%= number_to_currency(@client.total_paid) %>
-</p>
-<p>
-	<strong>Outstanding Balance:</strong>
-	<%= number_to_currency(@client.outstanding_balance) %>
-</p>
-
-<p>
-  <%= link_to_edit @client, :text => 'Edit' %> |
-  <%= link_to_destroy @client, :text => 'Destroy' %> |
-  <%= link_to "View All", clients_path %>
-</p>
-
-<div id="contacts">
-	<h2>Contacts</h2>
-	<ul>
-		<% if !@client.contacts.blank? %>
-		  <% for contact in @client.contacts %>
-		    <li><%= contact.info %> (<%= link_to_crud(contact) %>)</li>
-		  <% end %>
-		<% end %>		
-	</ul>
-	<%= link_to "new contact", new_contact_path(:"contact[client_id]" => @client.id) %>
-</div>
-
-<div class='bordertop'>
-	<h2>Projects</h2>
-	<ul>
-		<% if !@client.projects.blank? %>
-		  <% for project in @client.projects %>
-				<li><%= link_to project.name, project %></li>
-		  <% end %>
-		<% else %>
-
-		<% end %>
-	</ul>
-	<%= link_to "new project", new_project_path(:"project[client_id]" => @client.id) %>
-</div>
-
-<div id='invoices'>
-	<h2>Unpaid Invoices</h2>
-	<% if !@client.invoices.blank? %>
-	<ul>
-	  <% for invoice in @client.unpaid_invoices %>
-	    <li>
-				<%= link_to_show invoice, :text => invoice.created_at.to_s %>
-				Total: <%= number_to_currency(invoice.total) %>
-				Paid: <%= number_to_currency(invoice.amount_paid.to_f) %>
-				Due: 
-				<span class="<%= invoice.paid_in_full? ? 'green' : 'red' %>"><%= number_to_currency(invoice.balance) %></span>
-				<% form_for invoice, :html => {:class => 'inline'} do |f| -%>
-					<%= hidden_field_tag :return_to, request.url %>
-				  <%= label_tag :payment, "Make Payment:", :for => "payment_#{invoice.id}" %>
-					$<%= text_field_tag "invoice[payment]", nil, :id => "payment_#{invoice.id}" %>
-					<%= f.submit "Submit" %>
-				<% end -%>
-				or
-				<% form_for invoice, :html => {:class => 'inline'} do |f| -%>
-					<%= hidden_field_tag :return_to, request.url %>
-					<%= hidden_field_tag "invoice[pay_in_full]", true %>
-					<%= f.submit "Pay In Full" %>
-				<% end -%>
-			</li>
-	  <% end %>
-	</ul>
-	<% end %>
 	<p>
-		<%= link_to 'invoice now!', new_invoice_path(:"invoice[client_id]" => @client.id) %>
+	  <strong>Name:</strong>
+		<%=h @client.name %>
 	</p>
+	<p>
+	  <strong>Company:</strong>
+		<%=h @client.company_id %>
+	</p>
+	<p>
+		<strong>Un-invoiced Hours:</strong>
+		<%= @client.uninvoiced_hours.to_time %>
+	</p>
+	<p>
+		<strong>Un-Invoiced Balance:</strong>
+		<%= number_to_currency(@client.uninvoiced_balance) %>
+	</p>
+	<p>
+		<strong>Total Hours:</strong>
+		<%= @client.hours.to_time %>
+	</p>
+	<p>
+		<strong>Total due:</strong>
+		<%= number_to_currency(@client.total_due) %>
+	</p>
+	<p>
+		<strong>Total paid:</strong>
+		<%= number_to_currency(@client.total_paid) %>
+	</p>
+	<p>
+		<strong>Outstanding Balance:</strong>
+		<%= number_to_currency(@client.outstanding_balance) %>
+	</p>
+
+	<p>
+	  <%= link_to_edit @client, :text => 'Edit' %> |
+	  <%= link_to_destroy @client, :text => 'Destroy' %> |
+	  <%= link_to "View All", clients_path %>
+	</p>
+
+	<div id="contacts">
+		<h2>Contacts</h2>
+		<ul>
+			<% if !@client.contacts.blank? %>
+			  <% for contact in @client.contacts %>
+			    <li><%= contact.info %> (<%= link_to_crud(contact) %>)</li>
+			  <% end %>
+			<% end %>		
+		</ul>
+		<%= link_to "new contact", new_contact_path(:"contact[client_id]" => @client.id) %>
+	</div>
+
+	<div class='bordertop'>
+		<h2>Projects</h2>
+		<ul>
+			<% if !@client.projects.blank? %>
+			  <% for project in @client.projects %>
+					<li><%= link_to project.name, project %></li>
+			  <% end %>
+			<% else %>
+
+			<% end %>
+		</ul>
+		<%= link_to "new project", new_project_path(:"project[client_id]" => @client.id) %>
+	</div>
+
+	<div id='invoices'>
+		<h2>Unpaid Invoices</h2>
+		<% if !@client.invoices.blank? %>
+		<ul>
+		  <% for invoice in @client.unpaid_invoices %>
+		    <li>
+					<%= link_to_show invoice, :text => invoice.created_at.to_s %>
+					Total: <%= number_to_currency(invoice.total) %>
+					Paid: <%= number_to_currency(invoice.amount_paid.to_f) %>
+					Due: 
+					<span class="<%= invoice.paid_in_full? ? 'green' : 'red' %>"><%= number_to_currency(invoice.balance) %></span>
+					<% form_for invoice, :html => {:class => 'inline'} do |f| -%>
+						<%= hidden_field_tag :return_to, request.url %>
+					  <%= label_tag :payment, "Make Payment:", :for => "payment_#{invoice.id}" %>
+						$<%= text_field_tag "invoice[payment]", nil, :id => "payment_#{invoice.id}" %>
+						<%= f.submit "Submit" %>
+					<% end -%>
+					or
+					<% form_for invoice, :html => {:class => 'inline'} do |f| -%>
+						<%= hidden_field_tag :return_to, request.url %>
+						<%= hidden_field_tag "invoice[pay_in_full]", true %>
+						<%= f.submit "Pay In Full" %>
+					<% end -%>
+				</li>
+		  <% end %>
+		</ul>
+		<% end %>
+		<p>
+			<%= link_to 'invoice now!', new_invoice_path(:"invoice[client_id]" => @client.id) %>
+		</p>
 	
+	</div>
 </div>

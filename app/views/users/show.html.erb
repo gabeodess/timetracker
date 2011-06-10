@@ -1,33 +1,35 @@
-<h1>
-	<%= @user.login %>
-	<%= link_to_edit @user, :class => '' %>
-</h1>
+<div class="non_table_data">
+	<h1>
+		<%= @user.login %>
+		<%= link_to_edit @user, :class => '' %>
+	</h1>
 
-<% if !@user.attributes.blank? %>
-  <% @user.attributes.sort_by{ |k,v| k }.each do |k, v| %>
-		<%- next unless [:billing_rate, :email, :login].include?(k.to_sym) -%>
-    <p>
-    	<strong><%= k %>:</strong>
-			<%= v %>
-    </p>
-  <% end %>
-<% else %>
-  
-<% end %>
-
-
-<h2>Companies</h2>
-<h3>Companies you own:</h3>
-<ul>
-	<% if !@user.companies.blank? %>
-	  <% for company in @user.companies %>
-	    <li>
-				<%= "*" if company.url_id == session[:company_id] %>
-				<%= link_to company.name, company_login_path(company), :method => :post %>
-				(Owner: <%= company.owner_name %>)
-				<%= link_to_destroy(company) if company.destroy_worthy? %>
-			</li>
+	<% if !@user.attributes.blank? %>
+	  <% @user.attributes.sort_by{ |k,v| k }.each do |k, v| %>
+			<%- next unless [:billing_rate, :email, :login].include?(k.to_sym) -%>
+	    <p>
+	    	<strong><%= k %>:</strong>
+				<%= v %>
+	    </p>
 	  <% end %>
+	<% else %>
+  
 	<% end %>
-</ul>
-<%= link_to "new company", :new_company %>
+
+
+	<h2>Companies</h2>
+	<h3>Companies you own:</h3>
+	<ul>
+		<% if !@user.companies.blank? %>
+		  <% for company in @user.companies %>
+		    <li>
+					<%= "*" if company.url_id == session[:company_id] %>
+					<%= link_to company.name, company_login_path(company), :method => :post %>
+					(Owner: <%= company.owner_name %>)
+					<%= link_to_destroy(company) if company.destroy_worthy? %>
+				</li>
+		  <% end %>
+		<% end %>
+	</ul>
+	<%= link_to "new company", :new_company %>
+</div>

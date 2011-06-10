@@ -1,19 +1,21 @@
-<h1>Associated Task</h1>
+<div class="non_table_data">
+	<h1>Associated Task</h1>
 
-<p>
-  <strong>Project:</strong>
-	<%=h @associated_task.project_id %>
-</p>
-<p>
-  <strong>Task:</strong>
-	<%=h @associated_task.task_id %>
-</p>
+	<p>
+	  <strong>Project:</strong>
+		<%=h @associated_task.project_id %>
+	</p>
+	<p>
+	  <strong>Task:</strong>
+		<%=h @associated_task.task_id %>
+	</p>
 
   
 
 
-<p>
-  <%= link_to_edit @associated_task, :text => 'Edit' %> |
-  <%= link_to_destroy @associated_task, :text => 'Destroy' %> |
-  <%= link_to "View All", associated_tasks_path %>
-</p>
+	<p>
+	  <%= link_to_edit @associated_task, :text => 'Edit' %> |
+	  <%= link_to_destroy @associated_task, :text => 'Destroy' %> |
+	  <%= link_to "View All", associated_tasks_path %>
+	</p>
+</div>

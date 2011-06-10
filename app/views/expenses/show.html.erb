@@ -1,27 +1,29 @@
-<h1>Expense</h1>
+<div class="non_table_data">
+	<h1>Expense</h1>
 
-<p>
-  <strong>Name:</strong>
-	<%=h @expense.name %>
-</p>
-<p>
-  <strong>Cost:</strong>
-  <%=h number_to_currency(@expense.cost) %>
-</p>
-<p>
-  <strong>Invoice:</strong>
-	<%=h @expense.invoice_id %>
-</p>
-<p>
-  <strong>Project:</strong>
-	<%=h @expense.project_id %>
-</p>
+	<p>
+	  <strong>Name:</strong>
+		<%=h @expense.name %>
+	</p>
+	<p>
+	  <strong>Cost:</strong>
+	  <%=h number_to_currency(@expense.cost) %>
+	</p>
+	<p>
+	  <strong>Invoice:</strong>
+		<%=h @expense.invoice_id %>
+	</p>
+	<p>
+	  <strong>Project:</strong>
+		<%=h @expense.project_id %>
+	</p>
 
   
 
 
-<p>
-  <%= link_to_edit @expense, :text => 'Edit' %> |
-  <%= link_to_destroy @expense, :text => 'Destroy' %> |
-  <%= link_to "View All", expenses_path %>
-</p>
+	<p>
+	  <%= link_to_edit @expense, :text => 'Edit' %> |
+	  <%= link_to_destroy @expense, :text => 'Destroy' %> |
+	  <%= link_to "View All", expenses_path %>
+	</p>
+</div>

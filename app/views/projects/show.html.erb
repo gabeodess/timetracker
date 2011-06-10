@@ -1,66 +1,68 @@
-<h1>Project</h1>
+<div class="non_table_data">
+	<h1>Project</h1>
 
-<p>
-  <strong>Name:</strong>
-	<%=h @project.name %>
-</p>
-<p>
-  <strong>Allotted Hours:</strong>
-	<%=h @project.allotted_hours %>
-</p>
-<p>
-	<strong>Hours Worked:</strong>
-	<%= @project.hours_worked.round_with_precision(2) %>
-</p>
-<p>
-	<strong>Percent Used:</strong>
-	<%= @project.percent_of_allotted_hours_used.round_with_precision(2) %>%
-</p>
-<p>
-	<strong>Billing:</strong>
-	<%= Project.billing_options[@project.billing.to_sym] %>
-</p>
-<%- if @project.billing_project? -%>
-<p>
-	<strong>Billing Rate:</strong>
-	<%= number_to_currency(@project.billing_rate) %>/hr
-</p>
-<%- end -%>
-<p>
-  <strong>Client:</strong>
-	<%= link_to h(@project.client.name), @project.client %>
-</p>
-
-<p>
-  <%= link_to_edit @project, :text => 'Edit' %> |
-  <%= link_to_destroy @project, :text => 'Destroy' %> |
-</p>
-
-<div id="expenses">
-	<h2>Expenses</h2>
-	<ul>
-		<% if !@project.expenses.blank? %>
-		  <% for expense in @project.expenses %>
-		    <li>
-		    	<%= number_to_currency(expense.cost) %>
-					(<%= expense.name %>)
-		    </li>
-		  <% end %>
-		<% end %>
-		
-	</ul>
 	<p>
-		<%= link_to "new expense", new_expense_path(:"expense[project_id]" => @project) %>
+	  <strong>Name:</strong>
+		<%=h @project.name %>
 	</p>
-</div>
+	<p>
+	  <strong>Allotted Hours:</strong>
+		<%=h @project.allotted_hours %>
+	</p>
+	<p>
+		<strong>Hours Worked:</strong>
+		<%= @project.hours_worked.round_with_precision(2) %>
+	</p>
+	<p>
+		<strong>Percent Used:</strong>
+		<%= @project.percent_of_allotted_hours_used.round_with_precision(2) %>%
+	</p>
+	<p>
+		<strong>Billing:</strong>
+		<%= Project.billing_options[@project.billing.to_sym] %>
+	</p>
+	<%- if @project.billing_project? -%>
+	<p>
+		<strong>Billing Rate:</strong>
+		<%= number_to_currency(@project.billing_rate) %>/hr
+	</p>
+	<%- end -%>
+	<p>
+	  <strong>Client:</strong>
+		<%= link_to h(@project.client.name), @project.client %>
+	</p>
 
-<div>
-	<h2>Tasks</h2>
-	<ul>
-		<% if !@project.tasks.blank? %>
-		  <% for task in @project.tasks %>
-		    <li><%= task.name %></li>
-		  <% end %>
-		<% end %>
-	</ul>
+	<p>
+	  <%= link_to_edit @project, :text => 'Edit' %> |
+	  <%= link_to_destroy @project, :text => 'Destroy' %> |
+	</p>
+
+	<div id="expenses">
+		<h2>Expenses</h2>
+		<ul>
+			<% if !@project.expenses.blank? %>
+			  <% for expense in @project.expenses %>
+			    <li>
+			    	<%= number_to_currency(expense.cost) %>
+						(<%= expense.name %>)
+			    </li>
+			  <% end %>
+			<% end %>
+		
+		</ul>
+		<p>
+			<%= link_to "new expense", new_expense_path(:"expense[project_id]" => @project) %>
+		</p>
+	</div>
+
+	<div>
+		<h2>Tasks</h2>
+		<ul>
+			<% if !@project.tasks.blank? %>
+			  <% for task in @project.tasks %>
+			    <li><%= task.name %></li>
+			  <% end %>
+			<% end %>
+		</ul>
+	</div>
 </div>

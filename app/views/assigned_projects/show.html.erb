@@ -1,19 +1,21 @@
-<h1>Assigned Project</h1>
+<div class="non_table_data">
+	<h1>Assigned Project</h1>
 
-<p>
-  <strong>User:</strong>
-	<%=h @assigned_project.user_id %>
-</p>
-<p>
-  <strong>Project:</strong>
-	<%=h @assigned_project.project_id %>
-</p>
+	<p>
+	  <strong>User:</strong>
+		<%=h @assigned_project.user_id %>
+	</p>
+	<p>
+	  <strong>Project:</strong>
+		<%=h @assigned_project.project_id %>
+	</p>
 
   
 
 
-<p>
-  <%= link_to_edit @assigned_project, :text => 'Edit' %> |
-  <%= link_to_destroy @assigned_project, :text => 'Destroy' %> |
-  <%= link_to "View All", assigned_projects_path %>
-</p>
+	<p>
+	  <%= link_to_edit @assigned_project, :text => 'Edit' %> |
+	  <%= link_to_destroy @assigned_project, :text => 'Destroy' %> |
+	  <%= link_to "View All", assigned_projects_path %>
+	</p>
+</div>

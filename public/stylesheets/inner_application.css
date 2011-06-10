@@ -8,7 +8,11 @@ body{
 	font-family:helvetica,arial,sans-serif;
 	font-size:100%;
 	color:#222222;
+	letter-spacing: 0.3px;
 	margin:0;
+}
+a{
+  color:#9CB82B;
 }
 #mainContain{
     display: inline-block;
@@ -26,7 +30,7 @@ body{
     margin-top: 50px;
     position: relative;
     text-align: center;
-    width: 960px;
+    width: 660px;
 }
 #admin_nav li{
     display: block;
@@ -92,6 +96,26 @@ ul.sub_nav li a.active{
   border-radius: 8px 8px 8px 8px;
   color: #9CB82B;
 }
+ul.user_status{
+  color: #FFFFFF;
+  float: right;
+  font-size: 11px;
+  margin-top: 50px;
+}
+ul.user_status li{
+  line-height: 16px;
+  margin-bottom: 8px;
+  text-align: right;
+  width: 300px;
+}
+ul.user_status li.username{
+  font-size: 12px;
+  font-weight: bold;
+}
+ul.user_status li a{
+  color: #9CB82B;
+  text-decoration: none;
+}
 #content{
 	float: left;
     position: relative;
@@ -106,7 +130,9 @@ ul.sub_nav li a.active{
   color: #FFFFFF;
   margin: 15px 0;
 }
-
+div.non_table_data{
+  padding:20px;
+}
 /* --------------------------------------------------------------
 
  *Tables

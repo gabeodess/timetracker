@@ -1,31 +1,33 @@
-<h1>Contact</h1>
+<div class="non_table_data">
+	<h1>Contact</h1>
 
-<p>
-  <strong>First Name:</strong>
-	<%=h @contact.first_name %>
-</p>
-<p>
-  <strong>Last Name:</strong>
-	<%=h @contact.last_name %>
-</p>
-<p>
-  <strong>Client:</strong>
-	<%=h @contact.client_id %>
-</p>
-<p>
-  <strong>Email:</strong>
-	<%=h @contact.email %>
-</p>
-<p>
-  <strong>Phone:</strong>
-	<%=h @contact.phone %>
-</p>
+	<p>
+	  <strong>First Name:</strong>
+		<%=h @contact.first_name %>
+	</p>
+	<p>
+	  <strong>Last Name:</strong>
+		<%=h @contact.last_name %>
+	</p>
+	<p>
+	  <strong>Client:</strong>
+		<%=h @contact.client_id %>
+	</p>
+	<p>
+	  <strong>Email:</strong>
+		<%=h @contact.email %>
+	</p>
+	<p>
+	  <strong>Phone:</strong>
+		<%=h @contact.phone %>
+	</p>
 
   
 
 
-<p>
-  <%= link_to_edit @contact, :text => 'Edit' %> |
-  <%= link_to_destroy @contact, :text => 'Destroy' %> |
-  <%= link_to "View All", contacts_path %>
-</p>
+	<p>
+	  <%= link_to_edit @contact, :text => 'Edit' %> |
+	  <%= link_to_destroy @contact, :text => 'Destroy' %> |
+	  <%= link_to "View All", contacts_path %>
+	</p>
+</div>
