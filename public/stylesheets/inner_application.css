@@ -14,6 +14,26 @@ body{
 a{
   color:#9CB82B;
 }
+label{}
+input[type=text]{
+}
+select{
+    float:left;
+}
+input[type=submit]{
+    -moz-border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    -o-border-radius: 3px 3px 3px 3px;
+    background: none repeat scroll 0 0 #9CB82B;
+    border: 1px solid #B9DA33;
+    border-radius: 3px 3px 3px 3px;
+    cursor:pointer;
+    padding: 7px 10px;
+}
+textarea{}
+input[type=submit]:hover{
+    background:#aecd30;
+}
 #mainContain{
     display: inline-block;
     position: relative;

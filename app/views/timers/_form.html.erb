@@ -35,24 +35,19 @@
 <% form_for @timer || Timer.new do |f| %>
   <%= f.error_messages %>
 	<fieldset>
-		<p>
-			<%= label_tag :project %>:
+			<%= label_tag :project %>
 			<%= project_select @projects, :selected => f.object.associated_task.try(:project_id) %>
-		</p>
-		<p>
-			<%= f.label :associated_task_id, "Task" %>: 
+			
+			<%= f.label :associated_task_id, "Task" %>
 		  <%= f.collection_select :associated_task_id, f.object.associated_task.try(:project).try(:associated_tasks) || [], :id, :name, {:disabled => true} %>
-		</p>
-	  <p>
-	    <%= f.label :notes %><br />
+
+	    <%= f.label :notes %>
 	    <%= f.text_area :notes, :cols => 15, :rows => 3 %>
-	  </p>
-	  <p>
+
 	    <%= f.label :hours, "Hours:" %>
 	    <%= f.text_field :hours, :size => 3 %>
-	  </p>
 	</fieldset>
-  <p><%= f.submit "Submit" %></p>
+	<%= f.submit "start timer" %>
 <% end %>
 
 <%- if @timer and @timer.running? -%>

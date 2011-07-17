@@ -2,14 +2,43 @@
 /* = timers#index = */
 /* ================ */
 div#new_timer{
-  float:right;
-  width:22%;
+    float: left;
+    padding: 20px;
+    width: 30%;
 }
-  div#new_timer select{
-    width:65%;
-    float:right;
-  }
-
+div#new_timer select{
+    float: left;
+    margin-bottom: 15px;
+    width: 70%;
+}
+div#new_timer label{
+    clear: left;
+    display: block;
+    float: left;
+    width: 30%;
+}
+div#new_timer input[type=text]{
+    -moz-border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    -o-border-radius: 3px 3px 3px 3px;
+    border: 1px solid #000000;
+    border-radius: 3px 3px 3px 3px;
+    float: left;
+    margin-bottom: 15px;
+    padding: 5px;
+    width: 65%;
+}
+div#new_timer textarea{
+    -moz-border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    -o-border-radius: 3px 3px 3px 3px;
+    border: 1px solid #000000;
+    border-radius: 3px 3px 3px 3px;
+    float: left;
+    margin-bottom: 15px;
+    padding: 5px;
+    width: 65%;
+}
 table#timers_list{
   float:left;
 }
