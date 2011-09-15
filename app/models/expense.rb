@@ -3,7 +3,7 @@
 class Expense < ActiveRecord::Base
   
   def after_initialize
-    self.your_cost ||= cost.to_s if attributes[:cost]
+    self.your_cost ||= cost.to_s if attribute_present?(:cost)
   end
   
   # ================
@@ -11,8 +11,6 @@ class Expense < ActiveRecord::Base
   # ================
   belongs_to :invoice
   belongs_to :project
-
-  
   
   # ==============
   # = Attributes =
@@ -28,10 +26,13 @@ class Expense < ActiveRecord::Base
   # =========
   # = Hooks =
   # =========
-  before_save :set_cost
-  
-  def set_cost
-    self.cost = your_cost.gsub(/\$|,/, '') if your_cost
+
+  # ======================
+  # = Virtual Attributes =
+  # ======================
+  def your_cost=(value)
+    instance_variable_set("@your_cost", value)
+    self.cost = value.gsub(/\$|,/, '')
   end
   
   

@@ -45,6 +45,7 @@
 			    <li>
 			    	<%= number_to_currency(expense.cost) %>
 						(<%= expense.name %>)
+						<%= link_to_crud expense %>
 			    </li>
 			  <% end %>
 			<% end %>

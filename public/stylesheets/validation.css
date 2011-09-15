@@ -45,6 +45,7 @@
 #errorExplanation ul {clear: both;padding-left: 15px; margin: 0px;}
 
 #errorExplanation ul li {
+  color:#555;
   font-size: 12px;
   list-style: square;
 }

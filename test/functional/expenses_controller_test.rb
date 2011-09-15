@@ -2,14 +2,6 @@ require 'test_helper'
 
 class ExpensesControllerTest < ActionController::TestCase
   
-  def test_index_unauthorized
-    get_login_required :index
-  end
-
-  def test_index
-    get_index :index, {}, @session_vars
-  end
-  
   def test_show_invalid
     get_login_required :show, :id => expense
   end
@@ -62,7 +54,7 @@ class ExpensesControllerTest < ActionController::TestCase
   def test_update_valid
     Expense.any_instance.stubs(:valid?).returns(true)
     put :update, {:id => expense}, @session_vars
-    assert_redirected_to expense_url(assigns(:expense))
+    assert_redirected_to project_url(assigns(:expense).project)
   end
   
   def test_destroy_unauthorized
@@ -72,7 +64,7 @@ class ExpensesControllerTest < ActionController::TestCase
   
   def test_destroy
     delete :destroy, {:id => expense.to_param}, @session_vars
-    assert_redirected_to expenses_url
+    assert_redirected_to project_url(assigns(:expense).project)
     assert !Expense.exists?(expense.id)
   end
   

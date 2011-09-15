@@ -1,8 +1,8 @@
+<p><%= link_to "back to project", @expense.project %></p>
 <h1>Edit Expense</h1>
 
-<%= render :partial => 'form' %>
+<%= render 'form' %>
 
 <p>
-  <%= link_to_show @expense, :text => 'Show' %> |
-  <%= link_to "View All", expenses_path %>
+  <%= link_to_show @expense, :text => 'Show' %>
 </p>
