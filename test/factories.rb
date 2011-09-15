@@ -29,7 +29,6 @@ Factory.define :company do |c|
       Factory(:client, :company => company)
       Factory(:task, :company => company)
     end
-    company.save!
   end
 end
 

@@ -67,7 +67,10 @@
 	</div>
 
 	<div id='invoices'>
-		<h2>Unpaid Invoices</h2>
+		<h2>
+			Unpaid Invoices
+			<%= link_to "view all", client_invoices_path(@client), :class => 'small' %>
+		</h2>
 		<% if !@client.invoices.blank? %>
 		<ul>
 		  <% for invoice in @client.unpaid_invoices %>

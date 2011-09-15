@@ -1,8 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :expenses
 
-  map.resources :invoices
-
   map.resources :timers
   
   map.company_login '/company_login/:id', :controller => "company_sessions", :action => 'create', :conditions => {:method => [:post, :get]}
@@ -15,7 +13,13 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :contacts
 
-  map.resources :clients
+  map.resources :invoices
+
+  map.resources :clients do |m|
+    m.namespace(:clients) do |n|
+      n.resources :invoices, :only => [:index]
+    end
+  end
 
   map.resources :company_based_roles
 

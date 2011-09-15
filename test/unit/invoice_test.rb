@@ -1,7 +1,18 @@
 require 'test_helper'
 
 class InvoiceTest < ActiveSupport::TestCase
-
+  
+  test "should process invoice with nil expenses" do
+    company = Factory(:company)
+    invoice = Factory(:invoice, :client => company.clients.first)
+    
+    # => we need at least 2 expenses before it will try to call nil.+
+    2.times{invoice.expenses.build(:cost => nil)}
+    
+    assert_nil invoice.expenses.first.cost
+    assert_equal 0, invoice.expenses_cost
+  end
+  
   test "should not update total through mass assignment" do
     company = Factory(:company)
     invoice = Factory(:invoice, :client => company.clients.first)

@@ -92,6 +92,9 @@ class ActiveSupport::TestCase
       when /_login_required$/
         http_method = method.gsub(/_\w+$/,'')
         do_login_required(http_method, *args)
+      when /_permission_denied$/
+        http_method = method.gsub(/_\w+$/,'')
+        do_permission_denied(http_method, *args)
       when /^(get|post|put|delete)_/
         http_method = method.gsub(/_\w+$/,'')
         template = method.gsub(/^[a-z]+_/,'')
@@ -106,6 +109,11 @@ class ActiveSupport::TestCase
     send(http_method, *args)
     assert_redirected_to login_url
     assert flash[:notice]
+  end
+  
+  def do_permission_denied(http_method, *args)
+    send(http_method, *args)
+    assert_response 403
   end
   
   def do_template(http_method, template, *args)

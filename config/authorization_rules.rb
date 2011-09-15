@@ -15,6 +15,10 @@ authorization do
     has_permission_on :companies, :to => [:manage] do
       if_attribute :owner_id => is{user.id}
     end
+    
+    has_permission_on :clients_invoices, :to => [:index] do
+      if_permitted_to :manage, :client
+    end
   end
   
   role :admin do
@@ -34,7 +38,7 @@ authorization do
       if_permitted_to :manage, :project
     end
     
-    has_permission_on :invoices, :to => :manage do
+    has_permission_on [:invoices], :to => :manage do
       if_permitted_to :manage, :client
     end
     

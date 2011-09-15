@@ -196,7 +196,10 @@ class Timer < ActiveRecord::Base
   def start_timer
     # => Stop all timers for this user from this company for today.
     todays_running_siblings.each do |timer|
-      timer.stop_timer!
+      
+      # => We have to reload this timer to avoid an ActiveRecord::ReadOnlyRecord error.
+      Timer.find(timer.id).stop_timer!
+      
     end
     
     # => start timer.

@@ -16,12 +16,11 @@ class Company < ActiveRecord::Base
   belongs_to :owner, :class_name => "User"
   
   def timer_ids
-    @timer_ids ||= projects.all(:include => [:timers]).map{|item| item.timers.map{|a| a.id}}.flatten
+    @timer_ids ||= Timer.associated_task_task_company_id_is(1).map(&:id)
   end
   
   def timers
-    ids = timer_ids.empty? ? 0 : timer_ids
-    Timer.id_is_any(ids)
+    Timer.associated_task_task_company_id_is(id)
   end
   
   # ==============

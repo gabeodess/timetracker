@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class HomeControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  test "get index as mobile" do
+    get_index :index, {:format => :mobile}
   end
 end

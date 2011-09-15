@@ -66,6 +66,10 @@ class User < ActiveRecord::Base
   # ====================
   # = Instance Methods =
   # ====================  
+  def has_role?(role)
+    role_symbols.include?(role.to_sym)
+  end
+  
   def to_param
     login
   end

@@ -153,7 +153,7 @@ class Invoice < ActiveRecord::Base
   end
   
   def expenses_cost
-    expenses.map(&:cost).sum
+    expenses.map(&:cost).map(&:to_i).sum
   end
     
   # ======================

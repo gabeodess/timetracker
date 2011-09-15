@@ -14,11 +14,15 @@ class ApplicationController < ActionController::Base
   before_filter :login_required, :company_login_required, :mobile_setup
   before_filter :my_basic_auth, :redirect_no_www
   
-  helper_method :current_company
+  helper_method :current_company, :current_timer
     
   protected
     def mobile_setup
       request.format = 'mobile' if request.user_agent.downcase =~ /mobile|webos/
+    end
+    
+    def current_timer
+      @current_timer ||= current_company.timers.user_id_is(current_user).timer_started_at_not_null.first
     end
   
     def company_login_required

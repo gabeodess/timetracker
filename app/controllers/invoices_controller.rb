@@ -1,10 +1,6 @@
 class InvoicesController < ApplicationController
   
-  before_filter :my_test
   filter_resource_access
-  
-  def my_test
-  end
   
   def index
     @invoices = current_company.invoices.paginate(:page => params[:page])

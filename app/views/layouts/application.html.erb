@@ -37,11 +37,16 @@
 					<li><a href="#">Feedback</a></li>
 				</ul>
 				<ul class="user_status">
-					<li class="username">strevathan<a href="/logout"> (sign out)</a></li>
-					<li><%= link_to_active 'my account', current_user if current_user %></li>
+					<%- if current_user -%>
+					<li class="username"><%= current_user.login %><a href="/logout"> (sign out)</a></li>
+					<li><%= link_to_active 'my account', current_user %></li>
+					<%- end -%>
+					<%- if current_timer -%>
 					<li>
-						Active Timer(s): <a href="#">Front End</a>
+						Active Timer(s): 
+						<%= link_to current_timer.client_name, timers_path(:anchor => "project_#{current_timer.project_id}") %>
 					</li>
+					<%- end -%>
 				</ul>
 				<ul class="sub_nav">
 					<%- if current_company -%>

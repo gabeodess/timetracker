@@ -1,0 +1,11 @@
+<p><%= link_to 'back to client', @client %></p>
+<h1><%= @client.name %>: Invoices</h1>
+<%= will_paginate %>
+<ul>
+	<% if !@invoices.blank? %>
+	  <% for invoice in @invoices %>
+	    <li><%= link_to invoice.created_at, invoice %></li>
+	  <% end %>
+	<% end %>
+</ul>
+<%= will_paginate %>

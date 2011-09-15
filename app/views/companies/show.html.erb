@@ -33,13 +33,6 @@
 		  <% for client in @company.clients %>
 		    <li>
 					<%= link_to client.name, client %>
-					<% if !client.projects.blank? %>
-						<ul>
-					  <% for project in client.projects %>
-					    <li><%= link_to project.name, project %></li>
-					  <% end %>
-						</ul>
-					<% end %>				
 				</li>
 		  <% end %>
 		<% end %>
