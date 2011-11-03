@@ -38,14 +38,15 @@ $(document).ready(function(){
 	// });
 	// 
   // $('.overlay[rel]').overlay({});  
-
-	// $('.blind').click(function(){
-	// 	if($($(this).attr('rel')).css('display') == 'none'){
-	// 		$($(this).attr('rel')).show('blind', {direction: 'vertical'}, 1000);
-	// 		window.location.hash = $(this).attr('rel') + '=' + 'visible';
-	// 	}else{
-	// 		$($(this).attr('rel')).hide('blind', {direction: 'vertical'}, 1000);
-	// 		window.location.hash = $(this).attr('rel') + '=' + 'hidden';
-	// 	}
-	// });
+	
+	$($('.blind[rel]').attr('rel')).hide();
+	$('.blind').click(function(){
+		if($($(this).attr('rel')).css('display') == 'none'){
+			$($(this).attr('rel')).show('blind', {direction: 'vertical'}, 100);
+			window.location.hash = $(this).attr('rel') + '=' + 'visible';
+		}else{
+			$($(this).attr('rel')).hide('blind', {direction: 'vertical'}, 100);
+			window.location.hash = $(this).attr('rel') + '=' + 'hidden';
+		}
+	});
 })

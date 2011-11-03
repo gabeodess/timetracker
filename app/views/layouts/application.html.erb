@@ -35,6 +35,18 @@
 					<li><a href="#">Contact</a></li>
 					<li><a href="#">Help</a></li>
 					<li><a href="#">Feedback</a></li>
+					<%- if current_user.has_multiple_companies? -%>
+					<li>
+						<%= link_to "Companies", "#", :class => 'blind', :rel => '#companies-list' %>
+						<ul id='companies-list' class='drop-down'>
+							<%- current_user.companies.each do |company| -%>
+							<li>
+								<%= link_to company.name, company_login_path(company), :class => 'button' %>
+							</li>
+							<%- end -%>
+						</ul>
+					</li>
+					<%- end -%>
 				</ul>
 				<ul class="user_status">
 					<%- if current_user -%>

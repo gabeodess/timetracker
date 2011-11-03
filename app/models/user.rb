@@ -66,6 +66,10 @@ class User < ActiveRecord::Base
   # ====================
   # = Instance Methods =
   # ====================  
+  def has_multiple_companies?
+    @has_multiple_comanies ||= companies.count > 1
+  end
+  
   def has_role?(role)
     role_symbols.include?(role.to_sym)
   end
